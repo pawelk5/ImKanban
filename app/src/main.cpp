@@ -5,8 +5,8 @@ int main() {
     HelloWorld();
     try {
         App::Get().Run();
-    } catch (std::exception e) {
-        std::cerr << e.what() << std::endl;
+    } catch (std::exception except) {
+        std::cerr << except.what() << std::endl;
         return -1;
     }
 }

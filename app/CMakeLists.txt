@@ -23,3 +23,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 target_compile_definitions(${PROJECT_NAME} PRIVATE 
     PROJECT_NAME="${PROJECT_NAME}"
 )
+
+file(COPY "assets"
+    DESTINATION "${EXECUTABLE_OUTPUT_PATH}")
