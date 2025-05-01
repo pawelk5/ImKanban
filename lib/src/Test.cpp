@@ -2,6 +2,6 @@
 #include <iostream>
 
 // placeholder
-void EXPORT_API HelloWorld() {
+void HelloWorld() {
     std::cout << "Hello World!" << std::endl;
 }
