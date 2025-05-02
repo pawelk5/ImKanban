@@ -2,7 +2,8 @@ if (BUILD_TESTING)
     set(TEST_NAME "LibraryTests")
 
     add_executable(${TEST_NAME}
-        "Placeholder.cpp"
+        "ListTest.cpp"
+        "BoardTest.cpp"
     )
 
     target_compile_features(${TEST_NAME} PRIVATE cxx_std_20)
