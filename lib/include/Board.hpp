@@ -5,17 +5,15 @@
 
 class EXPORT_API Board {
 public:
-    using ListPtr = std::shared_ptr<List>;
-    using ListArray = std::vector<ListPtr>;
+    using ListPointer = std::shared_ptr<List>;
+    using ListArray = std::vector<ListPointer>;
 
 public:
     Board(const std::string& name);
 
-public:
     const ListArray& GetLists() const;
     const std::string& GetName() const;
     
-public:
     void SetName(const std::string& name);
     void AddList(const List& list);
 

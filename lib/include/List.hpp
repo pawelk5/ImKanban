@@ -7,17 +7,15 @@
 
 class EXPORT_API List {
 public:
-    using CardPtr = std::shared_ptr<Card>;
-    using CardArray = std::vector<CardPtr>;
+    using CardPointer = std::shared_ptr<Card>;
+    using CardArray = std::vector<CardPointer>;
 
 public:
     List(const std::string& name);
 
-public:
     const CardArray& GetCards() const;
     const std::string& GetName() const;
 
-public:
     void SetName(const std::string& name);
     void AddCard(const Card& card);
 
