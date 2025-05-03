@@ -24,7 +24,11 @@ void List::SetName(const std::string& name) {
 }
 
 void List::AddCard(const Card& card) {
-    m_cards.push_back(std::make_unique<Card>(card));
+    m_cards.push_back(std::make_shared<Card>(card));
+}
+
+void List::AddCard(const List::CardPointer& card){
+    m_cards.push_back(card);
 }
 
 void List::RemoveCard(List::CardArray::iterator it) {

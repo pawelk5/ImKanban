@@ -19,6 +19,7 @@ public:
 
     void SetName(const std::string& name);
     void AddCard(const Card& card);
+    void AddCard(const CardPointer& card);
 
     void RemoveCard(CardArray::iterator it);
 

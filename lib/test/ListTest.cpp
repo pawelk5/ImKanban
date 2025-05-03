@@ -21,6 +21,9 @@ TEST(List, AddCard) {
 
     List.AddCard(Card("testcard"));
     EXPECT_EQ(List.GetCards().size(), 1);
+
+    List.AddCard(std::make_shared<Card>("testcard"));
+    EXPECT_EQ(List.GetCards().size(), 2);
 }
 
 TEST(List, RemoveCard) {
