@@ -15,7 +15,8 @@ private:
     ~App();
 
     void InitWindow();
-
+    void LoadFont();
+    
     void EventUpdate();
     void Update();
     void Draw();
