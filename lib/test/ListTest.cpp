@@ -10,7 +10,6 @@ TEST(List, BaseConstructor) {
 
 TEST(List, SetFunctions) {
     List list("test");
-    EXPECT_EQ(list.GetName(), "test");
 
     list.SetName("changed");
     EXPECT_EQ(list.GetName(), "changed");

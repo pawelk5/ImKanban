@@ -2,6 +2,7 @@ if (BUILD_TESTING)
     set(TEST_NAME "LibraryTests")
 
     add_executable(${TEST_NAME}
+        "CardTest.cpp"
         "ListTest.cpp"
         "BoardTest.cpp"
     )

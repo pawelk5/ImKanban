@@ -16,7 +16,6 @@ TEST(Board, BaseConstructor) {
 
 TEST(Board, SetFunctions) {
     Board board("test");
-    EXPECT_EQ(board.GetName(), "test");
 
     board.SetName("changed");
     EXPECT_EQ(board.GetName(), "changed");
