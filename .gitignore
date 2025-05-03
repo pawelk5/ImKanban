@@ -1,3 +1,9 @@
 build/
 .cache/
 imgui.ini
+
+#IDE
+.vs
+.vscode
+.fleet
+.idea
