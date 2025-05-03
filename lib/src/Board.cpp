@@ -8,6 +8,22 @@ Board::Board(const std::string& name)
     CreateBasicLists();
 }
 
+void Board::CreateBasicLists() {
+    std::array<std::string, 3> baseListNames {
+        "To Do",
+        "Doing",
+        "Done"
+    };
+    m_lists.reserve(baseListNames.size());
+
+    for (const auto& name : baseListNames)
+        AddList(List(name));
+}
+
+Board::ListArray& Board::GetListsRef() {
+    return m_lists;
+}
+
 const Board::ListArray& Board::GetLists() const {
     return m_lists;
 }
@@ -25,13 +41,6 @@ void Board::AddList(const List& list) {
 }
 
 
-void Board::CreateBasicLists() {
-    std::array<std::string, 3> baseListNames {
-        "To Do",
-        "Doing",
-        "Done"
-    };
-
-    for (const auto& name : baseListNames)
-        AddList(List(name));
+void Board::RemoveList(Board::ListArray::iterator it) {
+    m_lists.erase(it);
 }

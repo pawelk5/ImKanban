@@ -11,12 +11,15 @@ public:
 public:
     Board(const std::string& name);
 
+    ListArray& GetListsRef();
     const ListArray& GetLists() const;
     const std::string& GetName() const;
     
     void SetName(const std::string& name);
     void AddList(const List& list);
 
+    void RemoveList(ListArray::iterator it);
+    
 private:
     ListArray m_lists;
     std::string m_name;

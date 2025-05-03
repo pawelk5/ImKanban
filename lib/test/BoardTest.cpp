@@ -19,3 +19,18 @@ TEST(Board, SetFunctions) {
     board.SetName("changed");
     EXPECT_EQ(board.GetName(), "changed");
 }
+
+TEST(Board, AddList) {
+    Board board("test");
+
+    board.AddList(List("testlist"));
+    EXPECT_EQ(board.GetLists().size(), 4);
+}
+
+TEST(Board, RemoveList) {
+    Board board("test");
+    Board::ListArray& lists = board.GetListsRef();
+
+    board.RemoveList(lists.begin());
+    EXPECT_EQ(lists.size(), 2);
+}

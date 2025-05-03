@@ -13,11 +13,14 @@ public:
 public:
     List(const std::string& name);
 
+    CardArray& GetCardsRef();
     const CardArray& GetCards() const;
     const std::string& GetName() const;
 
     void SetName(const std::string& name);
     void AddCard(const Card& card);
+
+    void RemoveCard(CardArray::iterator it);
 
 private:
     CardArray m_cards;
