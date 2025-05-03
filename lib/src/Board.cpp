@@ -12,7 +12,7 @@ Board::Board(const std::string& name)
 void Board::CreateBasicLists() {
     std::array<std::string, 3> baseListNames {
         "To Do",
-        "Doing",
+        "In Progress",
         "Done"
     };
     m_lists.reserve(baseListNames.size());

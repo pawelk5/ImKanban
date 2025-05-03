@@ -1,9 +1,8 @@
-#include "List.hpp"
 #include "pch.h"
+#include "List.hpp"
 #include "BoardView.hpp"
 #include "Board.hpp"
 #include "App/App.hpp"
-#include <imgui.h>
 
 BoardView::BoardView(const BoardView::BoardPointer& pointer) 
     :m_board(pointer)
@@ -29,7 +28,7 @@ void BoardView::Draw(sf::RenderTarget& target) {
 
     ImGui::SetNextWindowSize({(float)target.getSize().x / 1.5f, (float)target.getSize().y });
     ImGui::SetNextWindowPos({0.f, 0.f});
-    if (ImGui::Begin(m_board->GetName().c_str(), NULL, windowFlags)){
+    if (ImGui::Begin(m_board->GetName().c_str(), nullptr, windowFlags)){
         const ImVec2 listSize = {250.f, 0.f};
 
         for (auto it = listRef.begin(); it < listRef.end(); ++it){
