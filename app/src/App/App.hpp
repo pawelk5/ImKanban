@@ -1,4 +1,6 @@
 #pragma once
+#include "pch.h"
+#include "View/ViewBase.hpp"
 
 class App {
 public:
@@ -21,4 +23,8 @@ private:
 private:
     sf::RenderWindow m_window;
     sf::Clock m_clock;
+
+    std::unique_ptr<ViewBase> m_currentScreen;
+
+    bool mD_debugDemoWindow;
 };

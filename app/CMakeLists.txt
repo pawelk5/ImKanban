@@ -3,6 +3,7 @@ add_executable(${PROJECT_NAME}
     "src/App/AppInit.cpp"
     "src/App/AppRun.cpp"
     "src/App/App.cpp"
+    "src/Board/BoardView.cpp"
 )
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE "src/pch.h")
