@@ -37,7 +37,7 @@ void App::Update() {
 void App::Draw() {
     m_window.clear();
     // for debuging
-    ImGui::ShowDemoWindow(&mD_debugDemoWindow);
+    ImGui::ShowDemoWindow();
     
     m_currentScreen->Draw(m_window);
     ImGui::SFML::Render(m_window);

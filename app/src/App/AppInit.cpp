@@ -1,15 +1,14 @@
 #include "pch.h"
 #include "App.hpp"
 
-
 #include "Board/BoardView.hpp"
+
 
 App::App() {
     InitWindow();
     if (!ImGui::SFML::Init(m_window))
         throw std::runtime_error("Couldn't init imgui!");
     
-    mD_debugDemoWindow = true;
     m_currentScreen = std::make_unique<BoardView>(std::make_shared<Board>("example")); 
 }
 

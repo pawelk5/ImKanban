@@ -25,6 +25,4 @@ private:
     sf::Clock m_clock;
 
     std::unique_ptr<ViewBase> m_currentScreen;
-
-    bool mD_debugDemoWindow;
 };
