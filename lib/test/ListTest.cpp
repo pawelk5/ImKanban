@@ -2,10 +2,20 @@
 #include "List.hpp"
 
 TEST(List, BaseConstructor) {
-    List list("test");
-   
-    EXPECT_EQ(list.GetName(), "test");
-    EXPECT_EQ(list.GetCards().size(), 0);
+    {
+        List list("test");
+    
+        EXPECT_EQ(list.GetName(), "test");
+        EXPECT_EQ(list.GetCards().size(), 0);
+    }
+
+    {
+        List::Data testData;
+        testData.name = "test2";
+        List list2(testData);
+        EXPECT_EQ(list2.GetName(), "test2");
+        EXPECT_EQ(list2.GetCards().size(), 0);
+    }
 }
 
 TEST(List, SetFunctions) {

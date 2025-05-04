@@ -16,6 +16,7 @@ public:
 
 public:
     List(const std::string& name);
+    List(const Data& data);
 
     CardArray& GetCardsRef();
     const CardArray& GetCards() const;
@@ -29,8 +30,6 @@ public:
     void AddCard(const CardPointer& card);
 
     void RemoveCard(CardArray::iterator it);
-
-    
 
 private:
     CardArray m_cards;

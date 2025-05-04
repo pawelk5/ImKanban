@@ -2,7 +2,11 @@
 #include <memory>
 
 List::List(const std::string& name) {
-    m_data.name = name;
+    SetName(name);
+}
+
+List::List(const List::Data& data) {
+    Update(data);
 }
 
 List::CardArray& List::GetCardsRef() {

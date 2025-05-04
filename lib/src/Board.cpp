@@ -4,7 +4,13 @@
 #include <stdexcept>
 
 Board::Board(const std::string& name) {
-    m_data.name = name;
+    SetName(name);
+
+    CreateBasicLists();
+}
+
+Board::Board(const Data& data) {
+    Update(data);
 
     CreateBasicLists();
 }

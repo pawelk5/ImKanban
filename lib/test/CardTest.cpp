@@ -1,9 +1,18 @@
 #include <gtest/gtest.h>
 #include "Card.hpp"
 
-TEST(Card, CardConstructor) {
-    Card card("test");
-    EXPECT_EQ(card.GetTitle(), "test");
+TEST(Card, BaseConstructor) {
+    {
+        Card card("test");
+        EXPECT_EQ(card.GetTitle(), "test");
+    }
+
+    {
+        Card::Data testData;
+        testData.title = "test2";
+        Card card2(testData);
+        EXPECT_EQ(card2.GetTitle(), "test2");
+    }
 }
 
 TEST(Card, GetData) {

@@ -4,14 +4,27 @@
 #include "Board.hpp"
 
 TEST(Board, BaseConstructor) {
-    Board board("test");
-    const Board::ListArray& lists = board.GetLists();
+    {
+        Board board("test");
+        const Board::ListArray& lists = board.GetLists();
 
-    EXPECT_EQ(board.GetName(), "test");
+        EXPECT_EQ(board.GetName(), "test");
 
-    EXPECT_EQ(lists.size(), 3);
-    for (const auto& list : lists)
-        EXPECT_EQ(list->GetCards().size(), 0);
+        EXPECT_EQ(lists.size(), 3);
+        for (const auto& list : lists)
+            EXPECT_EQ(list->GetCards().size(), 0);
+    }
+    
+    {
+        Board::Data testData;
+        testData.name = "test2";
+        Board board2(testData);
+        const Board::ListArray& lists2 = board2.GetLists();
+        EXPECT_EQ(board2.GetName(), "test2");
+        EXPECT_EQ(lists2.size(), 3);
+        for (const auto& list : lists2)
+            EXPECT_EQ(list->GetCards().size(), 0);
+    }
 }
 
 TEST(Board, SetFunctions) {

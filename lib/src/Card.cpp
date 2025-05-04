@@ -4,6 +4,10 @@ Card::Card(const std::string& title) {
     SetTitle(title);
 }
 
+Card::Card(const Card::Data& data) {
+    Update(data);
+}
+
 const std::string& Card::GetTitle() const {
     return m_data.title;
 }

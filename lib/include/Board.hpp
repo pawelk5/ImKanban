@@ -14,6 +14,7 @@ public:
 
 public:
     Board(const std::string& name);
+    Board(const Data& data);
 
     ListArray& GetListsRef();
     const ListArray& GetLists() const;
