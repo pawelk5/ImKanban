@@ -8,14 +8,21 @@ public:
     using ListPointer = std::shared_ptr<List>;
     using ListArray = std::vector<ListPointer>;
 
+    struct EXPORT_API Data {
+        std::string name;
+    };
+
 public:
     Board(const std::string& name);
 
     ListArray& GetListsRef();
     const ListArray& GetLists() const;
     const std::string& GetName() const;
-    
+    Data GetData() const;
+
     void SetName(const std::string& name);
+    void Update(const Data& data);
+
     void AddList(const List& list);
     void AddList(const ListPointer& list);
 
@@ -26,7 +33,7 @@ public:
 
 private:
     ListArray m_lists;
-    std::string m_name;
+    Data m_data;
 
 private:
     void CreateBasicLists();

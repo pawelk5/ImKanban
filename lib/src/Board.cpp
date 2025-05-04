@@ -3,9 +3,9 @@
 #include <array>
 #include <stdexcept>
 
-Board::Board(const std::string& name)
-    :m_name(name)
-{
+Board::Board(const std::string& name) {
+    m_data.name = name;
+
     CreateBasicLists();
 }
 
@@ -30,11 +30,20 @@ const Board::ListArray& Board::GetLists() const {
 }
 
 const std::string& Board::GetName() const {
-    return m_name;
+    return m_data.name;
 }
 
+Board::Data Board::GetData() const {
+    return m_data;
+}
+
+
 void Board::SetName(const std::string& name) {
-    m_name = name;
+    m_data.name = name;
+}
+
+void Board::Update(const Board::Data& data) {
+    m_data = data;
 }
 
 void Board::AddList(const List& list) {

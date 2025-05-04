@@ -21,6 +21,23 @@ TEST(Board, SetFunctions) {
     EXPECT_EQ(board.GetName(), "changed");
 }
 
+TEST(Board, GetData) {
+    Board board("test");
+    auto data = board.GetData();
+    EXPECT_EQ(board.GetName(), "test");
+}
+
+TEST(Board, Update) {
+    Board board("test");
+    auto data = board.GetData();
+
+    data.name = "changed";
+
+    EXPECT_EQ(board.GetName(), "test");
+    board.Update(data);
+    EXPECT_EQ(board.GetName(), "changed");
+}
+
 TEST(Board, AddList) {
     Board board("test");
 

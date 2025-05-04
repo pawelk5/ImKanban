@@ -15,6 +15,13 @@ TEST(List, SetFunctions) {
     EXPECT_EQ(list.GetName(), "changed");
 }
 
+TEST(List, GetData) {
+    List list("test");
+    List::Data data = list.GetData();
+
+    EXPECT_EQ(data.name, "test");
+}
+
 TEST(List, AddCard) {
     List List("test");
 
@@ -32,4 +39,15 @@ TEST(List, RemoveCard) {
 
     list.RemoveCard(lists.begin());
     EXPECT_EQ(lists.size(), 0);
+}
+
+TEST(List, Update) {
+    List list("test");
+    auto data = list.GetData();
+    
+    data.name = "changed";
+
+    EXPECT_EQ(list.GetName(), "test");
+    list.Update(data);
+    EXPECT_EQ(list.GetName(), "changed");
 }

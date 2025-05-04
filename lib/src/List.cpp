@@ -1,10 +1,8 @@
 #include "List.hpp"
 #include <memory>
 
-List::List(const std::string& name) 
-    :m_name(name)
-{
-    
+List::List(const std::string& name) {
+    m_data.name = name;
 }
 
 List::CardArray& List::GetCardsRef() {
@@ -16,11 +14,20 @@ const List::CardArray& List::GetCards() const {
 }
 
 const std::string& List::GetName() const {
-    return m_name;
+    return m_data.name;
 }
 
+List::Data List::GetData() const {
+    return m_data;
+}
+
+
 void List::SetName(const std::string& name) {
-    m_name = name;
+    m_data.name = name;
+}
+
+void List::Update(const List::Data& data) {
+    m_data = data;
 }
 
 void List::AddCard(const Card& card) {
