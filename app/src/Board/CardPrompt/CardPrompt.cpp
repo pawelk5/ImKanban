@@ -14,23 +14,22 @@ static constexpr int promptFlags =
     | ImGuiWindowFlags_NoResize
     | ImGuiWindowFlags_AlwaysAutoResize;
 
-static const char* popupID = "New Task";
+static const char* popupID = "CardPrompt";
 
-void CardPrompt::Draw(const std::function<void(const Card&)>& onSubmit) {
+void CardPrompt::Draw(const std::function<void(const Card::Data&)>& onSubmit) {
     if (!IsOpen())
         return;
     
     ImGui::OpenPopup(popupID);
         
     if (ImGui::BeginPopupModal(popupID, nullptr, promptFlags)) {
-        ImGui::InputText("Name", m_cardData.title.data(), m_cardData.title.size());
+        ImGui::InputText("Name", m_data.title.data(), m_data.title.size());
         
         ImGui::Spacing();
         
         if (ImGui::Button("OK")){
             // TODO: check if card title is empty
-            Card newCard(m_cardData.title);
-            onSubmit(newCard);
+            onSubmit(m_data);
             ClosePopup();
         }
 
@@ -42,9 +41,14 @@ void CardPrompt::Draw(const std::function<void(const Card&)>& onSubmit) {
     }
 }
 
-void CardPrompt::Open(uint32_t index) {
-    m_cardData.title.clear();
-    m_cardData.title.resize(255);
+void CardPrompt::Open(const std::optional<Card::Data>& data, uint32_t index) {
+    if (data)
+        m_data = *data;
+    else
+        m_data = {};
+
+    m_data.title.resize(255);
+
     m_open = true;
     m_index = index;
 }

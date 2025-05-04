@@ -6,18 +6,16 @@ class ListPrompt {
 public:
     ListPrompt();
 
-    void Draw(const std::function<void(const List&)>& onSubmit);
+    void Draw(const std::function<void(const List::Data&)>& onSubmit);
 
-    void Open();
+    void Open(const std::optional<List::Data>& data);
     bool IsOpen();
     
 private:
     bool m_open;
 
 private:
-    struct ListData {
-        std::string name;
-    } m_listData;
+    List::Data m_data;
 
     void ClosePopup();
 };

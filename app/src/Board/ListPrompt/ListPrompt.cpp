@@ -16,20 +16,19 @@ static constexpr int promptFlags =
 
 static const char* popupID = "New List";
 
-void ListPrompt::Draw(const std::function<void(const List&)>& onSubmit) {
+void ListPrompt::Draw(const std::function<void(const List::Data&)>& onSubmit) {
     if (!IsOpen())
         return;
     
     ImGui::OpenPopup(popupID);
         
     if (ImGui::BeginPopupModal(popupID, nullptr, promptFlags)) {
-        ImGui::InputText("Name", m_listData.name.data(), m_listData.name.size());
+        ImGui::InputText("Name", m_data.name.data(), m_data.name.size());
         
         ImGui::Spacing();
         
         if (ImGui::Button("OK")){
-            List newList(m_listData.name);
-            onSubmit(newList);
+            onSubmit(m_data);
             ClosePopup();
         }
 
@@ -41,9 +40,13 @@ void ListPrompt::Draw(const std::function<void(const List&)>& onSubmit) {
     }
 }
 
-void ListPrompt::Open() {
-    m_listData.name.clear();
-    m_listData.name.resize(255);
+void ListPrompt::Open(const std::optional<List::Data>& data) {
+    if (data)
+        m_data = *data;
+    else
+        m_data = {};
+
+    m_data.name.resize(255);
     m_open = true;
 }
 
