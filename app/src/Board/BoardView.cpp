@@ -21,6 +21,10 @@ static constexpr int windowFlags =
         | ImGuiWindowFlags_NoResize
         | ImGuiWindowFlags_NoCollapse;
 
+static constexpr int boardWindowFlags = 
+        windowFlags 
+      | ImGuiWindowFlags_HorizontalScrollbar;
+
 static constexpr int childFlags = 
           ImGuiChildFlags_FrameStyle
         | ImGuiChildFlags_Borders;
@@ -32,8 +36,7 @@ void BoardView::Draw(sf::RenderTarget& target) {
     const float windowSize = (float)target.getSize().x / 1.5f;
     ImGui::SetNextWindowSize({windowSize, (float)target.getSize().y });
     ImGui::SetNextWindowPos({0.f, 0.f});
-    if (ImGui::Begin(m_board->GetName().c_str(), nullptr, windowFlags 
-        | ImGuiWindowFlags_HorizontalScrollbar)){
+    if (ImGui::Begin(m_board->GetName().c_str(), nullptr, boardWindowFlags)){
 
         for (auto it = listRef.begin(); it < listRef.end(); ++it){
             DrawList(*(*it), listSize, 
