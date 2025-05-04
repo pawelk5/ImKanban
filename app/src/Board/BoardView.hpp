@@ -1,4 +1,6 @@
 #pragma once
+#include "ListPrompt/ListPrompt.hpp"
+#include "CardPrompt/CardPrompt.hpp"
 #include "View/ViewBase.hpp"
 #include "Board.hpp"
 
@@ -15,8 +17,10 @@ public:
 
 private:
     BoardPointer m_board;
+    ListPrompt m_listPrompt;
+    CardPrompt m_cardPrompt;
 
 private:
-    void DrawList(List& list, const ImVec2& listSize);
-    void DrawCard(Card& card);
+    void DrawList(List& list, const ImVec2& listSize, uint32_t index);
+    void DrawCard(Card& card, uint32_t index);
 };
