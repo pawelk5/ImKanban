@@ -4,6 +4,7 @@
 #include "BoardView.hpp"
 #include "Board.hpp"
 #include "App/App.hpp"
+#include <imgui.h>
 
 BoardView::BoardView(const BoardView::BoardPointer& pointer) 
     :m_board(pointer)
@@ -35,7 +36,10 @@ void BoardView::Draw(sf::RenderTarget& target) {
         | ImGuiWindowFlags_HorizontalScrollbar)){
 
         for (auto it = listRef.begin(); it < listRef.end(); ++it){
-            DrawList(*(*it), listSize, std::distance(listRef.begin(), it));
+            DrawList(*(*it), listSize, 
+            [this, it](){
+                m_board->RemoveList(it);
+            }, std::distance(listRef.begin(), it));
             ImGui::SameLine();
         }
         if (ImGui::Button("Add List", listSize))
@@ -50,13 +54,20 @@ void BoardView::Draw(sf::RenderTarget& target) {
     });
 }
 
-void BoardView::DrawList(List& list, const ImVec2& listSize, uint32_t index) {
+void BoardView::DrawList(List& list, const ImVec2& listSize, const DeleteCallback& callback, uint32_t index) {
     auto& cardsRef = list.GetCardsRef();
+    bool deleteButton = false;
+
     if (ImGui::BeginChild(std::to_string(index).c_str(), listSize, childFlags, windowFlags)){
         ImGui::Text("%s", list.GetName().c_str());
+        ImGui::SameLine();
+        deleteButton = ImGui::Button("Delete");
+
         ImGui::Separator();
         for (auto it = cardsRef.begin(); it < cardsRef.end(); ++it) {
-            DrawCard(*(*it), std::distance(cardsRef.begin(), it));
+            DrawCard(*(*it), [&list, it](){
+                list.RemoveCard(it);
+            }, std::distance(cardsRef.begin(), it));
         }
 
         if (ImGui::Button("Add Task", {ImGui::GetContentRegionAvail().x, 0.f}))
@@ -69,11 +80,20 @@ void BoardView::DrawList(List& list, const ImVec2& listSize, uint32_t index) {
         [&list](const Card& newCard) {
         list.AddCard(newCard);
     });
+
+    if (deleteButton)
+        callback();
 }
 
-void BoardView::DrawCard(Card& card, uint32_t index) {
+void BoardView::DrawCard(Card& card, const DeleteCallback& callback, uint32_t index) {
+    bool deleteButton = false;
     if (ImGui::BeginChild(std::to_string(index).c_str(), ImVec2(0.f, 100.f), childFlags, windowFlags)){
         ImGui::Text("%s", card.GetTitle().c_str());
+
+        deleteButton = ImGui::Button("Delete");
     }
     ImGui::EndChild();
+
+    if (deleteButton)
+        callback();
 }

@@ -21,6 +21,7 @@ private:
     CardPrompt m_cardPrompt;
 
 private:
-    void DrawList(List& list, const ImVec2& listSize, uint32_t index);
-    void DrawCard(Card& card, uint32_t index);
+    using DeleteCallback = std::function<void()>;
+    void DrawList(List& list, const ImVec2& listSize, const DeleteCallback& callback, uint32_t index);
+    void DrawCard(Card& card, const DeleteCallback& callback, uint32_t index);
 };
