@@ -2,8 +2,6 @@
 #include "App.hpp"
 
 #include "Board/BoardView.hpp"
-#include <imgui-SFML.h>
-#include <stdexcept>
 
 
 App::App() {
@@ -13,6 +11,15 @@ App::App() {
     LoadFont();
     
     m_currentScreen = std::make_unique<BoardView>(std::make_shared<Board>("example"));
+}
+
+App::~App() {
+    ImGui::SFML::Shutdown();
+}
+
+App& App::Get() {
+    static App s_App{};
+    return s_App;
 }
 
 void App::InitWindow() {
