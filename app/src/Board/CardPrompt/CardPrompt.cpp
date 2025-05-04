@@ -1,6 +1,4 @@
 #include "pch.h"
-#include "List.hpp"
-#include <imgui.h>
 #include "CardPrompt.hpp"
 
 CardPrompt::CardPrompt() 

@@ -1,10 +1,8 @@
-#include "Board/CardPrompt/CardPrompt.hpp"
-#include "Card.hpp"
 #include "pch.h"
+#include "Card.hpp"
+#include "Board/CardPrompt/CardPrompt.hpp"
 #include "List.hpp"
 #include "BoardView.hpp"
-#include "Board.hpp"
-#include "App/App.hpp"
 
 
 BoardView::BoardView(const BoardView::BoardPointer& pointer) 
