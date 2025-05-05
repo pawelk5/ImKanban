@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "Card.hpp"
-#include "PromptBase/ConfirmPrompt.hpp"
+#include "PromptBase/InputPrompt.hpp"
 
 // TODO: Change to something not prone to off-by-one errors
 struct CardPromptContext {
