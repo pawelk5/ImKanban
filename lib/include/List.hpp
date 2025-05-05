@@ -10,7 +10,7 @@ public:
     using CardPointer = std::shared_ptr<Card>;
     using CardArray = std::vector<CardPointer>;
 
-    struct EXPORT_API Data {
+    struct Data {
         std::string name;
     };
 

@@ -2,6 +2,7 @@
 #include "Card.hpp"
 #include "Board/CardPrompt/CardPrompt.hpp"
 #include "List.hpp"
+#include <imgui.h>
 #include "BoardView.hpp"
 
 
@@ -36,61 +37,61 @@ void BoardView::Draw(sf::RenderTarget& target) {
     ImGui::SetNextWindowSize({windowSize, (float)target.getSize().y });
     ImGui::SetNextWindowPos({0.f, 0.f});
     if (ImGui::Begin(m_board->GetName().c_str(), nullptr, boardWindowFlags)){
-
+ 
         for (auto it = listRef.begin(); it < listRef.end(); ++it){
-            DrawList(*(*it), listSize, 
-            [this, it](){
+            const auto deleteCallback = [this, it](){
                 m_board->RemoveList(it);
-            }, std::distance(listRef.begin(), it));
+            };
+
+            DrawList(*(*it), listSize, deleteCallback, 
+            { (int)std::distance(listRef.begin(), it) });
             ImGui::SameLine();
         }
         if (ImGui::Button("Add List", listSize))
-            m_listPrompt.Open(std::nullopt);
+            m_listPrompt.Open(std::nullopt, {-1});
     }
     ImGui::End();
 
-    if (m_listPrompt.IsOpen())
-        m_listPrompt.Draw(
-        [this](const List::Data& listData) {
-        m_board->AddList(List(listData));
-    });
+    DrawListPrompt();
+    DrawCardPrompt();
 }
 
-void BoardView::DrawList(List& list, const ImVec2& listSize, const DeleteCallback& callback, uint32_t index) {
+void BoardView::DrawList(List& list, const ImVec2& listSize, const DeleteCallback& callback, const ListPromptContext& promptContext) {
     auto& cardsRef = list.GetCardsRef();
     bool deleteButtonPressed = false;
 
-    if (ImGui::BeginChild(std::to_string(index).c_str(), listSize, childFlags, windowFlags)){
+    if (ImGui::BeginChild(std::to_string(promptContext.listIndex).c_str(), listSize, childFlags, windowFlags)){
         ImGui::Text("%s", list.GetName().c_str());
         ImGui::SameLine();
         deleteButtonPressed = ImGui::Button("Delete");
+        ImGui::SameLine();
+        if (ImGui::Button("Edit"))
+            m_listPrompt.Open(list.GetData(), promptContext);
 
         ImGui::Separator();
         for (auto it = cardsRef.begin(); it < cardsRef.end(); ++it) {
-            DrawCard(*(*it), [&list, it](){
+            const auto deleteCallback = [&list, it](){
                 list.RemoveCard(it);
-            }, std::distance(cardsRef.begin(), it));
+            };
+
+            DrawCard(*(*it), deleteCallback, { promptContext.listIndex, (int)std::distance(cardsRef.begin(), it) });
         }
 
         if (ImGui::Button("Add Task", {ImGui::GetContentRegionAvail().x, 0.f}))
-            m_cardPrompt.Open(std::nullopt, index);
+            m_cardPrompt.Open(std::nullopt, { promptContext.listIndex, -1});
     }
     ImGui::EndChild();
-
-    if (m_cardPrompt.IsOpen() && index == m_cardPrompt.GetIndex())
-        m_cardPrompt.Draw(
-        [&list](const Card::Data& cardData) {        
-        list.AddCard(Card(cardData));
-    });
 
     if (deleteButtonPressed)
         callback();
 }
 
-void BoardView::DrawCard(Card& card, const DeleteCallback& callback, uint32_t index) {
+void BoardView::DrawCard(Card& card, const DeleteCallback& callback, const CardPromptContext& promptContext) {
     bool deleteButtonPressed = false;
-    if (ImGui::BeginChild(std::to_string(index).c_str(), ImVec2(0.f, 100.f), childFlags, windowFlags)){
+    if (ImGui::BeginChild(std::to_string(promptContext.cardIndex).c_str(), ImVec2(0.f, 100.f), childFlags, windowFlags)){
         ImGui::Text("%s", card.GetTitle().c_str());
+        if (ImGui::Button("Edit"))
+            m_cardPrompt.Open(card.GetData(), promptContext);
 
         deleteButtonPressed = ImGui::Button("Delete");
     }
@@ -98,4 +99,36 @@ void BoardView::DrawCard(Card& card, const DeleteCallback& callback, uint32_t in
 
     if (deleteButtonPressed)
         callback();
+}
+
+void BoardView::DrawListPrompt() {
+    if (m_listPrompt.IsOpen()){
+        const auto& promptContext = m_listPrompt.GetContextData();
+        const auto submitCallback = [this, &promptContext](const List::Data& listData) {
+            if (promptContext.listIndex < 0)
+                m_board->AddList(List(listData));
+            else
+                m_board->GetListsRef().at(promptContext.listIndex)->Update(listData);
+        };
+
+        m_listPrompt.Draw(submitCallback);
+    }
+}
+
+void BoardView::DrawCardPrompt() {
+    if (m_cardPrompt.IsOpen()) {
+        const auto& promptContext = m_cardPrompt.GetContextData();
+        auto& listRef = m_board->GetListsRef();
+        auto& list = listRef.at(promptContext.listIndex);
+
+        const auto submitCallback = 
+        [&list, &promptContext](const Card::Data& cardData) {
+            if (promptContext.cardIndex < 0)        
+                list->AddCard(Card(cardData));
+            else
+                list->GetCardsRef().at(promptContext.cardIndex)->Update(cardData);
+        };
+
+        m_cardPrompt.Draw(submitCallback);
+    }
 }

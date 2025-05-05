@@ -1,21 +1,19 @@
 #pragma once
 #include "pch.h"
 #include "List.hpp"
+#include "PromptBase/InputPrompt.hpp"
 
-class ListPrompt {
+// TODO: Change to something not prone to off-by-one errors
+struct ListPromptContext {
+    int listIndex = -1;
+};
+
+class ListPrompt : public InputPrompt<List::Data, ListPromptContext> {
 public:
     ListPrompt();
-
-    void Draw(const std::function<void(const List::Data&)>& onSubmit);
-
-    void Open(const std::optional<List::Data>& data);
-    bool IsOpen();
     
 private:
-    bool m_open;
-
-private:
-    List::Data m_data;
-
-    void ClosePopup();
+    void DrawImpl() override;
+    void OpenImpl() override;
+    const char* GetPopupID() override;
 };

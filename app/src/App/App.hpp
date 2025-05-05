@@ -25,5 +25,5 @@ private:
     sf::RenderWindow m_window;
     sf::Clock m_clock;
 
-    std::unique_ptr<ViewBase> m_currentScreen;
+    std::unique_ptr<ViewBase> m_currentView;
 };

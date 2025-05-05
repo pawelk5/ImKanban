@@ -8,7 +8,7 @@ public:
     using ListPointer = std::shared_ptr<List>;
     using ListArray = std::vector<ListPointer>;
 
-    struct EXPORT_API Data {
+    struct Data {
         std::string name;
     };
 
