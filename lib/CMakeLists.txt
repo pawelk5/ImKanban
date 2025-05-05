@@ -14,6 +14,7 @@ add_library(${DYNAMIC_LIBRARY} SHARED
 )
 
 target_compile_features(${DYNAMIC_LIBRARY} PRIVATE cxx_std_20)
+target_compile_definitions(${DYNAMIC_LIBRARY} PRIVATE _BUILD)
 target_include_directories(${DYNAMIC_LIBRARY} PRIVATE 
     ${LIBRARY_INCLUDE_PATH}
 )
