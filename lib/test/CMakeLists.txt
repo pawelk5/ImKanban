@@ -1,5 +1,5 @@
 if (BUILD_TESTING)
-    set(TEST_NAME "LibraryTests")
+    set(TEST_NAME "SharedLibraryTest")
 
     add_executable(${TEST_NAME}
         "CardTest.cpp"
@@ -13,6 +13,12 @@ if (BUILD_TESTING)
 
     add_test(NAME ${TEST_NAME}
         COMMAND ${TEST_NAME}
+    )
+
+    add_custom_command(TARGET ${TEST_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:${DYNAMIC_LIBRARY}>
+            $<TARGET_FILE_DIR:${TEST_NAME}>
     )
 
     gtest_discover_tests(${TEST_NAME})
