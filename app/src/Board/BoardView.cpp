@@ -39,10 +39,12 @@ void BoardView::Draw(sf::RenderTarget& target) {
     if (ImGui::Begin(m_board->GetName().c_str(), nullptr, boardWindowFlags)){
  
         for (auto it = listRef.begin(); it < listRef.end(); ++it){
-            DrawList(*(*it), listSize, 
-            [this, it](){
+            const auto deleteCallback = [this, it](){
                 m_board->RemoveList(it);
-            }, { (int)std::distance(listRef.begin(), it) });
+            };
+
+            DrawList(*(*it), listSize, deleteCallback, 
+            { (int)std::distance(listRef.begin(), it) });
             ImGui::SameLine();
         }
         if (ImGui::Button("Add List", listSize))
@@ -68,9 +70,11 @@ void BoardView::DrawList(List& list, const ImVec2& listSize, const DeleteCallbac
 
         ImGui::Separator();
         for (auto it = cardsRef.begin(); it < cardsRef.end(); ++it) {
-            DrawCard(*(*it), [&list, it](){
+            const auto deleteCallback = [&list, it](){
                 list.RemoveCard(it);
-            }, { promptContext.listIndex, (int)std::distance(cardsRef.begin(), it) });
+            };
+
+            DrawCard(*(*it), deleteCallback, { promptContext.listIndex, (int)std::distance(cardsRef.begin(), it) });
         }
 
         if (ImGui::Button("Add Task", {ImGui::GetContentRegionAvail().x, 0.f}))
@@ -100,14 +104,14 @@ void BoardView::DrawCard(Card& card, const DeleteCallback& callback, const CardP
 void BoardView::DrawListPrompt() {
     if (m_listPrompt.IsOpen()){
         const auto& promptContext = m_listPrompt.GetContextData();
-
-        m_listPrompt.Draw(
-            [this, &promptContext](const List::Data& listData) {
+        const auto submitCallback = [this, &promptContext](const List::Data& listData) {
             if (promptContext.listIndex < 0)
                 m_board->AddList(List(listData));
             else
                 m_board->GetListsRef().at(promptContext.listIndex)->Update(listData);
-        });
+        };
+
+        m_listPrompt.Draw(submitCallback);
     }
 }
 
@@ -117,12 +121,14 @@ void BoardView::DrawCardPrompt() {
         auto& listRef = m_board->GetListsRef();
         auto& list = listRef.at(promptContext.listIndex);
 
-        m_cardPrompt.Draw(
-            [&list, &promptContext](const Card::Data& cardData) {
+        const auto submitCallback = 
+        [&list, &promptContext](const Card::Data& cardData) {
             if (promptContext.cardIndex < 0)        
                 list->AddCard(Card(cardData));
             else
                 list->GetCardsRef().at(promptContext.cardIndex)->Update(cardData);
-        });
+        };
+
+        m_cardPrompt.Draw(submitCallback);
     }
 }
