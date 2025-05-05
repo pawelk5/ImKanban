@@ -10,7 +10,7 @@ App::App() {
         throw std::runtime_error("Couldn't init imgui!");
     LoadFont();
     
-    m_currentScreen = std::make_unique<BoardView>(std::make_shared<Board>("example"));
+    m_currentView = std::make_unique<BoardView>(std::make_shared<Board>("example"));
 }
 
 App::~App() {

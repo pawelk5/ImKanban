@@ -24,14 +24,14 @@ void App::EventUpdate() {
                 (sf::Vector2f)newSize)));
         }
 
-        m_currentScreen->EventUpdate(event.value());
+        m_currentView->EventUpdate(event.value());
     }
 }
 
 void App::Update() {
     auto deltaTime = m_clock.restart();
     ImGui::SFML::Update(m_window, deltaTime);
-    m_currentScreen->Update(deltaTime.asSeconds());
+    m_currentView->Update(deltaTime.asSeconds());
 }
 
 void App::Draw() {
@@ -39,7 +39,7 @@ void App::Draw() {
     // for debuging
     ImGui::ShowDemoWindow();
     
-    m_currentScreen->Draw(m_window);
+    m_currentView->Draw(m_window);
     ImGui::SFML::Render(m_window);
     m_window.display();
 }

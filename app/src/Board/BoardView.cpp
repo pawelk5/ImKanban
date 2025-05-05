@@ -45,7 +45,7 @@ void BoardView::Draw(sf::RenderTarget& target) {
             ImGui::SameLine();
         }
         if (ImGui::Button("Add List", listSize))
-            m_listPrompt.Open(std::nullopt);
+            m_listPrompt.Open(std::nullopt, -1);
     }
     ImGui::End();
 
@@ -77,7 +77,7 @@ void BoardView::DrawList(List& list, const ImVec2& listSize, const DeleteCallbac
     }
     ImGui::EndChild();
 
-    if (m_cardPrompt.IsOpen() && index == m_cardPrompt.GetIndex())
+    if (m_cardPrompt.IsOpen() && index == m_cardPrompt.GetPromptData())
         m_cardPrompt.Draw(
         [&list](const Card::Data& cardData) {        
         list.AddCard(Card(cardData));

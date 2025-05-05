@@ -1,21 +1,14 @@
 #pragma once
 #include "pch.h"
 #include "List.hpp"
+#include "Board/PromptBase/PromptBase.hpp"
 
-class ListPrompt {
+class ListPrompt : public PromptBase<List::Data, uint32_t> {
 public:
     ListPrompt();
-
-    void Draw(const std::function<void(const List::Data&)>& onSubmit);
-
-    void Open(const std::optional<List::Data>& data);
-    bool IsOpen();
     
 private:
-    bool m_open;
-
-private:
-    List::Data m_data;
-
-    void ClosePopup();
+    void DrawImpl() override;
+    void OpenImpl() override;
+    const char* GetPopupID() override;
 };
