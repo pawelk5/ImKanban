@@ -3,7 +3,11 @@
 #include "List.hpp"
 #include "Board/PromptBase/PromptBase.hpp"
 
-class ListPrompt : public PromptBase<List::Data, uint32_t> {
+struct ListPromptData {
+    int listIndex;
+};
+
+class ListPrompt : public PromptBase<List::Data, ListPromptData> {
 public:
     ListPrompt();
     

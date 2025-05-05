@@ -43,7 +43,7 @@ public:
         return m_open;
     }
     
-    PromptData GetPromptData() {
+    const PromptData& GetPromptData() {
         return m_promptData;
     }
 protected:

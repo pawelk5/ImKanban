@@ -45,15 +45,12 @@ void BoardView::Draw(sf::RenderTarget& target) {
             ImGui::SameLine();
         }
         if (ImGui::Button("Add List", listSize))
-            m_listPrompt.Open(std::nullopt, -1);
+            m_listPrompt.Open(std::nullopt, {-1});
     }
     ImGui::End();
 
-    if (m_listPrompt.IsOpen())
-        m_listPrompt.Draw(
-        [this](const List::Data& listData) {
-        m_board->AddList(List(listData));
-    });
+    DrawListPrompt();
+    DrawCardPrompt();
 }
 
 void BoardView::DrawList(List& list, const ImVec2& listSize, const DeleteCallback& callback, uint32_t index) {
@@ -73,18 +70,14 @@ void BoardView::DrawList(List& list, const ImVec2& listSize, const DeleteCallbac
         }
 
         if (ImGui::Button("Add Task", {ImGui::GetContentRegionAvail().x, 0.f}))
-            m_cardPrompt.Open(std::nullopt, index);
+            m_cardPrompt.Open(std::nullopt, { (int)index, -1});
     }
     ImGui::EndChild();
 
-    if (m_cardPrompt.IsOpen() && index == m_cardPrompt.GetPromptData())
-        m_cardPrompt.Draw(
-        [&list](const Card::Data& cardData) {        
-        list.AddCard(Card(cardData));
-    });
-
     if (deleteButtonPressed)
         callback();
+
+    
 }
 
 void BoardView::DrawCard(Card& card, const DeleteCallback& callback, uint32_t index) {
@@ -98,4 +91,28 @@ void BoardView::DrawCard(Card& card, const DeleteCallback& callback, uint32_t in
 
     if (deleteButtonPressed)
         callback();
+}
+
+void BoardView::DrawListPrompt() {
+    if (m_listPrompt.IsOpen()){
+        const auto& promptData = m_cardPrompt.GetPromptData();
+
+        m_listPrompt.Draw(
+            [this, &promptData](const List::Data& listData) {
+            m_board->AddList(List(listData));
+        });
+    }
+}
+
+void BoardView::DrawCardPrompt() {
+    if (m_cardPrompt.IsOpen()) {
+        const auto& promptData = m_cardPrompt.GetPromptData();
+        auto& listRef = m_board->GetListsRef();
+        auto& list = listRef.at(promptData.listIndex);
+
+        m_cardPrompt.Draw(
+            [&list, &promptData](const Card::Data& cardData) {        
+            list->AddCard(Card(cardData));
+        });
+    }
 }

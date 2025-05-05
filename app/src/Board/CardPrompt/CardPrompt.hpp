@@ -3,10 +3,15 @@
 #include "Card.hpp"
 #include "Board/PromptBase/PromptBase.hpp"
 
-class CardPrompt : public PromptBase<Card::Data, uint32_t> {
+struct CardPromptData {
+    int listIndex;
+    int cardIndex;
+};
+
+class CardPrompt : public PromptBase<Card::Data, CardPromptData> {
 public:
     CardPrompt();
-    
+
 private:
     void DrawImpl() override;
     void OpenImpl() override;
