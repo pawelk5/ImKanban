@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "Card.hpp"
-#include "Board/PromptBase/PromptBase.hpp"
+#include "PromptBase/ConfirmPrompt.hpp"
 
 // TODO: Change to something not prone to off-by-one errors
 struct CardPromptContext {
@@ -9,7 +9,7 @@ struct CardPromptContext {
     int cardIndex = -1;
 };
 
-class CardPrompt : public PromptBase<Card::Data, CardPromptContext> {
+class CardPrompt : public InputPrompt<Card::Data, CardPromptContext> {
 public:
     CardPrompt();
 
