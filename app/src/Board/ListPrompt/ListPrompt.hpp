@@ -4,7 +4,7 @@
 #include "Board/PromptBase/PromptBase.hpp"
 
 struct ListPromptData {
-    int listIndex;
+    int listIndex = -1;
 };
 
 class ListPrompt : public PromptBase<List::Data, ListPromptData> {

@@ -4,8 +4,8 @@
 #include "Board/PromptBase/PromptBase.hpp"
 
 struct CardPromptData {
-    int listIndex;
-    int cardIndex;
+    int listIndex = -1;
+    int cardIndex = -1;
 };
 
 class CardPrompt : public PromptBase<Card::Data, CardPromptData> {

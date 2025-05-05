@@ -6,10 +6,14 @@ CardPrompt::CardPrompt() {
     m_open = false;
 }
 
-static const char* popupID = "Card Prompt";
+static const char* newCardPopupID = "New Task";
+static const char* editCardPopupID = "Edit Task";
 
 const char* CardPrompt::GetPopupID() {
-    return popupID;
+    if (m_promptData.cardIndex > 0)
+        return editCardPopupID;
+    
+    return newCardPopupID;
 }
 
 void CardPrompt::DrawImpl() {
