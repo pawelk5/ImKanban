@@ -3,6 +3,7 @@
 #include "Card.hpp"
 #include "Board/PromptBase/PromptBase.hpp"
 
+// TODO: Change to something not prone to off-by-one errors
 struct CardPromptData {
     int listIndex = -1;
     int cardIndex = -1;

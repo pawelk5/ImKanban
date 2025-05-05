@@ -3,6 +3,7 @@
 #include "List.hpp"
 #include "Board/PromptBase/PromptBase.hpp"
 
+// TODO: Change to something not prone to off-by-one errors
 struct ListPromptData {
     int listIndex = -1;
 };

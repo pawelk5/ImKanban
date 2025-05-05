@@ -46,6 +46,7 @@ public:
     const PromptData& GetPromptData() {
         return m_promptData;
     }
+    
 protected:
     bool m_open;
     PromptData m_promptData;
@@ -58,7 +59,6 @@ protected:
     virtual void DrawImpl() = 0;
     virtual void OpenImpl() = 0;
     virtual const char* GetPopupID() = 0;
-
 
 private:
     void ClosePopup() {
