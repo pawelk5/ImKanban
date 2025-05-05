@@ -5,7 +5,7 @@
 
 class EXPORT_API Card {
 public:
-    struct EXPORT_API Data {
+    struct Data {
         std::string title;
     };
 
