@@ -4,12 +4,12 @@
 #include "Board/PromptBase/PromptBase.hpp"
 
 // TODO: Change to something not prone to off-by-one errors
-struct CardPromptData {
+struct CardPromptContext {
     int listIndex = -1;
     int cardIndex = -1;
 };
 
-class CardPrompt : public PromptBase<Card::Data, CardPromptData> {
+class CardPrompt : public PromptBase<Card::Data, CardPromptContext> {
 public:
     CardPrompt();
 

@@ -10,7 +10,7 @@ static const char* newListPopupID = "New List";
 static const char* editListPopupID = "Edit List";
 
 const char* ListPrompt::GetPopupID() {
-    if (m_promptData.listIndex < 0)
+    if (m_contextData.listIndex < 0)
         return newListPopupID;
     
     return editListPopupID;

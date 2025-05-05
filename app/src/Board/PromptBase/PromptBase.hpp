@@ -1,9 +1,9 @@
 #pragma once
 
-template<typename TData, typename PromptData>
+template<typename InputData, typename ContextData>
 class PromptBase {
 public:
-    void Draw(const std::function<void(const TData&)>& onSubmit) {
+    void Draw(const std::function<void(const InputData&)>& onSubmit) {
         if (!IsOpen())
             return;
         
@@ -28,12 +28,12 @@ public:
         }
     }
     
-    void Open(const std::optional<TData>& data, const PromptData& promptData) {
+    void Open(const std::optional<InputData>& data, const ContextData& contextData) {
         if (data)
             m_data = *data;
         else
             m_data = {};
-        m_promptData = promptData;
+        m_contextData = contextData;
         m_open = true;
     
         OpenImpl();
@@ -43,15 +43,15 @@ public:
         return m_open;
     }
     
-    const PromptData& GetPromptData() {
-        return m_promptData;
+    const ContextData& GetContextData() {
+        return m_contextData;
     }
     
 protected:
     bool m_open;
-    PromptData m_promptData;
+    ContextData m_contextData;
     
-    TData m_data;
+    InputData m_data;
     
 protected:
     PromptBase() = default;

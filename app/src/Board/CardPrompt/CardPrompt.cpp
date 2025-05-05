@@ -10,7 +10,7 @@ static const char* newCardPopupID = "New Task";
 static const char* editCardPopupID = "Edit Task";
 
 const char* CardPrompt::GetPopupID() {
-    if (m_promptData.cardIndex < 0)
+    if (m_contextData.cardIndex < 0)
         return newCardPopupID;
     
     return editCardPopupID;
