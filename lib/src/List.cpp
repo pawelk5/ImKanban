@@ -57,13 +57,12 @@ void List::InsertCard(const List::CardPointer &card, int index)
 {
     if (index < 0 || index > m_cards.size() - 1)
     {
-        std::cout << "Index " << index << " out of range. Valid range: [0, " << m_cards.size() - 1 << "]" << std::endl;
         m_cards.push_back(card);
     }
     else
     {
-        std::cout << "Inserting card at index " << index << std::endl;
-        m_cards.insert(m_cards.begin() + index, card);
+        auto it = m_cards.begin() + index;
+        m_cards.insert(it, card);
     }
 }
 

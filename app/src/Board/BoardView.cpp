@@ -77,7 +77,9 @@ void BoardView::DrawList(List &list, const ImVec2 &listSize, const DeleteCallbac
                 list.RemoveCard(it);
             };
 
-            DrawCard(*(*it), deleteCallback, {promptContext.listIndex, (int)std::distance(cardsRef.begin(), it)});
+            // Negative value of DrawCard indicates that list content changed, and "it" is no longer valid
+            if(!DrawCard(*(*it), deleteCallback, {promptContext.listIndex, (int)std::distance(cardsRef.begin(), it)}))
+                break;
         }
 
         if (ImGui::Button("Add Task", {ImGui::GetContentRegionAvail().x, 0.f}))
@@ -106,7 +108,7 @@ void BoardView::DrawList(List &list, const ImVec2 &listSize, const DeleteCallbac
         callback();
 }
 
-void BoardView::DrawCard(Card &card, const DeleteCallback &callback, const CardPromptContext &promptContext)
+int BoardView::DrawCard(Card &card, const DeleteCallback &callback, const CardPromptContext &promptContext)
 {
     bool deleteButtonPressed = false;
 
@@ -145,6 +147,7 @@ void BoardView::DrawCard(Card &card, const DeleteCallback &callback, const CardP
                     m_board->GetListsRef().at(dragPayload->listIndex)->GetCardsRef().begin() + dragPayload->cardIndex,
                     m_board->GetListsRef().begin() + promptContext.listIndex,
                     promptContext.cardIndex);
+                return false;
             }
         }
         ImGui::EndDragDropTarget();
@@ -152,6 +155,7 @@ void BoardView::DrawCard(Card &card, const DeleteCallback &callback, const CardP
 
     if (deleteButtonPressed)
         callback();
+    return true;
 }
 
 void BoardView::DrawListPrompt()

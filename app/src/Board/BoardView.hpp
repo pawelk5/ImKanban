@@ -23,7 +23,7 @@ private:
 private:
     using DeleteCallback = std::function<void()>;
     void DrawList(List& list, const ImVec2& listSize, const DeleteCallback& callback, const ListPromptContext& promptContext);
-    void DrawCard(Card& card, const DeleteCallback& callback, const CardPromptContext& promptContext);
+    int DrawCard(Card& card, const DeleteCallback& callback, const CardPromptContext& promptContext);
 
     void DrawListPrompt();
     void DrawCardPrompt();

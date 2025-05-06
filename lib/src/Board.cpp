@@ -87,19 +87,7 @@ void Board::MoveCard(
     if (cardsrc == (*src)->GetCards().end())
         throw std::out_of_range("cardsrc is equal to cards.end()");
 
-    const List::CardPointer card = (*cardsrc);
-
-    std::cout << "Moving card: ";
-    std::cout << card->GetTitle() << std::endl;
-
-    std::cout << "index";
-    std::cout << index << std::endl;
-
-    std::cout << "target list len: ";
-    std::cout << (*dst)->GetCards().size() << std::endl;
-
-    std::cout << "Moving card: ";
-    std::cout << card->GetTitle() << std::endl;
+    const List::CardPointer card = *cardsrc;
 
     (*src)->RemoveCard(cardsrc);
 
