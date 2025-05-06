@@ -5,16 +5,13 @@ Card::Card(const Card::Data& data) {
     Update(data);
 }
 
-const std::string& Card::GetTitle() const {
-    return m_data.title;
-}
 
 Card::Data Card::GetData() const {
     return m_data;
 }
 
-void Card::SetTitle(const std::string& title) {
-    m_data.title = title;
+const Card::Data& Card::GetDataRef() const {
+    return m_data;
 }
 
 void Card::Update(const Card::Data& data) {

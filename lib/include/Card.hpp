@@ -12,10 +12,8 @@ public:
 public:
     Card(const Data& data);
     
-    const std::string& GetTitle() const;
     Data GetData() const;
-    
-    void SetTitle(const std::string& title);
+    const Data& GetDataRef() const;
     void Update(const Data& data);
     
 private:

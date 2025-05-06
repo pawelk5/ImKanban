@@ -91,57 +91,48 @@ TEST(Board, RemoveListErrors)
     }
 }
 
-// TODO: Move MoveCard test to integration tests
-/* 
 TEST(Board, MoveCard)
 {
-    Board board("test");
-    Board::ListArray &lists = board.GetListsRef();
-    board.RemoveList(lists.end() - 1);
+    auto board = GetDefaultBoard();
+    const auto &lists = board.GetElementArray();
+    board.RemoveElement(lists.end() - 1);
 
-    List::CardArray &cards1 = lists.at(0)->GetCardsRef();
-    List::CardArray &cards2 = lists.at(1)->GetCardsRef();
 
-    lists.at(0)->AddCard(Card{"TestCard"});
-    EXPECT_EQ(cards1.size(), 1);
-    EXPECT_EQ(cards2.size(), 0);
+    board.At(0)->AddElement(Card({"TestCard"}));
+    EXPECT_EQ(board.At(0)->GetElementArray().size(), 1);
+    EXPECT_EQ(board.At(1)->GetElementArray().size(), 0);
 
     board.MoveCard(
-        lists.begin(), cards1.begin(),
-        lists.begin() + 1);
+        {0, 0}, {1, 0});
 
-    EXPECT_EQ(cards1.size(), 0);
-    EXPECT_EQ(cards2.size(), 1);
-
+    EXPECT_EQ(board.At(0)->GetElementArray().size(), 0);
+    EXPECT_EQ(board.At(1)->GetElementArray().size(), 1);
+    EXPECT_EQ(board.At(1)->At(0)->GetData().title, "TestCard");
     board.MoveCard(
-        lists.begin() + 1, cards2.begin(),
-        lists.begin());
+        {1, 0},
+        {0, 0});
 
-    EXPECT_EQ(cards1.size(), 1);
-    EXPECT_EQ(cards2.size(), 0);
+        EXPECT_EQ(board.At(0)->GetElementArray().size(), 1);
+        EXPECT_EQ(board.At(1)->GetElementArray().size(), 0);
+        EXPECT_EQ(board.At(0)->At(0)->GetData().title, "TestCard");
 }
 
 TEST(Board, MoveCardErrors)
 {
-    Board board("test");
-    Board::ListArray &lists = board.GetListsRef();
-    auto cardsBeginIt = (*lists.begin())->GetCardsRef().begin();
+    auto board = GetDefaultBoard();
+    auto &lists = board.GetElementArray();
 
     // invalid card iterator
     EXPECT_THROW(
         board.MoveCard(
-            lists.begin(), cardsBeginIt,
-            lists.begin() + 1);
-        ,
-        std::out_of_range);
-    (*lists.begin())->AddCard(Card{"testcard"});
+            {0, 0}, {1, 0});
+        , std::out_of_range);
+    board.At(0)->AddElement(Card( {"testcard"} ));
 
     // invalid list iterator
     EXPECT_THROW(
         board.MoveCard(
-            lists.end(), cardsBeginIt,
-            lists.begin());
-        ,
-        std::out_of_range);
+            {3, 0},
+            {1, 0});
+        , std::out_of_range);
 }
-*/

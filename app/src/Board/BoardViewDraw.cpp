@@ -80,7 +80,7 @@ void BoardView::DrawCard(Card& card, const DeleteCallback& callback, const CardP
     {
         CreateCardDragDropSource(card, {promptContext.listIndex, promptContext.cardIndex});
 
-        ImGui::Text("%s", card.GetTitle().c_str());
+        ImGui::Text("%s", card.GetDataRef().title.c_str());
 
         if (ImGui::Button("Edit"))
             m_cardPrompt.Open(card.GetData(), promptContext);
@@ -140,7 +140,7 @@ void BoardView::CreateCardDragDropSource(const Card& card, const BoardView::Card
             &payload,
             sizeof(CardPromptContext));
             
-        ImGui::Text("Moving: %s", card.GetTitle().c_str());
+        ImGui::Text("Moving: %s", card.GetDataRef().title.c_str());
         ImGui::EndDragDropSource();
     }
 }

@@ -53,17 +53,17 @@ TEST(List, InsertCard)
 
         list.InsertElement(std::make_shared<Card>(Card::Data{"testcard3"}), 1);
         EXPECT_EQ(list.GetElementArray().size(), 3);
-        EXPECT_EQ(list.At(1)->GetTitle(), "testcard3");
+        EXPECT_EQ(list.At(1)->GetDataRef().title, "testcard3");
 
         // Index out of range (-1), card expected to be added at the end
         list.InsertElement(std::make_shared<Card>(Card::Data{"testcard4"}), -1);
         EXPECT_EQ(list.GetElementArray().size(), 4);
-        EXPECT_EQ(list.At(3)->GetTitle(), "testcard4");
+        EXPECT_EQ(list.At(3)->GetDataRef().title, "testcard4");
 
         // Index in the middle
         list.InsertElement(std::make_shared<Card>(Card::Data{"testcard5"}), 2);
         EXPECT_EQ(list.GetElementArray().size(), 5);
-        EXPECT_EQ(list.At(2)->GetTitle(), "testcard5");
+        EXPECT_EQ(list.At(2)->GetDataRef().title, "testcard5");
     }
 }
 
