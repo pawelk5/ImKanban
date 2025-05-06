@@ -20,4 +20,4 @@ target_include_directories(${DYNAMIC_LIBRARY} PRIVATE
 )
 
 # set up tests
-include("test.cmake")
+add_subdirectory("test")
