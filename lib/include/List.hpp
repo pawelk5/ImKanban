@@ -5,29 +5,32 @@
 
 #include "Card.hpp"
 
-class EXPORT_API List {
+class EXPORT_API List
+{
 public:
     using CardPointer = std::shared_ptr<Card>;
     using CardArray = std::vector<CardPointer>;
 
-    struct Data {
+    struct Data
+    {
         std::string name;
     };
 
 public:
-    List(const std::string& name);
-    List(const Data& data);
+    List(const std::string &name);
+    List(const Data &data);
 
-    CardArray& GetCardsRef();
-    const CardArray& GetCards() const;
-    const std::string& GetName() const;
+    CardArray &GetCardsRef();
+    const CardArray &GetCards() const;
+    const std::string &GetName() const;
     Data GetData() const;
 
-    void SetName(const std::string& name);
-    void Update(const Data& data);
-    
-    void AddCard(const Card& card);
-    void AddCard(const CardPointer& card);
+    void SetName(const std::string &name);
+    void Update(const Data &data);
+
+    void AddCard(const Card &card);
+    void AddCard(const CardPointer &card);
+    void InsertCard(const List::CardPointer &card, int index);
 
     void RemoveCard(CardArray::iterator it);
 

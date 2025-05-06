@@ -5,8 +5,7 @@ build_and_test() {
     mkdir -p build
     cd build
     cmake -B . -S ..
-    make 
-    # --parallel
+    make  
     make test
     cd ..
 }

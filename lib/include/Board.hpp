@@ -3,34 +3,38 @@
 
 #include "List.hpp"
 
-class EXPORT_API Board {
+class EXPORT_API Board
+{
 public:
     using ListPointer = std::shared_ptr<List>;
     using ListArray = std::vector<ListPointer>;
 
-    struct Data {
+    struct Data
+    {
         std::string name;
     };
 
 public:
-    Board(const std::string& name);
-    Board(const Data& data);
+    Board(const std::string &name);
+    Board(const Data &data);
 
-    ListArray& GetListsRef();
-    const ListArray& GetLists() const;
-    const std::string& GetName() const;
+    ListArray &GetListsRef();
+    const ListArray &GetLists() const;
+    const std::string &GetName() const;
     Data GetData() const;
 
-    void SetName(const std::string& name);
-    void Update(const Data& data);
+    void SetName(const std::string &name);
+    void Update(const Data &data);
 
-    void AddList(const List& list);
-    void AddList(const ListPointer& list);
+    void AddList(const List &list);
+    void AddList(const ListPointer &list);
 
     void RemoveList(ListArray::iterator it);
     void MoveCard(
-        ListArray::iterator src, List::CardArray::iterator cardsrc,
-        ListArray::iterator dst);
+        ListArray::iterator src,
+        List::CardArray::iterator cardsrc,
+        ListArray::iterator dst,
+        int index = -1);
 
 private:
     ListArray m_lists;
