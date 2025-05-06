@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <functional>
 #include <memory>
+#include <variant>
 #include <assert.h>
 
 // graphics stuff

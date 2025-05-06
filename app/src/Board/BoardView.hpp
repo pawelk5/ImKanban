@@ -5,6 +5,10 @@
 #include "Board.hpp"
 
 class BoardView : public ViewBase {
+private:
+    using CardDragDropPayload = Board::MoveData;
+    using Callback = std::function<void()>;
+
 public:
     using BoardPointer = std::shared_ptr<Board>;
 
@@ -23,16 +27,19 @@ private:
     ImVec2 m_listSize;
     
 private:
-    using DeleteCallback = std::function<void()>;
-    void DrawList(List& list, const DeleteCallback& callback, const ListPromptContext& promptContext);
-    void DrawCard(Card& card, const DeleteCallback& callback, const CardPromptContext& promptContext);
+    
+    void DrawAllLists();
+    void DrawAllCards(Board::ElementArrayIterator iter);
+
+    void DrawList(Board::ElementArrayIterator iter, const Callback& deleteCallback, const Callback& openPromptCallback);
+    void DrawCard(Card& card, const Callback& deleteCallback, const Callback& openPromptCallback,
+        const CardDragDropPayload& dragdropData);
 
     void DrawListPrompt();
     void DrawCardPrompt();
 
+// "event handlers"
 private:
-    using CardDragDropPayload = Board::MoveData;
-
     struct CardDragDropData {
         CardDragDropPayload source;
         CardDragDropPayload destination;
@@ -44,4 +51,27 @@ private:
     void CreateCardDragDropTarget(const CardDragDropPayload& destination);
 
     void DragDropUpdate();
+
+private:
+    struct OpenPromptData {
+        int listIndex = -1;
+        int cardIndex = -1;
+
+        std::variant<std::optional<ListData>, std::optional<Card::Data>> promptData;
+    };
+    std::optional<OpenPromptData> m_openPromptData;
+
+    void OpenPromptUpdate();
+    void OpenCardPrompt(int listIndex, int cardIndex, const std::optional<Card::Data>& data);
+    void OpenListPrompt(int listIndex, const std::optional<ListData>& data);
+
+private:
+    struct DeleteItemData {
+        int listIndex = -1;
+        int cardIndex = -1;
+    };
+    
+    std::optional<DeleteItemData> m_deleteItemData;
+    void DeleteItemUpdate();
+    void DeleteItem(const DeleteItemData& data);
 };

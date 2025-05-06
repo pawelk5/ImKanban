@@ -15,21 +15,11 @@ static constexpr int childFlags =
     ImGuiChildFlags_FrameStyle | ImGuiChildFlags_Borders;
 
 void BoardView::Draw(sf::RenderTarget &target) {
-    auto &listRef = m_board->GetElementArray();
-
     const float windowSize = (float)target.getSize().x / 1.5f;
     ImGui::SetNextWindowSize({windowSize, (float)target.getSize().y});
     ImGui::SetNextWindowPos({0.f, 0.f});
     if (ImGui::Begin(m_board->GetDataRef().name.c_str(), nullptr, boardWindowFlags)) {
-        for (auto it = listRef.begin(); it < listRef.end(); ++it) {
-            const auto deleteCallback = [this, it]() {
-                m_board->RemoveElement(it);
-            };
-
-            DrawList(*(*it), deleteCallback,
-                     {(int)std::distance(listRef.begin(), it)});
-            ImGui::SameLine();
-        }
+        DrawAllLists();
         if (ImGui::Button("Add List", m_listSize))
             m_listPrompt.Open(std::nullopt, {-1});
     }
@@ -39,98 +29,128 @@ void BoardView::Draw(sf::RenderTarget &target) {
     DrawCardPrompt();
 }
 
-void BoardView::DrawList(List& list, const DeleteCallback& callback, const ListPromptContext &promptContext) {
-    bool deleteButtonPressed = false;
-    const auto &cardsRef = list.GetElementArray();
+void BoardView::DrawAllLists() {
+    auto &listRef = m_board->GetElementArray();
 
-    if (ImGui::BeginChild(std::to_string(promptContext.listIndex).c_str(), m_listSize, childFlags, windowFlags)) {
-        ImGui::Text("%s", list.GetDataRef().name.c_str());
+    for (auto it = listRef.begin(); it < listRef.end(); ++it) {
+        const auto deleteCallback = 
+            [this, it]() {
+            DeleteItem({ m_board->AsIndex(it), -1 });
+        };
+
+        const auto promptCallback = 
+            [this, it]()
+        {
+            OpenListPrompt(m_board->AsIndex(it), m_board->At(it)->GetData());
+        };
+
+        DrawList(it, deleteCallback, promptCallback);
         ImGui::SameLine();
-        deleteButtonPressed = ImGui::Button("Delete");
-        ImGui::SameLine();
-        if (ImGui::Button("Edit"))
-            m_listPrompt.Open(list.GetData(), promptContext);
-
-        ImGui::Separator();
-        for (auto it = cardsRef.begin(); it < cardsRef.end(); ++it){
-            const auto deleteCallback = [&list, it]()
-            {
-                list.RemoveElement(it);
-            };
-            
-            DrawCard(*(*it), deleteCallback, 
-                {promptContext.listIndex, (int)std::distance(cardsRef.begin(), it)});
-        }
-
-        if (ImGui::Button("Add Task", {ImGui::GetContentRegionAvail().x, 0.f}))
-            m_cardPrompt.Open(std::nullopt, {promptContext.listIndex, -1});
-
-
-        CreateCardDragDropTarget({promptContext.listIndex, -1});
     }
-    ImGui::EndChild();
-
-    if (deleteButtonPressed)
-        callback();
 }
 
-void BoardView::DrawCard(Card& card, const DeleteCallback& callback, const CardPromptContext &promptContext) {
-    bool deleteButtonPressed = false;
-    if (ImGui::BeginChild(std::to_string(promptContext.cardIndex).c_str(), ImVec2(0.f, 100.f), childFlags, windowFlags))
-    {
-        CreateCardDragDropSource(card, {promptContext.listIndex, promptContext.cardIndex});
+void BoardView::DrawList(Board::ElementArrayIterator iter, const Callback& deleteCallback,
+        const Callback& openPromptCallback) {
+    auto& list = *m_board->At(iter);
+    const auto listIndex = m_board->AsIndex(iter);
+
+    if (ImGui::BeginChild(std::to_string(listIndex).c_str(), m_listSize, childFlags, windowFlags)) {
+        ImGui::Text("%s", list.GetDataRef().name.c_str());
+        ImGui::SameLine();
+        if (ImGui::Button("Delete"))
+            deleteCallback();
+        ImGui::SameLine();
+        if (ImGui::Button("Edit"))
+            openPromptCallback();
+
+        ImGui::Separator();
+        DrawAllCards(iter);
+
+        if (ImGui::Button("Add Task", {ImGui::GetContentRegionAvail().x, 0.f}))
+            OpenCardPrompt(listIndex, -1, std::nullopt);
+
+        CreateCardDragDropTarget({listIndex, -1});
+    }
+    ImGui::EndChild();
+}
+
+void BoardView::DrawAllCards(Board::ElementArrayIterator iter) {
+    auto& list = *m_board->At(iter);
+    const auto &cardsRef = list.GetElementArray();
+    const int listIndex = m_board->AsIndex(iter);
+
+    for (auto it = cardsRef.begin(); it < cardsRef.end(); ++it){
+        const auto deleteCallback = 
+            [this, &list, listIndex, it]()
+        {
+            DeleteItem({listIndex, list.AsIndex(it)});
+        };
+
+        const auto promptCallback = 
+            [this, &list, listIndex, it]()
+        {
+            OpenCardPrompt(listIndex, list.AsIndex(it), list.At(it)->GetData());
+        };
+        
+        DrawCard(*list.At(it), deleteCallback, promptCallback,
+            { m_board->AsIndex(iter), list.AsIndex(it) });
+    }
+}
+
+void BoardView::DrawCard(Card& card, const Callback& deleteCallback,
+            const Callback& openPromptCallback, const CardDragDropPayload& dragdropData) {
+    if (ImGui::BeginChild(std::to_string(dragdropData.cardIndex).c_str(),
+         ImVec2(0.f, 100.f), childFlags, windowFlags)) {
+        CreateCardDragDropSource(card, dragdropData);
 
         ImGui::Text("%s", card.GetDataRef().title.c_str());
 
         if (ImGui::Button("Edit"))
-            m_cardPrompt.Open(card.GetData(), promptContext);
+            openPromptCallback();
 
-        deleteButtonPressed = ImGui::Button("Delete");
+        if (ImGui::Button("Delete"))
+            deleteCallback();
     }
     ImGui::EndChild();
 
-    CreateCardDragDropTarget({promptContext.listIndex, promptContext.cardIndex});
-
-    if (deleteButtonPressed)
-        callback();
+    CreateCardDragDropTarget(dragdropData);
 }
 
 void BoardView::DrawListPrompt()
 {
-    if (m_listPrompt.IsOpen())
+    if (!m_listPrompt.IsOpen())
+        return;
+    
+    const auto &promptContext = m_listPrompt.GetContextData();
+    const auto submitCallback = [this, &promptContext](const ListData &listData)
     {
-        const auto &promptContext = m_listPrompt.GetContextData();
-        const auto submitCallback = [this, &promptContext](const ListData &listData)
-        {
-            if (promptContext.listIndex < 0)
-                m_board->AddElement(List(listData));
-            else
-                m_board->At(promptContext.listIndex)->Update(listData);
-        };
-
-        m_listPrompt.Draw(submitCallback);
-    }
+        if (promptContext.listIndex < 0)
+            m_board->AddElement(List(listData));
+        else
+            m_board->At(promptContext.listIndex)->Update(listData);
+    };
+    m_listPrompt.Draw(submitCallback);
 }
 
 void BoardView::DrawCardPrompt()
 {
-    if (m_cardPrompt.IsOpen())
+    if (!m_cardPrompt.IsOpen())
+        return;
+    
+    const auto &promptContext = m_cardPrompt.GetContextData();
+    const auto &listRef = m_board->GetElementArray();
+    auto &list = listRef.at(promptContext.listIndex);
+
+    const auto submitCallback =
+        [&list, &promptContext](const Card::Data &cardData)
     {
-        const auto &promptContext = m_cardPrompt.GetContextData();
-        const auto &listRef = m_board->GetElementArray();
-        auto &list = listRef.at(promptContext.listIndex);
+        if (promptContext.cardIndex < 0)
+            list->AddElement(Card(cardData));
+        else
+            list->At(promptContext.cardIndex)->Update(cardData);
+    };
 
-        const auto submitCallback =
-            [&list, &promptContext](const Card::Data &cardData)
-        {
-            if (promptContext.cardIndex < 0)
-                list->AddElement(Card(cardData));
-            else
-                list->At(promptContext.cardIndex)->Update(cardData);
-        };
-
-        m_cardPrompt.Draw(submitCallback);
-    }
+    m_cardPrompt.Draw(submitCallback);
 }
 
 void BoardView::CreateCardDragDropSource(const Card& card, const BoardView::CardDragDropPayload& payload) {

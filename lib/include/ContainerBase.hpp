@@ -75,19 +75,6 @@ public:
             throw std::out_of_range(invalidIndex);
     }
 
-protected:
-    ElementArray m_array;
-    ContainerData m_data;
-
-protected:
-    bool IsValid(int index) {
-        return index >= 0 && index < m_array.size();
-    }
-
-    bool IsValid(ElementArrayIterator iter) {
-        return iter >= m_array.begin() && iter < m_array.end();
-    }
-
     int AsIndex(ElementArrayIterator iter) {
         if (!IsValid(iter))
             throw std::out_of_range(invalidIterator);
@@ -98,6 +85,19 @@ protected:
         if (!IsValid(index))
             throw std::out_of_range(invalidIndex);
         return m_array.begin() + index;
+    }
+
+protected:
+    ElementArray m_array;
+    ContainerData m_data;
+   
+protected:
+    bool IsValid(int index) {
+        return index >= 0 && index < m_array.size();
+    }
+
+    bool IsValid(ElementArrayIterator iter) {
+        return iter >= m_array.begin() && iter < m_array.end();
     }
 
     const char* invalidIterator = "Invalid iterator!";
