@@ -3,6 +3,7 @@
 #include "Board/CardPrompt/CardPrompt.hpp"
 #include "List.hpp"
 #include <imgui.h>
+#include <optional>
 #include "BoardView.hpp"
 #include "utils/types.hpp"
 
@@ -10,9 +11,27 @@ BoardView::BoardView(const BoardView::BoardPointer &pointer)
     : m_board(pointer)
 {
     auto &listRef = m_board->GetListsRef();
+    m_dragdropData = std::nullopt;
 }
 
-void BoardView::Update(float deltaTime) { ; }
+void BoardView::Update(float deltaTime) { 
+    DragDropUpdate();
+}
+
+void BoardView::DragDropUpdate() {
+    if (!m_dragdropData)
+        return;
+    const auto& source = m_dragdropData->source;
+    const auto& dest = m_dragdropData->destination;
+    m_board->MoveCard(
+        m_board->GetListsRef().begin() + source.listIndex,
+        m_board->GetListsRef().at(source.listIndex)->GetCardsRef().begin() + source.cardIndex,
+        m_board->GetListsRef().begin() + dest.listIndex,
+        dest.cardIndex);
+
+    m_dragdropData = std::nullopt;
+}
+
 void BoardView::EventUpdate(const sf::Event &event) { ; }
 
 static constexpr int windowFlags =
@@ -77,30 +96,15 @@ void BoardView::DrawList(List &list, const ImVec2 &listSize, const DeleteCallbac
                 list.RemoveCard(it);
             };
 
-            // Negative value of DrawCard indicates that list content changed, and "it" is no longer valid
-            if(!DrawCard(*(*it), deleteCallback, {promptContext.listIndex, (int)std::distance(cardsRef.begin(), it)}))
-                break;
+            DrawCard(*(*it), deleteCallback, 
+                {promptContext.listIndex, (int)std::distance(cardsRef.begin(), it)});
         }
 
         if (ImGui::Button("Add Task", {ImGui::GetContentRegionAvail().x, 0.f}))
             m_cardPrompt.Open(std::nullopt, {promptContext.listIndex, -1});
 
-        if (ImGui::BeginDragDropTarget())
-        {
-            if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload(
-                    ToString(PayloadType::CardDrag).c_str()))
-            {
-                if (payload->DataSize == sizeof(CardPromptContext))
-                {
-                    auto *dragPayload = static_cast<const CardPromptContext *>(payload->Data);
-                    m_board->MoveCard(
-                        m_board->GetListsRef().begin() + dragPayload->listIndex,
-                        m_board->GetListsRef().at(dragPayload->listIndex)->GetCardsRef().begin() + dragPayload->cardIndex,
-                        m_board->GetListsRef().begin() + promptContext.listIndex);
-                }
-            }
-            ImGui::EndDragDropTarget();
-        }
+
+        CreateCardDragDropTarget({promptContext.listIndex, -1});
     }
     ImGui::EndChild();
 
@@ -108,22 +112,14 @@ void BoardView::DrawList(List &list, const ImVec2 &listSize, const DeleteCallbac
         callback();
 }
 
-int BoardView::DrawCard(Card &card, const DeleteCallback &callback, const CardPromptContext &promptContext)
+void BoardView::DrawCard(Card &card, const DeleteCallback &callback, const CardPromptContext &promptContext)
 {
     bool deleteButtonPressed = false;
 
     if (ImGui::BeginChild(std::to_string(promptContext.cardIndex).c_str(), ImVec2(0.f, 100.f), childFlags, windowFlags))
     {
 
-        if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
-        {
-            ImGui::SetDragDropPayload(
-                ToString(PayloadType::CardDrag).c_str(),
-                &promptContext,
-                sizeof(CardPromptContext));
-            ImGui::Text("Moving: %s", card.GetTitle().c_str());
-            ImGui::EndDragDropSource();
-        }
+        CreateCardDragDropSource(card, promptContext);
 
         ImGui::Text("%s", card.GetTitle().c_str());
 
@@ -134,28 +130,10 @@ int BoardView::DrawCard(Card &card, const DeleteCallback &callback, const CardPr
     }
     ImGui::EndChild();
 
-    if (ImGui::BeginDragDropTarget())
-    {
-        if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload(
-                ToString(PayloadType::CardDrag).c_str()))
-        {
-            if (payload->DataSize == sizeof(CardPromptContext))
-            {
-                auto *dragPayload = static_cast<const CardPromptContext *>(payload->Data);
-                m_board->MoveCard(
-                    m_board->GetListsRef().begin() + dragPayload->listIndex,
-                    m_board->GetListsRef().at(dragPayload->listIndex)->GetCardsRef().begin() + dragPayload->cardIndex,
-                    m_board->GetListsRef().begin() + promptContext.listIndex,
-                    promptContext.cardIndex);
-                return false;
-            }
-        }
-        ImGui::EndDragDropTarget();
-    }
+    CreateCardDragDropTarget(promptContext);
 
     if (deleteButtonPressed)
         callback();
-    return true;
 }
 
 void BoardView::DrawListPrompt()
@@ -193,5 +171,30 @@ void BoardView::DrawCardPrompt()
         };
 
         m_cardPrompt.Draw(submitCallback);
+    }
+}
+
+void BoardView::CreateCardDragDropSource(const Card& card, const BoardView::CardDragDropPayload& payload) {
+    if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID)) {
+        ImGui::SetDragDropPayload(
+            ToString(PayloadType::CardDrag).c_str(),
+            &payload,
+            sizeof(CardPromptContext));
+            
+        ImGui::Text("Moving: %s", card.GetTitle().c_str());
+        ImGui::EndDragDropSource();
+    }
+}
+
+void BoardView::CreateCardDragDropTarget(const BoardView::CardDragDropPayload& destination) {
+    if (ImGui::BeginDragDropTarget()) {
+        if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload(
+                ToString(PayloadType::CardDrag).c_str())) {
+            if (payload->DataSize == sizeof(CardPromptContext)) {
+                auto *dragPayload = static_cast<const CardPromptContext *>(payload->Data);
+                m_dragdropData = { *dragPayload, destination };
+            }
+        }
+        ImGui::EndDragDropTarget();
     }
 }
