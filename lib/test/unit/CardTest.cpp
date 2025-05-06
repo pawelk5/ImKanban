@@ -1,14 +1,21 @@
 #include <gtest/gtest.h>
 #include "Card.hpp"
 
-Card GetDefaultCard() {
-    Card::Data data;
-    data.title = "test";
-    Card card(data);
-    return card;
-}
+class CardTest : public testing::Test {
+protected:
+    Card::Data t_data;
+    Card t_card;
+    CardTest() 
+        : t_card(t_data) { ; }
 
-TEST(Card, BaseConstructor) {
+    void SetUp() override {
+        t_data.title = "test";
+        t_card = Card(t_data);
+    }
+};
+
+
+TEST_F(CardTest, BaseConstructor) {
     {
         Card::Data testData;
         testData.title = "test2";
@@ -17,20 +24,17 @@ TEST(Card, BaseConstructor) {
     }
 }
 
-TEST(Card, GetData) {
-    auto card = GetDefaultCard();
-
-    auto data = card.GetData();
+TEST_F(CardTest, GetData) {
+    auto data = t_card.GetData();
     EXPECT_EQ(data.title, "test");
 }
 
-TEST(Card, Update) {
-    auto card = GetDefaultCard();
-    auto data = card.GetData();
+TEST_F(CardTest, Update) {
+    auto data = t_card.GetData();
 
     data.title = "changed";
 
-    EXPECT_EQ(card.GetDataRef().title, "test");
-    card.Update(data);
-    EXPECT_EQ(card.GetDataRef().title, "changed");
+    EXPECT_EQ(t_card.GetDataRef().title, "test");
+    t_card.Update(data);
+    EXPECT_EQ(t_card.GetDataRef().title, "changed");
 }

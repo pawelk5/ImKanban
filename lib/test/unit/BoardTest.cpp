@@ -4,20 +4,28 @@
 #include "Board.hpp"
 #include "List.hpp"
 
-Board GetDefaultBoard() {
-    BoardData data;
-    data.name = "test";
-    Board board(data);
-    return board;
-}
 
-TEST(Board, BaseConstructor)
+class BoardTest : public testing::Test {
+protected:
+    BoardData t_data;
+    Board t_board;
+    BoardTest() 
+        : t_board(t_data) { ; }
+    
+    void SetUp() override {
+        t_data.name = "test";
+        t_board = Board(t_data);
+    }
+};
+
+TEST_F(BoardTest, BaseConstructor)
 {
     {
-        auto board = GetDefaultBoard();
+        BoardData data {"test2"};
+        Board board(data);
         const auto &lists = board.GetElementArray();
-        const auto & boardDataRef = board.GetDataRef();
-        EXPECT_EQ(boardDataRef.name, "test");
+        const auto &boardDataRef = board.GetDataRef();
+        EXPECT_EQ(boardDataRef.name, "test2");
 
         EXPECT_EQ(lists.size(), 3);
         for (const auto &list : lists)
@@ -25,113 +33,103 @@ TEST(Board, BaseConstructor)
     }
 }
 
-TEST(Board, GetData)
+TEST_F(BoardTest, GetData)
 {
     {
-        auto board = GetDefaultBoard();
-        auto data = board.GetData();
+        auto data = t_board.GetData();
         EXPECT_EQ(data.name, "test");
     }
 }
 
-TEST(Board, Update)
+TEST_F(BoardTest, Update)
 {
     {
-        auto board = GetDefaultBoard();
-        auto data = board.GetData();
+        auto data = t_board.GetData();
 
         data.name = "changed";
 
-        EXPECT_EQ(board.GetDataRef().name, "test");
-        board.Update(data);
-        EXPECT_EQ(board.GetDataRef().name, "changed");
+        EXPECT_EQ(t_board.GetDataRef().name, "test");
+        t_board.Update(data);
+        EXPECT_EQ(t_board.GetDataRef().name, "changed");
     }
 }
 
-TEST(Board, AddList)
+TEST_F(BoardTest, AddList)
 {
     {
-        auto board = GetDefaultBoard();
+        t_board.AddElement(List({"testlist"}));
+        EXPECT_EQ(t_board.GetElementArray().size(), 4);
 
-        board.AddElement(List({"testlist"}));
-        EXPECT_EQ(board.GetElementArray().size(), 4);
-
-        board.AddElement(std::make_shared<List>( ListData{ "testlist" } ));
-        EXPECT_EQ(board.GetElementArray().size(), 5);
+        t_board.AddElement(std::make_shared<List>( ListData{ "testlist" } ));
+        EXPECT_EQ(t_board.GetElementArray().size(), 5);
     }
 }
 
-TEST(Board, RemoveList)
+TEST_F(BoardTest, RemoveList)
 {
     {
-        auto board = GetDefaultBoard();
+        t_board.RemoveElement(0);
+        EXPECT_EQ(t_board.GetElementArray().size(), 2);
 
-        board.RemoveElement(0);
-        EXPECT_EQ(board.GetElementArray().size(), 2);
+        t_board.RemoveElement(t_board.GetElementArray().size() - 1);
+        EXPECT_EQ(t_board.GetElementArray().size(), 1);
 
-        board.RemoveElement(board.GetElementArray().size() - 1);
-        EXPECT_EQ(board.GetElementArray().size(), 1);
-
-        board.RemoveElement(0);
-        EXPECT_EQ(board.GetElementArray().size(), 0);
+        t_board.RemoveElement(0);
+        EXPECT_EQ(t_board.GetElementArray().size(), 0);
     }
 }
 
-TEST(Board, RemoveListErrors)
+TEST_F(BoardTest, RemoveListErrors)
 {
     {
-        auto board = GetDefaultBoard();
-
-        EXPECT_THROW(board.RemoveElement(-1), std::out_of_range);
-        EXPECT_THROW(board.RemoveElement(board.GetElementArray().size()), std::out_of_range);
-        board.RemoveElement(0);
-        board.RemoveElement(0);
-        board.RemoveElement(0);
-        EXPECT_THROW(board.RemoveElement(0), std::out_of_range);
+        EXPECT_THROW(t_board.RemoveElement(-1), std::out_of_range);
+        EXPECT_THROW(t_board.RemoveElement(t_board.GetElementArray().size()), std::out_of_range);
+        t_board.RemoveElement(0);
+        t_board.RemoveElement(0);
+        t_board.RemoveElement(0);
+        EXPECT_THROW(t_board.RemoveElement(0), std::out_of_range);
     }
 }
 
-TEST(Board, MoveCard)
+TEST_F(BoardTest, MoveCard)
 {
-    auto board = GetDefaultBoard();
-    const auto &lists = board.GetElementArray();
-    board.RemoveElement(lists.end() - 1);
+    const auto &lists = t_board.GetElementArray();
+    t_board.RemoveElement(lists.end() - 1);
 
 
-    board.At(0)->AddElement(Card({"TestCard"}));
-    EXPECT_EQ(board.At(0)->GetElementArray().size(), 1);
-    EXPECT_EQ(board.At(1)->GetElementArray().size(), 0);
+    t_board.At(0)->AddElement(Card({"TestCard"}));
+    EXPECT_EQ(t_board.At(0)->GetElementArray().size(), 1);
+    EXPECT_EQ(t_board.At(1)->GetElementArray().size(), 0);
 
-    board.MoveCard(
+    t_board.MoveCard(
         {0, 0}, {1, 0});
 
-    EXPECT_EQ(board.At(0)->GetElementArray().size(), 0);
-    EXPECT_EQ(board.At(1)->GetElementArray().size(), 1);
-    EXPECT_EQ(board.At(1)->At(0)->GetData().title, "TestCard");
-    board.MoveCard(
+    EXPECT_EQ(t_board.At(0)->GetElementArray().size(), 0);
+    EXPECT_EQ(t_board.At(1)->GetElementArray().size(), 1);
+    EXPECT_EQ(t_board.At(1)->At(0)->GetData().title, "TestCard");
+    t_board.MoveCard(
         {1, 0},
         {0, 0});
 
-        EXPECT_EQ(board.At(0)->GetElementArray().size(), 1);
-        EXPECT_EQ(board.At(1)->GetElementArray().size(), 0);
-        EXPECT_EQ(board.At(0)->At(0)->GetData().title, "TestCard");
+        EXPECT_EQ(t_board.At(0)->GetElementArray().size(), 1);
+        EXPECT_EQ(t_board.At(1)->GetElementArray().size(), 0);
+        EXPECT_EQ(t_board.At(0)->At(0)->GetData().title, "TestCard");
 }
 
-TEST(Board, MoveCardErrors)
+TEST_F(BoardTest, MoveCardErrors)
 {
-    auto board = GetDefaultBoard();
-    auto &lists = board.GetElementArray();
+    auto &lists = t_board.GetElementArray();
 
     // invalid card iterator
     EXPECT_THROW(
-        board.MoveCard(
+        t_board.MoveCard(
             {0, 0}, {1, 0});
-        , std::out_of_range);
-    board.At(0)->AddElement(Card( {"testcard"} ));
+            , std::out_of_range);
+    t_board.At(0)->AddElement(Card( {"testcard"} ));
 
     // invalid list iterator
     EXPECT_THROW(
-        board.MoveCard(
+        t_board.MoveCard(
             {3, 0},
             {1, 0});
         , std::out_of_range);
