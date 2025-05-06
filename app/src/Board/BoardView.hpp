@@ -31,8 +31,7 @@ private:
     void DrawCardPrompt();
 
 private:
-    // these structs have the same fields (FOR NOW)
-    using CardDragDropPayload = CardPromptContext;
+    using CardDragDropPayload = Board::MoveData;
 
     struct CardDragDropData {
         CardDragDropPayload source;

@@ -1,3 +1,4 @@
+#include "Board.hpp"
 #include "pch.h"
 #include "App.hpp"
 
@@ -10,7 +11,7 @@ App::App() {
         throw std::runtime_error("Couldn't init imgui!");
     LoadFont();
     
-    m_currentView = std::make_unique<BoardView>(std::make_shared<Board>("example"));
+    m_currentView = std::make_unique<BoardView>(std::make_shared<Board>(BoardData{"example"}));
 }
 
 App::~App() {

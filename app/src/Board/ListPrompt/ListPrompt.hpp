@@ -3,12 +3,11 @@
 #include "List.hpp"
 #include "PromptBase/InputPrompt.hpp"
 
-// TODO: Change to something not prone to off-by-one errors
 struct ListPromptContext {
     int listIndex = -1;
 };
 
-class ListPrompt : public InputPrompt<List::Data, ListPromptContext> {
+class ListPrompt : public InputPrompt<ListData, ListPromptContext> {
 public:
     ListPrompt();
     
