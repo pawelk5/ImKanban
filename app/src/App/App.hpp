@@ -1,4 +1,6 @@
 #pragma once
+#include "pch.h"
+#include "View/ViewBase.hpp"
 
 class App {
 public:
@@ -6,16 +8,15 @@ public:
     App(App const&) = delete;
     void operator=(App const&) = delete;
 
-
     void Run();
+    
 private:
     App();
     ~App();
 
-private:
     void InitWindow();
-
-private:
+    void LoadFont();
+    
     void EventUpdate();
     void Update();
     void Draw();
@@ -23,4 +24,6 @@ private:
 private:
     sf::RenderWindow m_window;
     sf::Clock m_clock;
+
+    std::unique_ptr<ViewBase> m_currentView;
 };
