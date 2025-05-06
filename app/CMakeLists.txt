@@ -1,8 +1,9 @@
 add_executable(${PROJECT_NAME}
     "src/main.cpp"
-    "src/App/AppInit.cpp"
+    "src/App/AppCore.cpp"
     "src/App/AppRun.cpp"
-    "src/Board/BoardView.cpp"
+    "src/Board/BoardViewCore.cpp"
+    "src/Board/BoardViewDraw.cpp"
     "src/Board/ListPrompt/ListPrompt.cpp"
     "src/Board/CardPrompt/CardPrompt.cpp"
 )

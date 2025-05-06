@@ -3,7 +3,6 @@
 #include "CardPrompt/CardPrompt.hpp"
 #include "View/ViewBase.hpp"
 #include "Board.hpp"
-#include <optional>
 
 class BoardView : public ViewBase {
 public:
@@ -21,9 +20,11 @@ private:
     ListPrompt m_listPrompt;
     CardPrompt m_cardPrompt;
 
+    ImVec2 m_listSize;
+    
 private:
     using DeleteCallback = std::function<void()>;
-    void DrawList(List& list, const ImVec2& listSize, const DeleteCallback& callback, const ListPromptContext& promptContext);
+    void DrawList(List& list, const DeleteCallback& callback, const ListPromptContext& promptContext);
     void DrawCard(Card& card, const DeleteCallback& callback, const CardPromptContext& promptContext);
 
     void DrawListPrompt();
