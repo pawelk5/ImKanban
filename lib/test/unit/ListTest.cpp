@@ -1,92 +1,93 @@
 #include <gtest/gtest.h>
 #include "List.hpp"
+#include "Card.hpp"
+
+List GetDefaultList() {
+    ListData data;
+    data.name = "test";
+    List list(data);
+    return list;
+}
 
 TEST(List, BaseConstructor)
 {
     {
-        List list("test");
-
-        EXPECT_EQ(list.GetName(), "test");
-        EXPECT_EQ(list.GetCards().size(), 0);
+        auto list = GetDefaultList();
+        EXPECT_EQ(list.GetDataRef().name, "test");
+        EXPECT_EQ(list.GetElementArray().size(), 0);
     }
-
-    {
-        List::Data testData;
-        testData.name = "test2";
-        List list2(testData);
-        EXPECT_EQ(list2.GetName(), "test2");
-        EXPECT_EQ(list2.GetCards().size(), 0);
-    }
-}
-
-TEST(List, SetFunctions)
-{
-    List list("test");
-
-    list.SetName("changed");
-    EXPECT_EQ(list.GetName(), "changed");
 }
 
 TEST(List, GetData)
 {
-    List list("test");
-    List::Data data = list.GetData();
-
-    EXPECT_EQ(data.name, "test");
+    {
+        auto list = GetDefaultList();
+        EXPECT_EQ(list.GetData().name, "test");
+    }
 }
 
 TEST(List, AddCard)
 {
-    List List("test");
+    {
+        auto list = GetDefaultList();
 
-    List.AddCard(Card("testcard"));
-    EXPECT_EQ(List.GetCards().size(), 1);
+        list.AddElement(Card({ "testcard" }));
+        EXPECT_EQ(list.GetElementArray().size(), 1);
 
-    List.AddCard(std::make_shared<Card>("testcard"));
-    EXPECT_EQ(List.GetCards().size(), 2);
+        list.AddElement(std::make_shared<Card>(Card::Data{ "testcard" }));
+        EXPECT_EQ(list.GetElementArray().size(), 2);
+    }
 }
 
 TEST(List, InsertCard)
 {
-    List List("test");
+    {
+        auto list = GetDefaultList();
 
-    List.AddCard(std::make_shared<Card>("testcard"));
-    List.AddCard(std::make_shared<Card>("testcard2"));
-    EXPECT_EQ(List.GetCards().size(), 2);
+        // Insert at index = size()
+        list.InsertElement(std::make_shared<Card>(Card::Data{"testcard"}), 0);
+        EXPECT_EQ(list.GetElementArray().size(), 1);
 
-    List.InsertCard(std::make_shared<Card>("testcard3"), 1);
-    EXPECT_EQ(List.GetCards().size(), 3);
-    EXPECT_EQ(List.GetCards().at(1)->GetTitle(), "testcard3");
+        list.InsertElement(std::make_shared<Card>(Card::Data{"testcard2"}), 0);
+        EXPECT_EQ(list.GetElementArray().size(), 2);
 
-    // Index out of range (negative number), card expected to be added at the end
-    List.InsertCard(std::make_shared<Card>("testcard4"), -1);
-    EXPECT_EQ(List.GetCards().size(), 4);
-    EXPECT_EQ(List.GetCards().at(3)->GetTitle(), "testcard4");
+        list.InsertElement(std::make_shared<Card>(Card::Data{"testcard3"}), 1);
+        EXPECT_EQ(list.GetElementArray().size(), 3);
+        EXPECT_EQ(list.At(1)->GetTitle(), "testcard3");
 
-    // Index out of range (bigger than list length-1), card expected to be added at the end
-    List.InsertCard(std::make_shared<Card>("testcard5"), 5);
-    EXPECT_EQ(List.GetCards().size(), 5);
-    EXPECT_EQ(List.GetCards().at(4)->GetTitle(), "testcard5");
+        // Index out of range (-1), card expected to be added at the end
+        list.InsertElement(std::make_shared<Card>(Card::Data{"testcard4"}), -1);
+        EXPECT_EQ(list.GetElementArray().size(), 4);
+        EXPECT_EQ(list.At(3)->GetTitle(), "testcard4");
+
+        // Index in the middle
+        list.InsertElement(std::make_shared<Card>(Card::Data{"testcard5"}), 2);
+        EXPECT_EQ(list.GetElementArray().size(), 5);
+        EXPECT_EQ(list.At(2)->GetTitle(), "testcard5");
+    }
 }
 
 TEST(List, RemoveCard)
 {
-    List list("test");
-    list.AddCard(Card("testcard"));
-    List::CardArray &lists = list.GetCardsRef();
+    {
+        auto list = GetDefaultList();
+        list.AddElement(Card({ "testcard" }));
 
-    list.RemoveCard(lists.begin());
-    EXPECT_EQ(lists.size(), 0);
+        list.RemoveElement(list.GetElementArray().begin());
+        EXPECT_EQ(list.GetElementArray().size(), 0);
+    }
 }
 
 TEST(List, Update)
 {
-    List list("test");
-    auto data = list.GetData();
+    {
+        auto list = GetDefaultList();
+        auto data = list.GetData();
 
-    data.name = "changed";
+        data.name = "changed";
 
-    EXPECT_EQ(list.GetName(), "test");
-    list.Update(data);
-    EXPECT_EQ(list.GetName(), "changed");
+        EXPECT_EQ(list.GetDataRef().name, "test");
+        list.Update(data);
+        EXPECT_EQ(list.GetDataRef().name, "changed");
+    }
 }

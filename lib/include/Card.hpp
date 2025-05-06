@@ -10,7 +10,6 @@ public:
     };
 
 public:
-    Card(const std::string& title);
     Card(const Data& data);
     
     const std::string& GetTitle() const;

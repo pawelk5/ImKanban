@@ -1,12 +1,14 @@
 #include <gtest/gtest.h>
 #include "Card.hpp"
 
-TEST(Card, BaseConstructor) {
-    {
-        Card card("test");
-        EXPECT_EQ(card.GetTitle(), "test");
-    }
+Card GetDefaultCard() {
+    Card::Data data;
+    data.title = "test";
+    Card card(data);
+    return card;
+}
 
+TEST(Card, BaseConstructor) {
     {
         Card::Data testData;
         testData.title = "test2";
@@ -16,21 +18,21 @@ TEST(Card, BaseConstructor) {
 }
 
 TEST(Card, GetData) {
-    Card card("test");
+    auto card = GetDefaultCard();
 
     auto data = card.GetData();
     EXPECT_EQ(data.title, "test");
 }
 
 TEST(Card, SetFunctions) {
-    Card card("test");
+    auto card = GetDefaultCard();
 
     card.SetTitle("example");
     EXPECT_EQ(card.GetTitle(), "example");
 }
 
 TEST(Card, Update) {
-    Card card("test");
+    auto card = GetDefaultCard();
     auto data = card.GetData();
 
     data.title = "changed";
@@ -38,5 +40,4 @@ TEST(Card, Update) {
     EXPECT_EQ(card.GetTitle(), "test");
     card.Update(data);
     EXPECT_EQ(card.GetTitle(), "changed");
-    
 }

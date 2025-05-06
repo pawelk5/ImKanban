@@ -1,98 +1,40 @@
 #include "Board.hpp"
-#include <memory>
+#include "List.hpp"
 #include <array>
-#include <stdexcept>
-#include <iostream>
 
-Board::Board(const std::string &name)
-{
-    SetName(name);
-
+void Board::ConstructorImpl() {
     CreateBasicLists();
 }
 
-Board::Board(const Data &data)
-{
-    Update(data);
-
-    CreateBasicLists();
-}
-
-void Board::CreateBasicLists()
-{
-    std::array<std::string, 3> baseListNames{
+void Board::CreateBasicLists() {
+    std::array<std::string, 3> baseListNames {
         "To Do",
         "In Progress",
         "Done"};
-    m_lists.reserve(baseListNames.size());
+    m_array.reserve(baseListNames.size());
 
     for (const auto &name : baseListNames)
-        AddList(List(name));
-}
-
-Board::ListArray &Board::GetListsRef()
-{
-    return m_lists;
-}
-
-const Board::ListArray &Board::GetLists() const
-{
-    return m_lists;
-}
-
-const std::string &Board::GetName() const
-{
-    return m_data.name;
-}
-
-Board::Data Board::GetData() const
-{
-    return m_data;
-}
-
-void Board::SetName(const std::string &name)
-{
-    m_data.name = name;
-}
-
-void Board::Update(const Board::Data &data)
-{
-    m_data = data;
-}
-
-void Board::AddList(const List &list)
-{
-    m_lists.push_back(std::make_unique<List>(list));
-}
-
-void Board::AddList(const Board::ListPointer &list)
-{
-    m_lists.push_back(list);
-}
-
-void Board::RemoveList(Board::ListArray::iterator it)
-{
-    m_lists.erase(it);
+        AddElement(List(ListData{name}));
 }
 
 void Board::MoveCard(
-    Board::ListArray::iterator src,
-    List::CardArray::iterator cardsrc,
-    Board::ListArray::iterator dst,
-    int index)
+    const MoveData& source,
+    const MoveData& destination)
 {
-    if (src == m_lists.end())
-        throw std::out_of_range("src is equal to lists.end()");
+    if (!IsValid(source.listIndex))
+        throw std::out_of_range(invalidIndex);
+    if (!IsValid(destination.listIndex))
+        throw std::out_of_range(invalidIndex);
 
-    if (cardsrc == (*src)->GetCards().end())
-        throw std::out_of_range("cardsrc is equal to cards.end()");
+    auto& sourceList = At(source.listIndex);
+    auto& destinationList = At(destination.listIndex);
 
-    const List::CardPointer card = *cardsrc;
+    auto sourceCard = sourceList->At(source.cardIndex);
 
-    (*src)->RemoveCard(cardsrc);
+    sourceList->RemoveElement(source.cardIndex);
 
-    if (index == -1)
-        (*dst)->AddCard(card);
+    if (destination.cardIndex == -1)
+        destinationList->AddElement(sourceCard);
     else
-        (*dst)->InsertCard(card, index);
+        destinationList->InsertElement(sourceCard, destination.cardIndex);
 }

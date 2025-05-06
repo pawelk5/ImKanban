@@ -1,8 +1,5 @@
 #include "Card.hpp"
 
-Card::Card(const std::string& title) {
-    SetTitle(title);
-}
 
 Card::Card(const Card::Data& data) {
     Update(data);

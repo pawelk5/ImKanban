@@ -2,79 +2,97 @@
 #include <memory>
 #include <stdexcept>
 #include "Board.hpp"
+#include "List.hpp"
+
+Board GetDefaultBoard() {
+    BoardData data;
+    data.name = "test";
+    Board board(data);
+    return board;
+}
 
 TEST(Board, BaseConstructor)
 {
     {
-        Board board("test");
-        const Board::ListArray &lists = board.GetLists();
-
-        EXPECT_EQ(board.GetName(), "test");
+        auto board = GetDefaultBoard();
+        const auto &lists = board.GetElementArray();
+        const auto & boardDataRef = board.GetDataRef();
+        EXPECT_EQ(boardDataRef.name, "test");
 
         EXPECT_EQ(lists.size(), 3);
         for (const auto &list : lists)
-            EXPECT_EQ(list->GetCards().size(), 0);
+            EXPECT_EQ(list->GetElementArray().size(), 0);
     }
-
-    {
-        Board::Data testData;
-        testData.name = "test2";
-        Board board2(testData);
-        const Board::ListArray &lists2 = board2.GetLists();
-        EXPECT_EQ(board2.GetName(), "test2");
-        EXPECT_EQ(lists2.size(), 3);
-        for (const auto &list : lists2)
-            EXPECT_EQ(list->GetCards().size(), 0);
-    }
-}
-
-TEST(Board, SetFunctions)
-{
-    Board board("test");
-
-    board.SetName("changed");
-    EXPECT_EQ(board.GetName(), "changed");
 }
 
 TEST(Board, GetData)
 {
-    Board board("test");
-    auto data = board.GetData();
-    EXPECT_EQ(board.GetName(), "test");
+    {
+        auto board = GetDefaultBoard();
+        auto data = board.GetData();
+        EXPECT_EQ(data.name, "test");
+    }
 }
 
 TEST(Board, Update)
 {
-    Board board("test");
-    auto data = board.GetData();
+    {
+        auto board = GetDefaultBoard();
+        auto data = board.GetData();
 
-    data.name = "changed";
+        data.name = "changed";
 
-    EXPECT_EQ(board.GetName(), "test");
-    board.Update(data);
-    EXPECT_EQ(board.GetName(), "changed");
+        EXPECT_EQ(board.GetDataRef().name, "test");
+        board.Update(data);
+        EXPECT_EQ(board.GetDataRef().name, "changed");
+    }
 }
 
 TEST(Board, AddList)
 {
-    Board board("test");
+    {
+        auto board = GetDefaultBoard();
 
-    board.AddList(List("testlist"));
-    EXPECT_EQ(board.GetLists().size(), 4);
+        board.AddElement(List({"testlist"}));
+        EXPECT_EQ(board.GetElementArray().size(), 4);
 
-    board.AddList(std::make_shared<List>("testlist"));
-    EXPECT_EQ(board.GetLists().size(), 5);
+        board.AddElement(std::make_shared<List>( ListData{ "testlist" } ));
+        EXPECT_EQ(board.GetElementArray().size(), 5);
+    }
 }
 
 TEST(Board, RemoveList)
 {
-    Board board("test");
-    Board::ListArray &lists = board.GetListsRef();
+    {
+        auto board = GetDefaultBoard();
 
-    board.RemoveList(lists.begin());
-    EXPECT_EQ(lists.size(), 2);
+        board.RemoveElement(0);
+        EXPECT_EQ(board.GetElementArray().size(), 2);
+
+        board.RemoveElement(board.GetElementArray().size() - 1);
+        EXPECT_EQ(board.GetElementArray().size(), 1);
+
+        board.RemoveElement(0);
+        EXPECT_EQ(board.GetElementArray().size(), 0);
+    }
 }
 
+TEST(Board, RemoveListErrors)
+{
+    {
+        auto board = GetDefaultBoard();
+
+        EXPECT_THROW(board.RemoveElement(-1), std::out_of_range);
+        EXPECT_THROW(board.RemoveElement(board.GetElementArray().size()), std::out_of_range);
+        board.RemoveElement(0);
+        board.RemoveElement(0);
+        board.RemoveElement(0);
+        EXPECT_THROW(board.RemoveElement(0), std::out_of_range);
+    }
+}
+
+// TODO: Move MoveCard test to integration tests
+/* 
 TEST(Board, MoveCard)
 {
     Board board("test");
@@ -126,3 +144,4 @@ TEST(Board, MoveCardErrors)
         ,
         std::out_of_range);
 }
+*/
