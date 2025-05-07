@@ -2,6 +2,7 @@
 #include "ListPrompt/ListPrompt.hpp"
 #include "CardPrompt/CardPrompt.hpp"
 #include "Core/View/ViewBase.hpp"
+#include "Core/EventHandler/EventHandler.hpp"
 #include "Board.hpp"
 
 class BoardView : public ViewBase {
@@ -38,38 +39,35 @@ private:
     void DrawListPrompt();
     void DrawCardPrompt();
 
-// "event handlers"
+// event handler data
 private:
     struct CardDragDropData {
         CardDragDropPayload source;
         CardDragDropPayload destination;
     };
 
-    std::optional<CardDragDropData> m_dragdropData;
-
-    void CreateCardDragDropSource(const Card& card, const CardDragDropPayload& payload);
-    void CreateCardDragDropTarget(const CardDragDropPayload& destination);
-
-    void DragDropUpdate();
-
-private:
     struct OpenPromptData {
         Board::ItemIndex index;
 
         std::variant<std::optional<ListData>, std::optional<Card::Data>> promptData;
     };
-    std::optional<OpenPromptData> m_openPromptData;
 
-    void OpenPromptUpdate();
-    void OpenCardPrompt(int listIndex, int cardIndex, const std::optional<Card::Data>& data);
-    void OpenListPrompt(int listIndex, const std::optional<ListData>& data);
-
-private:
     struct DeleteItemData {
         Board::ItemIndex index;
     };
-    
-    std::optional<DeleteItemData> m_deleteItemData;
-    void DeleteItemUpdate();
-    void DeleteItem(const DeleteItemData& data);
+
+// event handlers
+private:
+    EventHandler<CardDragDropData> m_dragdropHandler;
+    EventHandler<OpenPromptData> m_openPromptHandler;
+    EventHandler<DeleteItemData> m_deleteItemHandler;
+
+private:
+    void SetUpEventHandlers();
+
+// drag and drop stuff
+private:
+    void CreateCardDragDropSource(const Card& card, const CardDragDropPayload& payload);
+    void CreateCardDragDropTarget(const CardDragDropPayload& destination); 
+
 };

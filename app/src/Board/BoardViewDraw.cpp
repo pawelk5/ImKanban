@@ -21,7 +21,9 @@ void BoardView::Draw(sf::RenderTarget &target) {
     if (ImGui::Begin(m_board->GetDataRef().name.c_str(), nullptr, boardWindowFlags)) {
         DrawAllLists();
         if (ImGui::Button("Add List", m_listSize))
-            m_listPrompt.Open(std::nullopt, {-1});
+            m_openPromptHandler.Trigger(
+                { -1, -1, std::optional<ListData>(std::nullopt) }
+            );
     }
     ImGui::End();
 
@@ -35,13 +37,16 @@ void BoardView::DrawAllLists() {
     for (auto it = listRef.begin(); it < listRef.end(); ++it) {
         const auto deleteCallback = 
             [this, it]() {
-            DeleteItem({ m_board->AsIndex(it), -1 });
+            m_deleteItemHandler.Trigger({ m_board->AsIndex(it), -1 });
         };
 
         const auto promptCallback = 
             [this, it]()
         {
-            OpenListPrompt(m_board->AsIndex(it), m_board->At(it)->GetData());
+            m_openPromptHandler.Trigger(
+                { m_board->AsIndex(it),
+                     -1, m_board->At(it)->GetData() }
+            );
         };
 
         DrawList(it, deleteCallback, promptCallback);
@@ -67,7 +72,9 @@ void BoardView::DrawList(Board::ElementArrayIterator iter, const Callback& delet
         DrawAllCards(iter);
 
         if (ImGui::Button("Add Task", {ImGui::GetContentRegionAvail().x, 0.f}))
-            OpenCardPrompt(listIndex, -1, std::nullopt);
+            m_openPromptHandler.Trigger(
+                { listIndex, -1, std::optional<Card::Data>(std::nullopt) }
+            );
 
         CreateCardDragDropTarget({listIndex, -1});
     }
@@ -83,13 +90,15 @@ void BoardView::DrawAllCards(Board::ElementArrayIterator iter) {
         const auto deleteCallback = 
             [this, &list, listIndex, it]()
         {
-            DeleteItem({listIndex, list.AsIndex(it)});
+            m_deleteItemHandler.Trigger({ listIndex, list.AsIndex(it) });
         };
 
         const auto promptCallback = 
             [this, &list, listIndex, it]()
         {
-            OpenCardPrompt(listIndex, list.AsIndex(it), list.At(it)->GetData());
+            m_openPromptHandler.Trigger(
+                { listIndex, list.AsIndex(it), list.At(it)->GetData() }
+            );
         };
         
         DrawCard(*list.At(it), deleteCallback, promptCallback,
@@ -136,11 +145,9 @@ void BoardView::DrawCardPrompt()
 {
     if (!m_cardPrompt.IsOpen())
         return;
-    
     const auto &promptContext = m_cardPrompt.GetContextData();
     const auto &listRef = m_board->GetElementArray();
     auto &list = listRef.at(promptContext.list);
-
     const auto submitCallback =
         [&list, &promptContext](const Card::Data &cardData)
     {
@@ -149,7 +156,6 @@ void BoardView::DrawCardPrompt()
         else
             list->At(promptContext.card)->Update(cardData);
     };
-
     m_cardPrompt.Draw(submitCallback);
 }
 
@@ -171,8 +177,8 @@ void BoardView::CreateCardDragDropTarget(const BoardView::CardDragDropPayload& d
                 ToString(PayloadType::CardDrag).c_str())) {
             if (payload->DataSize == sizeof(Board::MoveData)) {
                 auto *dragPayload = static_cast<const Board::MoveData *>(payload->Data);
-                m_dragdropData = { {dragPayload->list, dragPayload->card},
-                     destination };
+                m_dragdropHandler.Trigger({ {dragPayload->list, dragPayload->card},
+                     destination });
             }
         }
         ImGui::EndDragDropTarget();

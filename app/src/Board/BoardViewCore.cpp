@@ -1,73 +1,53 @@
 #include "pch.h"
+#include "Core/EventHandler/EventHandler.hpp"
 #include "BoardView.hpp"
 
 
 BoardView::BoardView(const BoardView::BoardPointer &pointer)
     : m_board(pointer)
 {
-    m_dragdropData = std::nullopt;
-
     m_listSize = {250.f, 0.f};
+
+    SetUpEventHandlers();    
 }
 
 void BoardView::Update(float deltaTime) { 
-    DragDropUpdate();
-    OpenPromptUpdate();
-    DeleteItemUpdate();
+    m_dragdropHandler.Update();
+    m_openPromptHandler.Update();
+    m_deleteItemHandler.Update();
 }
 
 void BoardView::EventUpdate(const sf::Event &event) { ; }
 
-void BoardView::DragDropUpdate() {
-    if (!m_dragdropData)
-        return;
-
-    m_board->MoveCard( m_dragdropData->source, m_dragdropData->destination );
-
-    m_dragdropData = std::nullopt;
-}
-
-void BoardView::OpenPromptUpdate() {
-    if (!m_openPromptData)
-        return;
+void BoardView::SetUpEventHandlers() {
+    const auto& dragdropCallback = [this] (CardDragDropData m_data) {
+        m_board->MoveCard( m_data.source, m_data.destination );
+    };
     
-    const auto& listIndex = m_openPromptData->index.list;
-    const auto& cardIndex = m_openPromptData->index.card;
-
-    if (std::holds_alternative<std::optional<ListData>>(m_openPromptData->promptData))
-        m_listPrompt.Open(std::get<std::optional<ListData>>(m_openPromptData->promptData),
+    const auto& openPromptCallback = [this] (OpenPromptData data) {
+        const auto& listIndex = data.index.list;
+        const auto& cardIndex = data.index.card;
+        if (std::holds_alternative<std::optional<ListData>>(data.promptData))
+            m_listPrompt.Open(std::get<std::optional<ListData>>(data.promptData),
             { listIndex });
-    else
-        m_cardPrompt.Open(std::get<std::optional<Card::Data>>(m_openPromptData->promptData),
-        { listIndex, cardIndex });
-    
-    m_openPromptData = std::nullopt;
+        else
+            m_cardPrompt.Open(std::get<std::optional<Card::Data>>(data.promptData),
+            { listIndex, cardIndex });
+    };
+
+    const auto& deleteItemCallback = [this] (DeleteItemData data) {
+        const auto& listIndex = data.index.list;
+        const auto& cardIndex = data.index.card;
+
+        if (cardIndex == -1)
+            m_board->RemoveElement(listIndex);
+        else
+            m_board->At(listIndex)->RemoveElement(cardIndex);
+    };
+
+    m_dragdropHandler = EventHandler<CardDragDropData>(dragdropCallback);
+    m_openPromptHandler = EventHandler<OpenPromptData>(openPromptCallback);
+    m_deleteItemHandler = EventHandler<DeleteItemData>(deleteItemCallback);
 }
 
-void BoardView::DeleteItemUpdate() {
-    if (!m_deleteItemData)
-        return;
 
-    const auto& listIndex = m_deleteItemData->index.list;
-    const auto& cardIndex = m_deleteItemData->index.card;
-
-    if (cardIndex == -1)
-        m_board->RemoveElement(listIndex);
-    else
-        m_board->At(listIndex)->RemoveElement(cardIndex);
-
-    m_deleteItemData = std::nullopt;
-}
-
-
-void BoardView::OpenCardPrompt(int listIndex, int cardIndex, const std::optional<Card::Data>& data) {
-    m_openPromptData = { listIndex, cardIndex, data };
-}
-
-void BoardView::OpenListPrompt(int listIndex, const std::optional<ListData>& data) {
-    m_openPromptData = { listIndex, -1, data };
-}
-
-void BoardView::DeleteItem(const DeleteItemData& data) {
-    m_deleteItemData = data;
-}
