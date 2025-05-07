@@ -1,7 +1,6 @@
 #pragma once
 #include "pch.h"
-#include <functional>
-#include <optional>
+
 
 template<typename EventData>
 class EventHandler {

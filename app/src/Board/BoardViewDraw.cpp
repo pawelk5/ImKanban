@@ -2,7 +2,7 @@
 #include "Card.hpp"
 #include "List.hpp"
 #include "BoardView.hpp"
-#include "Core/utils/types.hpp"
+#include "Core/Utils/Types.hpp"
 
 
 static constexpr int windowFlags =
@@ -162,7 +162,7 @@ void BoardView::DrawCardPrompt()
 void BoardView::CreateCardDragDropSource(const Card& card, const BoardView::CardDragDropPayload& payload) {
     if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID)) {
         ImGui::SetDragDropPayload(
-            ToString(PayloadType::CardDrag).c_str(),
+            ToString(PayloadType::CardDrag),
             &payload,
             sizeof(Board::MoveData));
             
@@ -174,7 +174,7 @@ void BoardView::CreateCardDragDropSource(const Card& card, const BoardView::Card
 void BoardView::CreateCardDragDropTarget(const BoardView::CardDragDropPayload& destination) {
     if (ImGui::BeginDragDropTarget()) {
         if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload(
-                ToString(PayloadType::CardDrag).c_str())) {
+                ToString(PayloadType::CardDrag))) {
             if (payload->DataSize == sizeof(Board::MoveData)) {
                 auto *dragPayload = static_cast<const Board::MoveData *>(payload->Data);
                 m_dragdropHandler.Trigger({ {dragPayload->list, dragPayload->card},

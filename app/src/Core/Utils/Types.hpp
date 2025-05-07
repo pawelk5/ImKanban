@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+#include "pch.h"
 
 enum class PayloadType
 {
@@ -7,7 +7,7 @@ enum class PayloadType
     ListDrag
 };
 
-inline std::string ToString(PayloadType type)
+inline const char* ToString(PayloadType type)
 {
     switch (type)
     {
