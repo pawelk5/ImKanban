@@ -1,7 +1,7 @@
 #pragma once
 #include "ListPrompt/ListPrompt.hpp"
 #include "CardPrompt/CardPrompt.hpp"
-#include "View/ViewBase.hpp"
+#include "Core/View/ViewBase.hpp"
 #include "Board.hpp"
 
 class BoardView : public ViewBase {

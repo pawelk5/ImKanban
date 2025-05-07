@@ -1,6 +1,6 @@
 #pragma once
 #include "pch.h"
-#include "View/ViewBase.hpp"
+#include "Core/View/ViewBase.hpp"
 
 class App {
 public:

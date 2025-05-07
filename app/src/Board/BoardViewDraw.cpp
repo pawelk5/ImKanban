@@ -2,7 +2,7 @@
 #include "Card.hpp"
 #include "List.hpp"
 #include "BoardView.hpp"
-#include "utils/types.hpp"
+#include "Core/utils/types.hpp"
 
 
 static constexpr int windowFlags =

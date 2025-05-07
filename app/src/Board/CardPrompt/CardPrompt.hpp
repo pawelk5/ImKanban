@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "Board.hpp"
-#include "PromptBase/InputPrompt.hpp"
+#include "Core/PromptBase/InputPrompt.hpp"
 
 
 class CardPrompt : public InputPrompt<Card::Data, Board::ItemIndex> {

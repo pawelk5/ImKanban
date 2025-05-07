@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "List.hpp"
-#include "PromptBase/InputPrompt.hpp"
+#include "Core/PromptBase/InputPrompt.hpp"
 
 struct ListPromptContext {
     int listIndex = -1;
