@@ -30,13 +30,16 @@ void BoardView::DragDropUpdate() {
 void BoardView::OpenPromptUpdate() {
     if (!m_openPromptData)
         return;
+    
+    const auto& listIndex = m_openPromptData->index.list;
+    const auto& cardIndex = m_openPromptData->index.card;
 
     if (std::holds_alternative<std::optional<ListData>>(m_openPromptData->promptData))
         m_listPrompt.Open(std::get<std::optional<ListData>>(m_openPromptData->promptData),
-            { m_openPromptData->listIndex });
+            { listIndex });
     else
         m_cardPrompt.Open(std::get<std::optional<Card::Data>>(m_openPromptData->promptData),
-        { m_openPromptData->listIndex, m_openPromptData->cardIndex });
+        { listIndex, cardIndex });
     
     m_openPromptData = std::nullopt;
 }
@@ -45,10 +48,13 @@ void BoardView::DeleteItemUpdate() {
     if (!m_deleteItemData)
         return;
 
-    if (m_deleteItemData->cardIndex == -1)
-        m_board->RemoveElement(m_deleteItemData->listIndex);
+    const auto& listIndex = m_deleteItemData->index.list;
+    const auto& cardIndex = m_deleteItemData->index.card;
+
+    if (cardIndex == -1)
+        m_board->RemoveElement(listIndex);
     else
-        m_board->At(m_deleteItemData->listIndex)->RemoveElement(m_deleteItemData->cardIndex);
+        m_board->At(listIndex)->RemoveElement(cardIndex);
 
     m_deleteItemData = std::nullopt;
 }

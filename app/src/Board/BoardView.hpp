@@ -33,7 +33,7 @@ private:
 
     void DrawList(Board::ElementArrayIterator iter, const Callback& deleteCallback, const Callback& openPromptCallback);
     void DrawCard(Card& card, const Callback& deleteCallback, const Callback& openPromptCallback,
-        const CardDragDropPayload& dragdropData);
+        const Board::ItemIndex& itemIndex);
 
     void DrawListPrompt();
     void DrawCardPrompt();
@@ -54,8 +54,7 @@ private:
 
 private:
     struct OpenPromptData {
-        int listIndex = -1;
-        int cardIndex = -1;
+        Board::ItemIndex index;
 
         std::variant<std::optional<ListData>, std::optional<Card::Data>> promptData;
     };
@@ -67,8 +66,7 @@ private:
 
 private:
     struct DeleteItemData {
-        int listIndex = -1;
-        int cardIndex = -1;
+        Board::ItemIndex index;
     };
     
     std::optional<DeleteItemData> m_deleteItemData;

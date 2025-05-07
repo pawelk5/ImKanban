@@ -98,10 +98,10 @@ void BoardView::DrawAllCards(Board::ElementArrayIterator iter) {
 }
 
 void BoardView::DrawCard(Card& card, const Callback& deleteCallback,
-            const Callback& openPromptCallback, const CardDragDropPayload& dragdropData) {
-    if (ImGui::BeginChild(std::to_string(dragdropData.cardIndex).c_str(),
+            const Callback& openPromptCallback, const Board::ItemIndex& itemIndex) {
+    if (ImGui::BeginChild(std::to_string(itemIndex.card).c_str(),
          ImVec2(0.f, 100.f), childFlags, windowFlags)) {
-        CreateCardDragDropSource(card, dragdropData);
+        CreateCardDragDropSource(card, (Board::MoveData)itemIndex);
 
         ImGui::Text("%s", card.GetDataRef().title.c_str());
 
@@ -113,7 +113,7 @@ void BoardView::DrawCard(Card& card, const Callback& deleteCallback,
     }
     ImGui::EndChild();
 
-    CreateCardDragDropTarget(dragdropData);
+    CreateCardDragDropTarget(itemIndex);
 }
 
 void BoardView::DrawListPrompt()
@@ -139,15 +139,15 @@ void BoardView::DrawCardPrompt()
     
     const auto &promptContext = m_cardPrompt.GetContextData();
     const auto &listRef = m_board->GetElementArray();
-    auto &list = listRef.at(promptContext.listIndex);
+    auto &list = listRef.at(promptContext.list);
 
     const auto submitCallback =
         [&list, &promptContext](const Card::Data &cardData)
     {
-        if (promptContext.cardIndex < 0)
+        if (promptContext.card < 0)
             list->AddElement(Card(cardData));
         else
-            list->At(promptContext.cardIndex)->Update(cardData);
+            list->At(promptContext.card)->Update(cardData);
     };
 
     m_cardPrompt.Draw(submitCallback);
@@ -158,7 +158,7 @@ void BoardView::CreateCardDragDropSource(const Card& card, const BoardView::Card
         ImGui::SetDragDropPayload(
             ToString(PayloadType::CardDrag).c_str(),
             &payload,
-            sizeof(CardPromptContext));
+            sizeof(Board::MoveData));
             
         ImGui::Text("Moving: %s", card.GetDataRef().title.c_str());
         ImGui::EndDragDropSource();
@@ -169,9 +169,9 @@ void BoardView::CreateCardDragDropTarget(const BoardView::CardDragDropPayload& d
     if (ImGui::BeginDragDropTarget()) {
         if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload(
                 ToString(PayloadType::CardDrag).c_str())) {
-            if (payload->DataSize == sizeof(CardPromptContext)) {
-                auto *dragPayload = static_cast<const CardPromptContext *>(payload->Data);
-                m_dragdropData = { {dragPayload->listIndex, dragPayload->cardIndex},
+            if (payload->DataSize == sizeof(Board::MoveData)) {
+                auto *dragPayload = static_cast<const Board::MoveData *>(payload->Data);
+                m_dragdropData = { {dragPayload->list, dragPayload->card},
                      destination };
             }
         }

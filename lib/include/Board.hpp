@@ -10,10 +10,12 @@ struct EXPORT_API BoardData {
 
 class EXPORT_API Board : public ContainerBase<List, BoardData> {
 public:
-    struct MoveData {
-        int listIndex = -1;
-        int cardIndex = -1;
+    struct ItemIndex {
+        int list = -1;
+        int card = -1;
     };
+
+    using MoveData = ItemIndex;
 
 public:
     Board(const BoardData& data) : ContainerBase<List, BoardData>(data) {

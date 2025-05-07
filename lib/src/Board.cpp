@@ -21,20 +21,20 @@ void Board::MoveCard(
     const MoveData& source,
     const MoveData& destination)
 {
-    if (!IsValid(source.listIndex))
+    if (!IsValid(source.list))
         throw std::out_of_range(invalidIndex);
-    if (!IsValid(destination.listIndex))
+    if (!IsValid(destination.list))
         throw std::out_of_range(invalidIndex);
 
-    auto& sourceList = At(source.listIndex);
-    auto& destinationList = At(destination.listIndex);
+    auto& sourceList = At(source.list);
+    auto& destinationList = At(destination.list);
 
-    auto sourceCard = sourceList->At(source.cardIndex);
+    auto sourceCard = sourceList->At(source.card);
 
-    sourceList->RemoveElement(source.cardIndex);
+    sourceList->RemoveElement(source.card);
 
-    if (destination.cardIndex == -1)
+    if (destination.card == -1)
         destinationList->AddElement(sourceCard);
     else
-        destinationList->InsertElement(sourceCard, destination.cardIndex);
+        destinationList->InsertElement(sourceCard, destination.card);
 }
