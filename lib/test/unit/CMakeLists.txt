@@ -3,7 +3,7 @@ if (BUILD_TESTING)
 
     add_executable(${TEST_NAME}
         "CardTest.cpp"
-        "ContainerTest.cpp"
+        "ContainerBaseTest.cpp"
         "ListTest.cpp"
         "BoardTest.cpp"
     )

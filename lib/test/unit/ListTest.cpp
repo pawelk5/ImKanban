@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 #include "List.hpp"
-#include "Card.hpp"
 
 class ListTest : public testing::Test {
     protected:
