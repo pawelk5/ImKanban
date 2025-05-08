@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Core/EventHandler/EventHandler.hpp"
 #include "BoardView.hpp"
-#include <SFML/Window/Event.hpp>
 
 
 BoardView::BoardView(const BoardView::BoardPointer &pointer)
@@ -9,29 +8,28 @@ BoardView::BoardView(const BoardView::BoardPointer &pointer)
 {
     m_listSize = {250.f, 0.f};
 
-    SetUpEventHandlers();    
+    SetUpEventHandlers();
+    SetUpPromptCallbacks(); 
 }
 
-void BoardView::Update(float deltaTime) { 
+void BoardView::Update(float deltaTime) {
     m_dragdropHandler.Update();
     m_openPromptHandler.Update();
     m_deleteItemHandler.Update();
 }
 
 void BoardView::EventUpdate(const sf::Event &event) { 
-    if (auto keyEvent = event.getIf<sf::Event::KeyPressed>()) {
-        if (keyEvent->code == sf::Keyboard::Key::Escape){
-            m_cardPrompt.Close();
-            m_listPrompt.Close();
-        }
-    } 
+    m_cardPrompt.EventUpdate(event);
+    m_listPrompt.EventUpdate(event);
 }
 
 void BoardView::SetUpEventHandlers() {
+    /// DRAG AND DROP CALLBACK
     const auto& dragdropCallback = [this] (CardDragDropData m_data) {
         m_board->MoveCard( m_data.source, m_data.destination );
     };
     
+    /// OPEN PROMPT CALLBACK
     const auto& openPromptCallback = [this] (OpenPromptData data) {
         const auto& listIndex = data.index.list;
         const auto& cardIndex = data.index.card;
@@ -43,6 +41,8 @@ void BoardView::SetUpEventHandlers() {
             { listIndex, cardIndex });
     };
 
+
+    /// DELETE CALLBACK
     const auto& deleteItemCallback = [this] (DeleteItemData data) {
         const auto& listIndex = data.index.list;
         const auto& cardIndex = data.index.card;
@@ -58,4 +58,30 @@ void BoardView::SetUpEventHandlers() {
     m_deleteItemHandler = EventHandler<DeleteItemData>(deleteItemCallback);
 }
 
+void BoardView::SetUpPromptCallbacks() {
+    /// LIST PROMPT CALLBACK
+    const auto listPromptSubmitCallback = 
+    [this](const ListData &listData, const ListPromptContext& promptContext)
+    {
+        if (promptContext.listIndex < 0)
+            m_board->AddElement(List(listData));
+        else
+            m_board->At(promptContext.listIndex)->Update(listData);
+    };
+
+
+    /// CARD PROMPT CALLBACK
+    const auto cardPromptSubmitCallback =
+        [this](const Card::Data &cardData, const Board::ItemIndex& promptContext)
+    {
+        auto &list = m_board->At(promptContext.list);
+        if (promptContext.card < 0)
+            list->AddElement(Card(cardData));
+        else
+            list->At(promptContext.card)->Update(cardData);
+    };
+
+    m_listPrompt.SetOnExitCallback(listPromptSubmitCallback);
+    m_cardPrompt.SetOnExitCallback(cardPromptSubmitCallback);
+}
 

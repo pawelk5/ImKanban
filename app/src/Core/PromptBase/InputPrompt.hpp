@@ -1,23 +1,26 @@
 #pragma once
 #include "PromptBase.hpp"
 
+/// Base class for input prompts (forms)
+///
+/// Calls onExit callback when user confirms changes (presses OK button)
 template <typename InputData, typename ContextData>
 class InputPrompt : public PromptBase<InputData, ContextData> {
 public:
-    void Draw(const std::function<void(const InputData&)>& onSubmit) {
+    /// Override of Draw function
+    /// Draws a modal popup with OK and Close buttons
+    void Draw() override {
         if (!this->IsOpen())
             return;
-        
+
         ImGui::OpenPopup(this->GetPopupID());
-            
+
         if (ImGui::BeginPopupModal(this->GetPopupID(), nullptr, promptFlags)) {
-            // place for specific inputs
             this->DrawImpl();
-                
             ImGui::Spacing();
-                
+            
             if (ImGui::Button("OK")){
-                onSubmit(this->m_data);
+                this->m_onExit(this->m_data, this->m_contextData);
                 this->ClosePopup();
             }
         
@@ -27,7 +30,9 @@ public:
         }
         ImGui::EndPopup();
     }
-
+protected:
+    /// Called in Draw function, for displaying widgets
+    virtual void DrawImpl() = 0;
 private:
     static constexpr int promptFlags = 
           ImGuiWindowFlags_NoMove

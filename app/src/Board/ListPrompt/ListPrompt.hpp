@@ -7,6 +7,7 @@ struct ListPromptContext {
     int listIndex = -1;
 };
 
+/// Prompt for adding new or editing a list
 class ListPrompt : public InputPrompt<ListData, ListPromptContext> {
 public:
     ListPrompt();

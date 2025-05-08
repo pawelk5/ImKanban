@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 
+/// Virtual class for a view (managed by App class)
 class ViewBase {
 public:
     virtual ~ViewBase() = default;
