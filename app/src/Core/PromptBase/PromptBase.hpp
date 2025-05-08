@@ -7,6 +7,7 @@
 template<typename InputData, typename ContextData>
 class PromptBase {
 public:
+    /// Callback to be called when the prompt is confirmed/filled by a user
     using Callback = std::function<void(const InputData&, const ContextData&)>;
 
 public:
