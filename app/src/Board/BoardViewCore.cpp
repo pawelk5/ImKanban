@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Core/EventHandler/EventHandler.hpp"
 #include "BoardView.hpp"
+#include <SFML/Window/Event.hpp>
 
 
 BoardView::BoardView(const BoardView::BoardPointer &pointer)
@@ -17,7 +18,14 @@ void BoardView::Update(float deltaTime) {
     m_deleteItemHandler.Update();
 }
 
-void BoardView::EventUpdate(const sf::Event &event) { ; }
+void BoardView::EventUpdate(const sf::Event &event) { 
+    if (auto keyEvent = event.getIf<sf::Event::KeyPressed>()) {
+        if (keyEvent->code == sf::Keyboard::Key::Escape){
+            m_cardPrompt.Close();
+            m_listPrompt.Close();
+        }
+    } 
+}
 
 void BoardView::SetUpEventHandlers() {
     const auto& dragdropCallback = [this] (CardDragDropData m_data) {

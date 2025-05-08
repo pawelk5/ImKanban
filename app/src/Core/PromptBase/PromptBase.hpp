@@ -13,6 +13,11 @@ public:
     
         OpenImpl();
     }
+    
+    /* Close OUTSIDE render function */
+    void Close() {
+        m_open = false;
+    }
 
     bool IsOpen() {
         return m_open;
