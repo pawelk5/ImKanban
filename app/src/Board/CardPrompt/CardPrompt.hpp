@@ -4,7 +4,7 @@
 #include "Core/PromptBase/InputPrompt.hpp"
 
 /// Prompt for adding new or editing a card
-class CardPrompt : public InputPrompt<Card::Data, Board::ItemIndex> {
+class CardPrompt : public InputPrompt<CardData, Board::ItemIndex> {
 public:
     CardPrompt();
 

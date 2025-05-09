@@ -1,20 +1,20 @@
 #include "Card.hpp"
 
 
-Card::Card(const Card::Data& data) {
+Card::Card(const CardData& data) {
     Update(data);
 }
 
 
-Card::Data Card::GetData() const {
+CardData Card::GetData() const {
     return m_data;
 }
 
-const Card::Data& Card::GetDataRef() const {
+const CardData& Card::GetDataRef() const {
     return m_data;
 }
 
-void Card::Update(const Card::Data& data) {
+void Card::Update(const CardData& data) {
     m_data = data;
 }
 

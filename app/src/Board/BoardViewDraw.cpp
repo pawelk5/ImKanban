@@ -60,7 +60,7 @@ void BoardView::DrawList(Board::ElementArrayIterator iter) {
 
         if (ImGui::Button("Add Task", {ImGui::GetContentRegionAvail().x, 0.f}))
             m_openPromptHandler.Trigger(
-                { listIndex, -1, std::optional<Card::Data>(std::nullopt) }
+                { listIndex, -1, std::optional<CardData>(std::nullopt) }
             );
 
         CreateCardDragDropTarget({listIndex, -1});

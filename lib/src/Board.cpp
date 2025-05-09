@@ -2,10 +2,6 @@
 #include "List.hpp"
 #include <array>
 
-void Board::ConstructorImpl() {
-    CreateBasicLists();
-}
-
 void Board::CreateBasicLists() {
     std::array<std::string, 3> baseListNames {
         "To Do",

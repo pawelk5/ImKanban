@@ -37,7 +37,7 @@ void BoardView::SetUpEventHandlers() {
             m_listPrompt.Open(std::get<std::optional<ListData>>(data.promptData),
             { listIndex });
         else
-            m_cardPrompt.Open(std::get<std::optional<Card::Data>>(data.promptData),
+            m_cardPrompt.Open(std::get<std::optional<CardData>>(data.promptData),
             { listIndex, cardIndex });
     };
 
@@ -72,7 +72,7 @@ void BoardView::SetUpPromptCallbacks() {
 
     /// CARD PROMPT CALLBACK
     const auto cardPromptSubmitCallback =
-        [this](const Card::Data &cardData, const Board::ItemIndex& promptContext)
+        [this](const CardData &cardData, const Board::ItemIndex& promptContext)
     {
         auto &list = m_board->At(promptContext.list);
         if (promptContext.card < 0)

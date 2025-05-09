@@ -3,7 +3,7 @@
 
 class CardTest : public testing::Test {
 protected:
-    Card::Data t_data;
+    CardData t_data;
     Card t_card;
     CardTest() 
         : t_card(t_data) { ; }
@@ -17,7 +17,7 @@ protected:
 
 TEST_F(CardTest, BaseConstructor) {
     {
-        Card::Data testData;
+        CardData testData;
         testData.title = "test2";
         Card card2(testData);
         EXPECT_EQ(card2.GetDataRef().title, "test2");

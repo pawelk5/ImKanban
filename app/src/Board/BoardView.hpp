@@ -76,7 +76,7 @@ private:
         Board::ItemIndex index;
 
         /// Optional data to be edited (if nullopt then creates a new card/list)
-        std::variant<std::optional<ListData>, std::optional<Card::Data>> promptData;
+        std::variant<std::optional<ListData>, std::optional<CardData>> promptData;
     };
 
     /// Struct for deleting items
