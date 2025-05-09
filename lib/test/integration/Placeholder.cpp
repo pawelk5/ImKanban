@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+/// (TODO: Add integration tests)
 TEST(PLACEHOLDER, PLACEHOLDER) {
-    EXPECT_TRUE(true);
+    SUCCEED();
 }

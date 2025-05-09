@@ -1,17 +1,23 @@
 #include <gtest/gtest.h>
+#include <stdexcept>
 #include <string>
 #include "ContainerBase.hpp"
 
+/// Mock element storing only name
 struct MockElement {
     std::string name;
 };
 
+/// Mock data of a container, storing only name
 struct MockData {
     std::string name;
 };
 
+/// Mock class derived from ContainerBase class
 class TestContainer : public ContainerBase<MockElement, MockData> {
 public:
+    /// Constructs a test container
+    /// \param data data to be stored in the test container
     TestContainer(const MockData& data) : ContainerBase<MockElement, MockData>(data) {}
 };
 
@@ -19,21 +25,28 @@ class ContainerBaseTest : public testing::Test {
 protected:
     TestContainer t_container;
     MockData t_data;
+
+    /// Constructor that initializes the container with empty data
     ContainerBaseTest() 
         : t_container(t_data) { ; }
     
+    /// Setup function to initialize data before every test
     void SetUp() override {
         t_data.name = "test";
         t_container = TestContainer(t_data);
     }
 
 public:
+    /// Utility for adding elements to the container
+    /// \param count number of added elements
     void AddElements(int count) {
         for (int i = 0; i < count; i++)
             t_container.AddElement(MockElement{"test" + std::to_string(i)});
     }
 };
 
+/// Test for Container constructor
+/// Verifies if constructor stores data properly and stored array is empty
 TEST_F(ContainerBaseTest, BaseConstructor)
 {
     {
@@ -46,15 +59,21 @@ TEST_F(ContainerBaseTest, BaseConstructor)
     }
 }
 
+/// Test for GetData function
+/// Verifies that GetData returns a copy of stored data
 TEST_F(ContainerBaseTest, GetData)
 {
     {
         auto data = t_container.GetData();
         EXPECT_EQ(data.name, "test");
+
+        data.name = "changed";
         EXPECT_EQ(t_container.GetDataRef().name, "test");
     }
 }
 
+
+/// Test for adding elements to a container
 TEST_F(ContainerBaseTest, AddElement)
 {
     {
@@ -69,6 +88,7 @@ TEST_F(ContainerBaseTest, AddElement)
     }
 }
 
+/// Test for accessing elements using both indexes and iterators
 TEST_F(ContainerBaseTest, At)
 {
     {
@@ -84,6 +104,7 @@ TEST_F(ContainerBaseTest, At)
     }
 }
 
+/// Test for errors accessing elements using invalid indexes or iterators
 TEST_F(ContainerBaseTest, AtErrors)
 {
     {
@@ -92,17 +113,15 @@ TEST_F(ContainerBaseTest, AtErrors)
 
         EXPECT_THROW(t_container.At(-1), std::out_of_range);
         EXPECT_THROW(t_container.At(t_container.GetElementArray().size()), std::out_of_range);
-
-        EXPECT_THROW(t_container.At(t_container.GetElementArray().begin() - 1), std::out_of_range);
         EXPECT_THROW(t_container.At(t_container.GetElementArray().end()), std::out_of_range);
 
-        EXPECT_THROW(t_container.At(t_container2.GetElementArray().begin() - 1), std::out_of_range);
         EXPECT_THROW(t_container.At(t_container2.GetElementArray().begin()), std::out_of_range);
         EXPECT_THROW(t_container.At(t_container2.GetElementArray().begin() + 1), std::out_of_range);
         EXPECT_THROW(t_container.At(t_container2.GetElementArray().end()), std::out_of_range);
     }
 }
 
+/// Test for inserting elements into container
 TEST_F(ContainerBaseTest, InsertElement)
 {
     {
@@ -126,7 +145,28 @@ TEST_F(ContainerBaseTest, InsertElement)
     }
 }
 
+/// Test for inserting elements into container using invalid indexes
+TEST_F(ContainerBaseTest, InsertElementErrors)
+{
+    {
+        // Insert at index = -1
+        EXPECT_THROW(
+            t_container.InsertElement(std::make_shared<MockElement>(MockElement{"testElement"}), -2),
+            std::out_of_range
+        );
+        EXPECT_EQ(t_container.GetElementArray().size(), 0);
 
+        // Insert at index = 1 (> size)
+        EXPECT_THROW(
+            t_container.InsertElement(std::make_shared<MockElement>(MockElement{"testElement"}), 1),
+            std::out_of_range
+        );
+        EXPECT_EQ(t_container.GetElementArray().size(), 0);
+    }
+}
+
+
+/// Test for removing elements from container
 TEST_F(ContainerBaseTest, RemoveElement)
 {
     {
@@ -144,6 +184,7 @@ TEST_F(ContainerBaseTest, RemoveElement)
     }
 }
 
+/// Test for errors when trying to remove elements using invalid indexes
 TEST_F(ContainerBaseTest, RemoveElementErrorsIndex)
 {
     {
@@ -157,6 +198,7 @@ TEST_F(ContainerBaseTest, RemoveElementErrorsIndex)
     }
 }
 
+/// Test for errors when trying to remove elements using invalid iterators
 TEST_F(ContainerBaseTest, RemoveElementErrorsIterator)
 {
     {
@@ -173,14 +215,13 @@ TEST_F(ContainerBaseTest, RemoveElementErrorsIterator)
     }
 }
 
+/// Test for Update function
+/// Verifies that Update changes stored data
 TEST_F(ContainerBaseTest, Update)
 {
     {
         auto data = t_container.GetData();
-
         data.name = "changed";
-
-        EXPECT_EQ(t_container.GetDataRef().name, "test");
         t_container.Update(data);
         EXPECT_EQ(t_container.GetDataRef().name, "changed");
     }

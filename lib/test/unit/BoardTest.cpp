@@ -5,19 +5,25 @@
 #include "List.hpp"
 
 
+/// Test suite for Board class
 class BoardTest : public testing::Test {
 protected:
     BoardData t_data;
     Board t_board;
+
+    /// Constructor that initializes the board with empty data
     BoardTest() 
         : t_board(t_data) { ; }
     
+    /// Setup function to initialize data before every test
     void SetUp() override {
         t_data.name = "test";
         t_board = Board(t_data);
     }
 };
 
+/// Test for Board constructor
+/// Verifies if constructor creates predefined lists
 TEST_F(BoardTest, BaseConstructor)
 {
     {
@@ -30,7 +36,7 @@ TEST_F(BoardTest, BaseConstructor)
     }
 }
 
-
+/// Test for moving cards between lists
 TEST_F(BoardTest, MoveCard)
 {
     const auto &lists = t_board.GetElementArray();
@@ -51,23 +57,25 @@ TEST_F(BoardTest, MoveCard)
         {1, 0},
         {0, 0});
 
-        EXPECT_EQ(t_board.At(0)->GetElementArray().size(), 1);
-        EXPECT_EQ(t_board.At(1)->GetElementArray().size(), 0);
-        EXPECT_EQ(t_board.At(0)->At(0)->GetData().title, "TestCard");
+    EXPECT_EQ(t_board.At(0)->GetElementArray().size(), 1);
+    EXPECT_EQ(t_board.At(1)->GetElementArray().size(), 0);
+    EXPECT_EQ(t_board.At(0)->At(0)->GetData().title, "TestCard");
 }
 
+/// Test for handling errors during card movement
 TEST_F(BoardTest, MoveCardErrors)
 {
     auto &lists = t_board.GetElementArray();
 
-    // invalid card iterator
+    // invalid card index
     EXPECT_THROW(
         t_board.MoveCard(
             {0, 0}, {1, 0});
             , std::out_of_range);
+    
+    // invalid list index
     t_board.At(0)->AddElement(Card( {"testcard"} ));
 
-    // invalid list iterator
     EXPECT_THROW(
         t_board.MoveCard(
             {3, 0},
