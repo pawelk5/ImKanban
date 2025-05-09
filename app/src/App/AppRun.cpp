@@ -18,6 +18,7 @@ void App::EventUpdate() {
             break;
         }
 
+        // Handle resize event
         if (event->is<sf::Event::Resized>()) {
             auto newSize = event->getIf<sf::Event::Resized>()->size;
             m_window.setView(sf::View(sf::FloatRect({0,0}, 

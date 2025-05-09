@@ -1,4 +1,5 @@
 #pragma once
+/// Precompiled header
 // standard library
 #include <vector>
 #include <iostream>
@@ -7,7 +8,7 @@
 #include <functional>
 #include <memory>
 #include <variant>
-#include <assert.h>
+#include <cassert>
 
 // graphics stuff
 #include <SFML/Graphics.hpp>

@@ -11,7 +11,7 @@ App::App() {
         throw std::runtime_error("Couldn't init imgui!");
     LoadFont();
     
-    m_currentView = std::make_unique<BoardView>(std::make_shared<Board>(BoardData{"example"}));
+    CreateStartView();    
 }
 
 App::~App() {
@@ -41,4 +41,8 @@ void App::LoadFont() {
 
     if (!ImGui::SFML::UpdateFontTexture())
         throw std::runtime_error("Couldn't update font texture!");
+}
+
+void App::CreateStartView() {
+    m_currentView = std::make_unique<BoardView>(std::make_shared<Board>(BoardData{"example"}));
 }

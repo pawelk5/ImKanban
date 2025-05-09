@@ -29,6 +29,9 @@ private:
     /// Loads up fonts
     void LoadFont();
     
+    /// Create the starting view of the app
+    void CreateStartView();
+
     /// Handles all SFML events
     void EventUpdate();
 
