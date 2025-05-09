@@ -83,6 +83,7 @@ TEST_F(ContainerBaseTest, AddElement)
         t_container.AddElement(std::make_shared<MockElement>(MockElement{ "testElement2" }));
         EXPECT_EQ(t_container.GetElementArray().size(), 2);
 
+        // Test if order wasn't changed
         EXPECT_EQ(t_container.At(0)->name, "testElement1");
         EXPECT_EQ(t_container.At(1)->name, "testElement2");
     }
@@ -94,10 +95,12 @@ TEST_F(ContainerBaseTest, At)
     {
         this->AddElements(3);
 
+        /// Test using indexes
         EXPECT_NO_THROW(t_container.At(0));
         EXPECT_NO_THROW(t_container.At(1));
         EXPECT_NO_THROW(t_container.At(1));
 
+        // Test using iterators
         EXPECT_NO_THROW(t_container.At(t_container.GetElementArray().begin() ));
         EXPECT_NO_THROW(t_container.At(t_container.GetElementArray().begin() + 1));
         EXPECT_NO_THROW(t_container.At(t_container.GetElementArray().end() - 1));
@@ -111,10 +114,14 @@ TEST_F(ContainerBaseTest, AtErrors)
         MockData data {"test2"};
         TestContainer t_container2(data);
 
+        /// Test using invalid index
         EXPECT_THROW(t_container.At(-1), std::out_of_range);
         EXPECT_THROW(t_container.At(t_container.GetElementArray().size()), std::out_of_range);
+
+        // Test using end iterator
         EXPECT_THROW(t_container.At(t_container.GetElementArray().end()), std::out_of_range);
 
+        // Test using iterators of another container
         EXPECT_THROW(t_container.At(t_container2.GetElementArray().begin()), std::out_of_range);
         EXPECT_THROW(t_container.At(t_container2.GetElementArray().begin() + 1), std::out_of_range);
         EXPECT_THROW(t_container.At(t_container2.GetElementArray().end()), std::out_of_range);

@@ -46,13 +46,15 @@ TEST_F(BoardTest, MoveCard)
     t_board.At(0)->AddElement(Card({"TestCard"}));
     EXPECT_EQ(t_board.At(0)->GetElementArray().size(), 1);
     EXPECT_EQ(t_board.At(1)->GetElementArray().size(), 0);
-
+    // move same card to {1,0}
     t_board.MoveCard(
         {0, 0}, {1, 0});
 
     EXPECT_EQ(t_board.At(0)->GetElementArray().size(), 0);
     EXPECT_EQ(t_board.At(1)->GetElementArray().size(), 1);
     EXPECT_EQ(t_board.At(1)->At(0)->GetData().title, "TestCard");
+
+    // move the same card back to {0,0}
     t_board.MoveCard(
         {1, 0},
         {0, 0});
@@ -67,18 +69,29 @@ TEST_F(BoardTest, MoveCardErrors)
 {
     auto &lists = t_board.GetElementArray();
 
-    // invalid card index
+    // invalid card source index
     EXPECT_THROW(
         t_board.MoveCard(
             {0, 0}, {1, 0});
             , std::out_of_range);
     
-    // invalid list index
-    t_board.At(0)->AddElement(Card( {"testcard"} ));
-
+    // invalid source list index
     EXPECT_THROW(
         t_board.MoveCard(
             {3, 0},
             {1, 0});
         , std::out_of_range);
+    
+    // invalid card destination index
+    t_board.At(0)->AddElement(Card( {"testcard"} ));
+    EXPECT_THROW(
+        t_board.MoveCard(
+            {0, 0}, {1, 1});
+            , std::out_of_range);
+    
+    // invalid destination list index
+    EXPECT_THROW(
+        t_board.MoveCard(
+            {0, 0}, {3, 0});
+            , std::out_of_range);
 }
