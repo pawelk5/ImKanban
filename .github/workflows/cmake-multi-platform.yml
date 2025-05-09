@@ -84,6 +84,7 @@ jobs:
 
     - name: Build
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config Release --parallel %NUMBER_OF_PROCESSORS%
+      shell: cmd
 
     - name: Test
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
