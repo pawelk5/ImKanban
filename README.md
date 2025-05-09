@@ -3,6 +3,8 @@
 
 This project is a simple desktop app written using SFML and Dear ImGui for managing Kanban boards.
 
+[![Build and test](https://github.com/pawelk5/projekt-jipp/actions/workflows/cmake-multi-platform.yml/badge.svg?event=push)](https://github.com/pawelk5/projekt-jipp/actions/workflows/cmake-multi-platform.yml)
+
 ## Building
 ### Requirements
 - CMake >= 3.24
