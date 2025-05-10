@@ -33,11 +33,12 @@ void BoardView::SetUpEventHandlers() {
     const auto& openPromptCallback = [this] (OpenPromptData data) {
         const auto& listIndex = data.index.list;
         const auto& cardIndex = data.index.card;
-        if (std::holds_alternative<std::optional<ListData>>(data.promptData))
-            m_listPrompt.Open(std::get<std::optional<ListData>>(data.promptData),
+        const auto& promptData = data.promptData;
+        if (std::holds_alternative<std::optional<ListData>>(promptData))
+            m_listPrompt.Open(std::get<std::optional<ListData>>(promptData),
             { listIndex });
         else
-            m_cardPrompt.Open(std::get<std::optional<CardData>>(data.promptData),
+            m_cardPrompt.Open(std::get<std::optional<CardData>>(promptData),
             { listIndex, cardIndex });
     };
 

@@ -40,28 +40,37 @@ namespace defs {
             }
         }
 
+        constexpr const std::array<float, 2> fontSizes = {
+            20.f, 24.f
+        };
     }
 
     namespace UIFlags {
         /// Window flag for modal prompts
-        static constexpr int promptFlags = 
+        constexpr const int promptFlags = 
                   ImGuiWindowFlags_NoMove
                 | ImGuiWindowFlags_NoResize
                 | ImGuiWindowFlags_AlwaysAutoResize;
 
         /// Default window flags (no move/resize/collapse)
-        static constexpr int windowFlags =
+        constexpr const int windowFlags =
                   ImGuiWindowFlags_NoSavedSettings 
                 | ImGuiWindowFlags_NoMove 
                 | ImGuiWindowFlags_NoResize 
                 | ImGuiWindowFlags_NoCollapse;
         
         /// windowFlags + horizontal scrollbar
-        static constexpr int boardWindowFlags =
+        constexpr const int boardWindowFlags =
             windowFlags | ImGuiWindowFlags_HorizontalScrollbar;
         
         /// Flag for child windows
-        static constexpr int childFlags =
+        constexpr const int childFlags =
             ImGuiChildFlags_FrameStyle | ImGuiChildFlags_Borders;
+    }
+
+    /// error strings
+    namespace Error {
+        constexpr const char* errorImGuiInit = "Couldn't init imgui!";
+        constexpr const char* updateFontTexture = "Couldn't update font texture!";
     }
 }

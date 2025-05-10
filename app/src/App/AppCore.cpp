@@ -1,4 +1,5 @@
 #include "Board.hpp"
+#include "Core/Utils/Constants.hpp"
 #include "pch.h"
 #include "App.hpp"
 
@@ -8,7 +9,7 @@
 App::App() {
     InitWindow();
     if (!ImGui::SFML::Init(m_window, false))
-        throw std::runtime_error("Couldn't init imgui!");
+        throw std::runtime_error(defs::Error::errorImGuiInit);
     LoadFont();
     
     CreateStartView();    
@@ -31,16 +32,14 @@ void App::InitWindow() {
 }
 
 void App::LoadFont() {
-    std::array<float, 2> fontSizes = {
-        20.f, 24.f
-    };
+    
 
     auto& io = ImGui::GetIO();
-    for (const auto& size : fontSizes)
+    for (const auto& size : defs::UI::fontSizes)
         io.Fonts->AddFontFromFileTTF("assets/NotoSans.ttf", size);
 
     if (!ImGui::SFML::UpdateFontTexture())
-        throw std::runtime_error("Couldn't update font texture!");
+        throw std::runtime_error(defs::Error::updateFontTexture);
 }
 
 void App::CreateStartView() {
