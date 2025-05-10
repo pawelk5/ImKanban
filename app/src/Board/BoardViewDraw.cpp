@@ -15,6 +15,7 @@ void BoardView::Draw(sf::RenderTarget &target) {
             m_openPromptHandler.Trigger(
                 { -1, -1, std::optional<ListData>(std::nullopt) }
             );
+        CreateListDragDropTarget({-1, -1});
     }
     ImGui::End();
 
@@ -37,6 +38,9 @@ void BoardView::DrawList(Board::ElementArrayIterator iter) {
 
     if (ImGui::BeginChild(std::to_string(listIndex).c_str(), m_listSize, 
         defs::UIFlags::childFlags, defs::UIFlags::windowFlags)) {
+
+        CreateListDragDropSource(list, (Board::MoveData){listIndex, -1});
+
         ImGui::Text("%s", list.GetDataRef().name.c_str());
         ImGui::SameLine();
         if (ImGui::Button(defs::Labels::deleteItemLabel))
@@ -58,6 +62,8 @@ void BoardView::DrawList(Board::ElementArrayIterator iter) {
         CreateCardDragDropTarget({listIndex, -1});
     }
     ImGui::EndChild();
+
+    CreateListDragDropTarget({listIndex, -1});
 }
 
 void BoardView::DrawAllCards(Board::ElementArrayIterator iter) {
@@ -110,6 +116,32 @@ void BoardView::CreateCardDragDropTarget(const BoardView::CardDragDropPayload& d
             if (payload->DataSize == sizeof(Board::MoveData)) {
                 auto *dragPayload = static_cast<const Board::MoveData *>(payload->Data);
                 m_dragdropHandler.Trigger({ {dragPayload->list, dragPayload->card},
+                     destination });
+            }
+        }
+        ImGui::EndDragDropTarget();
+    }
+}
+
+void BoardView::CreateListDragDropSource(const List& list, const BoardView::ListDragDropPayload& payload) {
+    if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID)) {
+        ImGui::SetDragDropPayload(
+            defs::UI::ToString(defs::UI::PayloadType::ListDrag),
+            &payload,
+            sizeof(Board::MoveData));
+            
+        ImGui::Text("Moving: %s", list.GetDataRef().name.c_str());
+        ImGui::EndDragDropSource();
+    }
+}
+
+void BoardView::CreateListDragDropTarget(const BoardView::ListDragDropPayload& destination) {
+    if (ImGui::BeginDragDropTarget()) {
+        if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload(
+            defs::UI::ToString(defs::UI::PayloadType::ListDrag))) {
+            if (payload->DataSize == sizeof(Board::MoveData)) {
+                auto *dragPayload = static_cast<const Board::MoveData *>(payload->Data);
+                m_dragdropHandler.Trigger({ {dragPayload->list, -1},
                      destination });
             }
         }

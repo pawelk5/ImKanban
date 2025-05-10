@@ -112,7 +112,7 @@ private:
     void CreateCardDragDropTarget(const CardDragDropPayload& destination);
 
     /// Creates ImGui drag and drop source for a list
-    void CreateCardDragDropSource(const List& list, const ListDragDropPayload& payload);
+    void CreateListDragDropSource(const List& list, const ListDragDropPayload& payload);
 
     /// Creates ImGui drag and drop target for a list
     void CreateListDragDropTarget(const ListDragDropPayload& destination); 

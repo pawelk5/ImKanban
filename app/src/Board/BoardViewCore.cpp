@@ -26,7 +26,10 @@ void BoardView::EventUpdate(const sf::Event &event) {
 void BoardView::SetUpEventHandlers() {
     /// DRAG AND DROP CALLBACK
     const auto& dragdropCallback = [this] (CardDragDropData m_data) {
-        m_board->MoveCard( m_data.source, m_data.destination );
+        if (m_data.source.card != -1)
+            m_board->MoveCard( m_data.source, m_data.destination );
+        else
+            m_board->MoveList( m_data.source.list, m_data.destination.list );
     };
     
     /// OPEN PROMPT CALLBACK
