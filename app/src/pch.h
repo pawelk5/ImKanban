@@ -15,6 +15,3 @@
 #include <imgui.h>
 #include <imgui-SFML.h>
 
-// constants
-#include "Core/Utils/Constants.hpp"
-
