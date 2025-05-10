@@ -34,3 +34,22 @@ void Board::MoveCard(
     else
         destinationList->InsertElement(sourceCard, destination.card);
 }
+
+void Board::MoveList(
+    const int& source,
+    const int& destination) {
+    
+    if (!IsValid(source))
+        throw std::out_of_range(invalidIndex);
+    if (!IsValid(destination) && destination != -1)
+        throw std::out_of_range(invalidIndex);
+
+    auto sourceList = At(source);
+    
+    RemoveElement(source);
+
+    if (destination == -1)
+        AddElement(sourceList);
+    else
+        InsertElement(sourceList, destination);
+}

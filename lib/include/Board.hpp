@@ -30,7 +30,7 @@ public:
         CreateBasicLists();
     }
 
-    /// Moves an item to another location
+    /// Moves a card to another location
     /// \param source position of the element to be moved
     /// \param destination target position where the element should be moved
     /// \warning if destination.card is -1 or equal to the size of target list, the element will be placed at the end
@@ -38,6 +38,15 @@ public:
     void MoveCard(
         const MoveData& source,
         const MoveData& destination);
+
+    /// Moves a list to another location
+    /// \param source position of the element to be moved
+    /// \param destination target position where the element should be moved
+    /// \warning if destination is -1 or equal to the size of target list, the element will be placed at the end
+    /// \throws std::out_of_range if source or destination are invalid
+    void MoveList(
+        const int& source,
+        const int& destination);
 
 private:
     /// Creates pre-defined lists

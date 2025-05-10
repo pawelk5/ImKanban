@@ -10,6 +10,7 @@ class BoardView : public ViewBase {
 private:
     /// Type alias for drag and drop payloads
     using CardDragDropPayload = Board::MoveData;
+    using ListDragDropPayload = Board::MoveData;
 
     /// Type alias for board shared pointer
     using BoardPointer = std::shared_ptr<Board>;
@@ -108,6 +109,12 @@ private:
     void CreateCardDragDropSource(const Card& card, const CardDragDropPayload& payload);
 
     /// Creates ImGui drag and drop target for a card
-    void CreateCardDragDropTarget(const CardDragDropPayload& destination); 
+    void CreateCardDragDropTarget(const CardDragDropPayload& destination);
+
+    /// Creates ImGui drag and drop source for a list
+    void CreateCardDragDropSource(const List& list, const ListDragDropPayload& payload);
+
+    /// Creates ImGui drag and drop target for a list
+    void CreateListDragDropTarget(const ListDragDropPayload& destination); 
 
 };
