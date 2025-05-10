@@ -1,4 +1,5 @@
 #pragma once
+#include "Core/Utils/Constants.hpp"
 #include "PromptBase.hpp"
 
 /// Base class for input prompts (forms)
@@ -15,17 +16,17 @@ public:
 
         ImGui::OpenPopup(this->GetPopupID());
 
-        if (ImGui::BeginPopupModal(this->GetPopupID(), nullptr, promptFlags)) {
+        if (ImGui::BeginPopupModal(this->GetPopupID(), nullptr, defs::UIFlags::promptFlags)) {
             this->DrawImpl();
             ImGui::Spacing();
             
-            if (ImGui::Button("OK")){
+            if (ImGui::Button(defs::Labels::okButtonLabel)){
                 this->m_onExit(this->m_data, this->m_contextData);
                 this->ClosePopup();
             }
         
             ImGui::SameLine();
-            if (ImGui::Button("Cancel"))
+            if (ImGui::Button(defs::Labels::cancelButtonLabel))
                 this->ClosePopup();
         }
         ImGui::EndPopup();
@@ -33,9 +34,4 @@ public:
 protected:
     /// Called in Draw function, for displaying widgets
     virtual void DrawImpl() = 0;
-private:
-    static constexpr int promptFlags = 
-          ImGuiWindowFlags_NoMove
-        | ImGuiWindowFlags_NoResize
-        | ImGuiWindowFlags_AlwaysAutoResize;
 };

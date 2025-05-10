@@ -1,26 +1,17 @@
+#include "Core/Utils/Constants.hpp"
 #include "pch.h"
 #include "Card.hpp"
 #include "List.hpp"
 #include "BoardView.hpp"
-#include "Core/Utils/Types.hpp"
 
-
-static constexpr int windowFlags =
-    ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse;
-
-static constexpr int boardWindowFlags =
-    windowFlags | ImGuiWindowFlags_HorizontalScrollbar;
-
-static constexpr int childFlags =
-    ImGuiChildFlags_FrameStyle | ImGuiChildFlags_Borders;
 
 void BoardView::Draw(sf::RenderTarget &target) {
     const float windowSize = (float)target.getSize().x / 1.5f;
     ImGui::SetNextWindowSize({windowSize, (float)target.getSize().y});
     ImGui::SetNextWindowPos({0.f, 0.f});
-    if (ImGui::Begin(m_board->GetDataRef().name.c_str(), nullptr, boardWindowFlags)) {
+    if (ImGui::Begin(m_board->GetDataRef().name.c_str(), nullptr, defs::UIFlags::boardWindowFlags)) {
         DrawAllLists();
-        if (ImGui::Button("Add List", m_listSize))
+        if (ImGui::Button(defs::Labels::addListLabel, m_listSize))
             m_openPromptHandler.Trigger(
                 { -1, -1, std::optional<ListData>(std::nullopt) }
             );
@@ -44,13 +35,14 @@ void BoardView::DrawList(Board::ElementArrayIterator iter) {
     auto& list = *m_board->At(iter);
     const auto listIndex = m_board->AsIndex(iter);
 
-    if (ImGui::BeginChild(std::to_string(listIndex).c_str(), m_listSize, childFlags, windowFlags)) {
+    if (ImGui::BeginChild(std::to_string(listIndex).c_str(), m_listSize, 
+        defs::UIFlags::childFlags, defs::UIFlags::windowFlags)) {
         ImGui::Text("%s", list.GetDataRef().name.c_str());
         ImGui::SameLine();
-        if (ImGui::Button("Delete"))
+        if (ImGui::Button(defs::Labels::deleteItemLabel))
             m_deleteItemHandler.Trigger({ listIndex, -1 });
         ImGui::SameLine();
-        if (ImGui::Button("Edit"))
+        if (ImGui::Button(defs::Labels::editItemLabel))
             m_openPromptHandler.Trigger(
                 { listIndex, -1, list.GetData() }
             );
@@ -58,7 +50,7 @@ void BoardView::DrawList(Board::ElementArrayIterator iter) {
         ImGui::Separator();
         DrawAllCards(iter);
 
-        if (ImGui::Button("Add Task", {ImGui::GetContentRegionAvail().x, 0.f}))
+        if (ImGui::Button(defs::Labels::addTaskLabel, {ImGui::GetContentRegionAvail().x, 0.f}))
             m_openPromptHandler.Trigger(
                 { listIndex, -1, std::optional<CardData>(std::nullopt) }
             );
@@ -81,17 +73,17 @@ void BoardView::DrawAllCards(Board::ElementArrayIterator iter) {
 
 void BoardView::DrawCard(Card& card, const Board::ItemIndex& itemIndex) {
     if (ImGui::BeginChild(std::to_string(itemIndex.card).c_str(),
-         ImVec2(0.f, 100.f), childFlags, windowFlags)) {
+         ImVec2(0.f, 100.f), defs::UIFlags::childFlags, defs::UIFlags::windowFlags)) {
         CreateCardDragDropSource(card, (Board::MoveData)itemIndex);
 
         ImGui::Text("%s", card.GetDataRef().title.c_str());
 
-        if (ImGui::Button("Edit"))
+        if (ImGui::Button(defs::Labels::editItemLabel))
             m_openPromptHandler.Trigger(
                 { itemIndex.list, itemIndex.card, card.GetData() }
             );
 
-        if (ImGui::Button("Delete"))
+        if (ImGui::Button(defs::Labels::deleteItemLabel))
             m_deleteItemHandler.Trigger({itemIndex.list, itemIndex.card});
     }
     ImGui::EndChild();
@@ -102,7 +94,7 @@ void BoardView::DrawCard(Card& card, const Board::ItemIndex& itemIndex) {
 void BoardView::CreateCardDragDropSource(const Card& card, const BoardView::CardDragDropPayload& payload) {
     if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID)) {
         ImGui::SetDragDropPayload(
-            ToString(PayloadType::CardDrag),
+            defs::UI::ToString(defs::UI::PayloadType::CardDrag),
             &payload,
             sizeof(Board::MoveData));
             
@@ -114,7 +106,7 @@ void BoardView::CreateCardDragDropSource(const Card& card, const BoardView::Card
 void BoardView::CreateCardDragDropTarget(const BoardView::CardDragDropPayload& destination) {
     if (ImGui::BeginDragDropTarget()) {
         if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload(
-                ToString(PayloadType::CardDrag))) {
+            defs::UI::ToString(defs::UI::PayloadType::CardDrag))) {
             if (payload->DataSize == sizeof(Board::MoveData)) {
                 auto *dragPayload = static_cast<const Board::MoveData *>(payload->Data);
                 m_dragdropHandler.Trigger({ {dragPayload->list, dragPayload->card},
