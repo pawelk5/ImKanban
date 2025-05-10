@@ -25,7 +25,7 @@ void BoardView::EventUpdate(const sf::Event &event) {
 
 void BoardView::SetUpEventHandlers() {
     /// DRAG AND DROP CALLBACK
-    const auto& dragdropCallback = [this] (CardDragDropData m_data) {
+    const auto& dragdropCallback = [this] (DragDropData m_data) {
         if (m_data.source.card != -1)
             m_board->MoveCard( m_data.source, m_data.destination );
         else
@@ -57,7 +57,7 @@ void BoardView::SetUpEventHandlers() {
             m_board->At(listIndex)->RemoveElement(cardIndex);
     };
 
-    m_dragdropHandler = EventHandler<CardDragDropData>(dragdropCallback);
+    m_dragdropHandler = EventHandler<DragDropData>(dragdropCallback);
     m_openPromptHandler = EventHandler<OpenPromptData>(openPromptCallback);
     m_deleteItemHandler = EventHandler<DeleteItemData>(deleteItemCallback);
 }

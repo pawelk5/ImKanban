@@ -9,8 +9,7 @@
 class BoardView : public ViewBase {
 private:
     /// Type alias for drag and drop payloads
-    using CardDragDropPayload = Board::MoveData;
-    using ListDragDropPayload = Board::MoveData;
+    using DragDropPayload = Board::MoveData;
 
     /// Type alias for board shared pointer
     using BoardPointer = std::shared_ptr<Board>;
@@ -67,9 +66,9 @@ private:
 // EVENT HANDLERS
 private:
     /// Struct with drag and drop data
-    struct CardDragDropData {
-        CardDragDropPayload source;
-        CardDragDropPayload destination;
+    struct DragDropData {
+        DragDropPayload source;
+        DragDropPayload destination;
     };
 
     /// Struct for opening both List and Card prompts
@@ -88,7 +87,7 @@ private:
 // event handlers
 private:
     /// Drag and drop event handler
-    EventHandler<CardDragDropData> m_dragdropHandler;
+    EventHandler<DragDropData> m_dragdropHandler;
 
     /// Open prompt event handler (for both lists and cards)
     EventHandler<OpenPromptData> m_openPromptHandler;
@@ -105,16 +104,27 @@ private:
 
 // DRAG AND DROP STUFF
 private:
-    /// Creates ImGui drag and drop source for a card
-    void CreateCardDragDropSource(const Card& card, const CardDragDropPayload& payload);
+    /// Calls HandleDragDropSource and draws card-specific tooltip
+    /// \param card the card to be moved (also for drawing tooltips)
+    /// \param payload drag and drop payload (index of the card)
+    void CreateDragDropSource(const Card& card,
+            const DragDropPayload& payload);
 
-    /// Creates ImGui drag and drop target for a card
-    void CreateCardDragDropTarget(const CardDragDropPayload& destination);
+    /// Calls HandleDragDropSource and draws list-specific tooltip
+    /// \param list the list to be moved (also for drawing tooltips)
+    /// \param payload drag and drop payload (index of the list)
+    void CreateDragDropSource(const List& list,
+            const DragDropPayload& payload);
+    
+    /// Creates ImGui drag and drop source for cards and lists
+    /// \param payloadType type of drag and drop payload (list/card)
+    /// \param payload index of the element
+    /// \param drawTooltip function for drawing tooltips (NOTE: highly recommended to use lambda function)
+    void HandleDragDropSource(defs::UI::PayloadType payloadType,
+        const DragDropPayload& payload, const std::function<void()>& drawTooltip);
 
-    /// Creates ImGui drag and drop source for a list
-    void CreateListDragDropSource(const List& list, const ListDragDropPayload& payload);
-
-    /// Creates ImGui drag and drop target for a list
-    void CreateListDragDropTarget(const ListDragDropPayload& destination); 
-
+    /// Creates ImGui drag and drop target for cards and lists
+    /// \param destination destination index where dragged item will be dropped
+    /// \param payloadType drag and drop target type (list/card)
+    void CreateDragDropTarget(const DragDropPayload& destination, defs::UI::PayloadType payloadType);
 };

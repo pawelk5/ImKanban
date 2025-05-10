@@ -40,9 +40,9 @@ public:
         const MoveData& destination);
 
     /// Moves a list to another location
-    /// \param source position of the element to be moved
-    /// \param destination target position where the element should be moved
-    /// \warning if destination is -1 or equal to the size of target list, the element will be placed at the end
+    /// \param source the current position of the element to be moved
+    /// \param destination the target position where the element will be moved
+    /// \warning if destination is -1, the element will be placed at the end
     /// \throws std::out_of_range if source or destination are invalid
     void MoveList(
         const int& source,
