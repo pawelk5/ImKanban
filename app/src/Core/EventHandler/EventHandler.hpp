@@ -18,7 +18,7 @@ public:
     
     /// Constructs the handler with the callback
     /// \param eventCallback callback to be called in Update() function if an event was triggered
-    EventHandler(const Callback& eventCallback) 
+    explicit EventHandler(const Callback& eventCallback) 
         :m_eventData(std::nullopt), m_callback(eventCallback) { ; }
 
     /// Triggers an event

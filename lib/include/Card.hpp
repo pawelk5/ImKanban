@@ -12,7 +12,7 @@ class EXPORT_API Card {
 public:
     /// Constucts a card
     /// \param data data to be stored in the card
-    Card(const CardData& data);
+    explicit Card(const CardData& data);
 
     /// Returns a copy of stored data
     /// \return copy of stored data

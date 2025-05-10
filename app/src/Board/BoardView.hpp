@@ -17,7 +17,7 @@ private:
 public:
     /// Constructs a new board view with a board
     /// \param pointer board to be displayed
-    BoardView(const BoardPointer& pointer);
+    explicit BoardView(const BoardPointer& pointer);
 
     /// Draw function to be called every frame
     /// \param target SFML render target
@@ -82,6 +82,11 @@ private:
     /// Struct for deleting items
     struct DeleteItemData {
         Board::ItemIndex index;
+        
+        explicit DeleteItemData(Board::ItemIndex index)
+            :index(index)
+        { ; }
+
     };
 
 // event handlers

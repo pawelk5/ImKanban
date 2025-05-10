@@ -14,5 +14,5 @@ class EXPORT_API List : public ContainerBase<Card, ListData> {
 public:
     /// Constructs a list
     /// \param data data to be stored in the list
-    List(const ListData& data) : ContainerBase<Card, ListData>(data) {}
+    explicit List(const ListData& data) : ContainerBase<Card, ListData>(data) {}
 };

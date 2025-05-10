@@ -13,8 +13,9 @@ void BoardView::Draw(sf::RenderTarget &target) {
         DrawAllLists();
         if (ImGui::Button(defs::Labels::addListLabel, m_listSize))
             m_openPromptHandler.Trigger(
-                { -1, -1, std::optional<ListData>(std::nullopt) }
-            );
+                OpenPromptData{ Board::ItemIndex{-1, -1},
+                std::optional<ListData>(std::nullopt) 
+            });
         
         /// drag drop target for list (add list button)
         CreateDragDropTarget({-1, -1}, defs::UI::PayloadType::ListDrag);
@@ -47,11 +48,11 @@ void BoardView::DrawList(Board::ElementArrayIterator iter) {
         ImGui::Text("%s", list.GetDataRef().name.c_str());
         ImGui::SameLine();
         if (ImGui::Button(defs::Labels::deleteItemLabel))
-            m_deleteItemHandler.Trigger({ listIndex, -1 });
+            m_deleteItemHandler.Trigger(DeleteItemData{ {listIndex, -1} });
         ImGui::SameLine();
         if (ImGui::Button(defs::Labels::editItemLabel))
             m_openPromptHandler.Trigger(
-                { listIndex, -1, list.GetData() }
+                OpenPromptData{ Board::ItemIndex{listIndex, -1}, list.GetData() }
             );
 
         ImGui::Separator();
@@ -59,8 +60,9 @@ void BoardView::DrawList(Board::ElementArrayIterator iter) {
 
         if (ImGui::Button(defs::Labels::addTaskLabel, {ImGui::GetContentRegionAvail().x, 0.f}))
             m_openPromptHandler.Trigger(
-                { listIndex, -1, std::optional<CardData>(std::nullopt) }
-            );
+                OpenPromptData{ Board::ItemIndex{listIndex, -1},
+                std::optional<CardData>(std::nullopt) 
+            });
         
         /// drag drop target for cards (add task button)
         CreateDragDropTarget({listIndex, -1}, defs::UI::PayloadType::CardDrag);
@@ -92,11 +94,11 @@ void BoardView::DrawCard(Card& card, const Board::ItemIndex& itemIndex) {
 
         if (ImGui::Button(defs::Labels::editItemLabel))
             m_openPromptHandler.Trigger(
-                { itemIndex.list, itemIndex.card, card.GetData() }
+                OpenPromptData{ itemIndex, card.GetData() }
             );
 
         if (ImGui::Button(defs::Labels::deleteItemLabel))
-            m_deleteItemHandler.Trigger({itemIndex.list, itemIndex.card});
+            m_deleteItemHandler.Trigger((DeleteItemData)itemIndex);
     }
     ImGui::EndChild();
 
@@ -144,8 +146,7 @@ void BoardView::CreateDragDropTarget(const DragDropPayload& destination, defs::U
     if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload(defs::UI::ToString(payloadType))) {
         if (payload->DataSize == sizeof(Board::MoveData)) {
             auto *dragPayload = static_cast<const Board::MoveData *>(payload->Data);
-            m_dragdropHandler.Trigger({ { dragPayload->list, dragPayload->card },
-                     destination });
+            m_dragdropHandler.Trigger(DragDropData{  *dragPayload, destination });
         }
     }
 

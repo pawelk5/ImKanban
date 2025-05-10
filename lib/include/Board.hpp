@@ -26,7 +26,7 @@ public:
 public:
     /// Inherited constructor, additionally creates pre-defined lists
     /// \param data data of the board
-    Board(const BoardData& data) : ContainerBase<List, BoardData>(data) {
+    explicit Board(const BoardData& data) : ContainerBase<List, BoardData>(data) {
         CreateBasicLists();
     }
 
