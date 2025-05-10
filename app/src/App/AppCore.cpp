@@ -6,8 +6,10 @@
 #include "Board/BoardView.hpp"
 
 
-App::App() {
-    InitWindow();
+App::App()
+    :m_isFullscreen(false)
+{
+    CreateWindow();
     if (!ImGui::SFML::Init(m_window, false))
         throw std::runtime_error(defs::Error::errorImGuiInit);
     LoadFont();
@@ -24,10 +26,10 @@ App& App::Get() {
     return s_App;
 }
 
-void App::InitWindow() {
+void App::CreateWindow() {
     m_window.create(sf::VideoMode::getDesktopMode(),
-        PROJECT_NAME, sf::Style::Default, sf::State::Windowed);
-
+        PROJECT_NAME, sf::Style::Default, m_isFullscreen ? sf::State::Fullscreen : sf::State::Windowed);
+    
     m_window.setVerticalSyncEnabled(true);
 }
 
@@ -57,4 +59,11 @@ void App::LoadFont() {
 
 void App::CreateStartView() {
     m_currentView = std::make_unique<BoardView>(std::make_shared<Board>(BoardData{"example"}));
+}
+
+void App::ChangeFullscreenMode() {
+    m_isFullscreen = !m_isFullscreen;
+    
+    m_window.close();
+    CreateWindow();
 }

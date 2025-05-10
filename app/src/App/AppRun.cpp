@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "App.hpp"
+#include <SFML/Window/Event.hpp>
+#include <SFML/Window/Keyboard.hpp>
 
 void App::Run() {
     while (m_window.isOpen()) {
@@ -19,10 +21,14 @@ void App::EventUpdate() {
         }
 
         // Handle resize event
-        if (event->is<sf::Event::Resized>()) {
-            auto newSize = event->getIf<sf::Event::Resized>()->size;
+        if (auto resized = event->getIf<sf::Event::Resized>())
             m_window.setView(sf::View(sf::FloatRect({0,0}, 
-                (sf::Vector2f)newSize)));
+                (sf::Vector2f)resized->size)));
+
+
+        if (auto keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+            if (keyPressed->code == sf::Keyboard::Key::F11)
+                ChangeFullscreenMode();
         }
 
         m_currentView->EventUpdate(event.value());

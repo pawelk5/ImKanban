@@ -24,7 +24,7 @@ private:
     ~App();
 
     /// Creates and sets up a window
-    void InitWindow();
+    void CreateWindow();
 
     /// Loads up fonts
     void LoadFont();
@@ -40,10 +40,16 @@ private:
 
     /// Renders current view to the window
     void Draw();
+
+    /// Changes between fullscreen and floating window
+    void ChangeFullscreenMode();
     
 private:
     /// Main (and only) app window
     sf::RenderWindow m_window;
+
+    /// Flag if the window is fullscreen (starts with false)
+    bool m_isFullscreen;
 
     /// App clock
     sf::Clock m_clock;
