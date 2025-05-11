@@ -7,6 +7,7 @@ ImGuiDemoView::ImGuiDemoView() {
     m_goToBoard = false;
 }
 
+/// NOTE: copied from imgui_demo.cpp
 void ImGuiDemoView::DrawContent(sf::RenderTarget& target) {
     // Exceptionally add an extra assert here for people confused about initial Dear ImGui setup
     // Most functions would normally just assert/crash if the context is missing.
