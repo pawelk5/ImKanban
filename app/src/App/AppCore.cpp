@@ -1,9 +1,8 @@
-#include "Board.hpp"
-#include "Core/Utils/Constants.hpp"
 #include "pch.h"
 #include "App.hpp"
-
+#include "Core/Utils/Constants.hpp"
 #include "Board/BoardView.hpp"
+#include "ImGuiDemoView/ImGuiDemoView.hpp"
 
 
 App::App()
@@ -58,12 +57,25 @@ void App::LoadFont() {
 }
 
 void App::CreateStartView() {
+    m_currentView = std::make_unique<ImGuiDemoView>();
+}
+
+void App::CreateBoardView() {
     m_currentView = std::make_unique<BoardView>(std::make_shared<Board>(BoardData{"example"}));
 }
+
 
 void App::ChangeFullscreenMode() {
     m_isFullscreen = !m_isFullscreen;
     
     m_window.close();
     CreateWindow();
+}
+
+
+void App::ChangeViewHandler() {
+    if (auto view = dynamic_cast<ImGuiDemoView*>(m_currentView.get())) {
+        if (view->GoToBoard())
+            CreateBoardView();
+    }
 }

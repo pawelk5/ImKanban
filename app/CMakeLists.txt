@@ -6,6 +6,7 @@ add_executable(${PROJECT_NAME}
     "src/Board/BoardViewDraw.cpp"
     "src/Board/ListPrompt/ListPrompt.cpp"
     "src/Board/CardPrompt/CardPrompt.cpp"
+    "src/ImGuiDemoView/ImGuiDemoView.cpp"
 )
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE "src/pch.h")

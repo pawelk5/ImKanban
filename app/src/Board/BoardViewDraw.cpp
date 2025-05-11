@@ -3,27 +3,29 @@
 #include "Card.hpp"
 #include "List.hpp"
 #include "BoardView.hpp"
+#include <imgui.h>
 
 
-void BoardView::Draw(sf::RenderTarget &target) {
-    const float windowSize = (float)target.getSize().x / 1.5f;
-    ImGui::SetNextWindowSize({windowSize, (float)target.getSize().y});
-    ImGui::SetNextWindowPos({0.f, 0.f});
-    if (ImGui::Begin(m_board->GetDataRef().name.c_str(), nullptr, defs::UIFlags::boardWindowFlags)) {
-        DrawAllLists();
-        if (ImGui::Button(defs::Labels::addListLabel, m_listSize))
-            m_openPromptHandler.Trigger(
-                OpenPromptData{ Board::ItemIndex{-1, -1},
-                std::optional<ListData>(std::nullopt) 
-            });
-        
-        /// drag drop target for list (add list button)
-        CreateDragDropTarget({-1, -1}, defs::UI::PayloadType::ListDrag);
-    }
-    ImGui::End();
 
+void BoardView::DrawSidebar(sf::RenderTarget& target) { ImGui::Text("Side bar!"); }
+
+void BoardView::DrawTopbar(sf::RenderTarget& target) { ImGui::Text("Board: %s", m_board->GetDataRef().name.c_str()); }
+
+void BoardView::DrawImpl(sf::RenderTarget& target) {
     m_listPrompt.Draw();
     m_cardPrompt.Draw();
+}
+
+void BoardView::DrawContent(sf::RenderTarget &target) {
+    DrawAllLists();
+    if (ImGui::Button(defs::Labels::addListLabel, m_listSize))
+        m_openPromptHandler.Trigger(
+            OpenPromptData{ Board::ItemIndex{-1, -1},
+            std::optional<ListData>(std::nullopt) 
+        });
+        
+        /// drag drop target for list (add list button)
+    CreateDragDropTarget({-1, -1}, defs::UI::PayloadType::ListDrag);
 }
 
 void BoardView::DrawAllLists() {
@@ -41,7 +43,7 @@ void BoardView::DrawList(Board::ElementArrayIterator iter) {
 
     if (!ImGui::BeginChild(std::to_string(listIndex).c_str(), m_listSize, 
         defs::UIFlags::childFlags, defs::UIFlags::windowFlags)) 
-        return;
+        return ImGui::EndChild();
         
     /// drag drop source for list
     CreateDragDropSource(list, (Board::MoveData){listIndex, -1});
@@ -89,7 +91,7 @@ void BoardView::DrawAllCards(Board::ElementArrayIterator iter) {
 void BoardView::DrawCard(Card& card, const Board::ItemIndex& itemIndex) {
     if (!ImGui::BeginChild(std::to_string(itemIndex.card).c_str(),
         ImVec2(0.f, 100.f), defs::UIFlags::childFlags, defs::UIFlags::windowFlags))
-        return;
+        return ImGui::EndChild();
 
     /// drag drop source for card
     CreateDragDropSource(card, (Board::MoveData)itemIndex);

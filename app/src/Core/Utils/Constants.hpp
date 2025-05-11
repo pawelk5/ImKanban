@@ -60,7 +60,7 @@ namespace defs {
                 | ImGuiWindowFlags_NoCollapse;
         
         /// windowFlags + horizontal scrollbar
-        constexpr const int boardWindowFlags =
+        constexpr const int contentWindowFlags =
             windowFlags | ImGuiWindowFlags_HorizontalScrollbar;
         
         /// Flag for child windows

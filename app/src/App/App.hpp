@@ -32,6 +32,9 @@ private:
     /// Create the starting view of the app
     void CreateStartView();
 
+    /// Create board view
+    void CreateBoardView();
+
     /// Handles all SFML events
     void EventUpdate();
 
@@ -44,6 +47,9 @@ private:
     /// Changes between fullscreen and floating window
     void ChangeFullscreenMode();
     
+    /// Changes views
+    void ChangeViewHandler();
+
 private:
     /// Main (and only) app window
     sf::RenderWindow m_window;

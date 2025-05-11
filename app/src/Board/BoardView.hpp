@@ -19,9 +19,21 @@ public:
     /// \param pointer board to be displayed
     explicit BoardView(const BoardPointer& pointer);
 
-    /// Draw function to be called every frame
+    /// Draw board in the main container
     /// \param target SFML render target
-    void Draw(sf::RenderTarget& target) override;
+    void DrawContent(sf::RenderTarget& target) override;
+
+    /// Draw sidebar content
+    /// \param target SFML render target to draw on
+    void DrawSidebar(sf::RenderTarget& target) override;
+
+    /// Draw topbar content
+    /// \param target SFML render target to draw on
+    void DrawTopbar(sf::RenderTarget& target) override;
+
+    /// Draw popups
+    /// \param target SFML render target to draw on
+    void DrawImpl(sf::RenderTarget& target) override;
 
     /// Update function to be called every frame
     /// \param deltaTime time passed since last frame

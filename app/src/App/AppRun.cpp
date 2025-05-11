@@ -1,7 +1,5 @@
 #include "pch.h"
 #include "App.hpp"
-#include <SFML/Window/Event.hpp>
-#include <SFML/Window/Keyboard.hpp>
 
 void App::Run() {
     while (m_window.isOpen()) {
@@ -39,13 +37,13 @@ void App::Update() {
     auto deltaTime = m_clock.restart();
     ImGui::SFML::Update(m_window, deltaTime);
     m_currentView->Update(deltaTime.asSeconds());
+    
+    
+    ChangeViewHandler();
 }
 
 void App::Draw() {
     m_window.clear();
-    // for debuging
-    ImGui::ShowDemoWindow();
-    
     m_currentView->Draw(m_window);
     ImGui::SFML::Render(m_window);
     m_window.display();
