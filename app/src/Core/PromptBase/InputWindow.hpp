@@ -16,8 +16,9 @@ public:
         if (!this->IsOpen())
             return;
 
-        ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x - 300, 0), ImGuiCond_Always);
-        ImGui::SetNextWindowSize(ImVec2(300, ImGui::GetIO().DisplaySize.y), ImGuiCond_Always);
+        const int width = 500;
+        ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x - width, 0), ImGuiCond_Always);
+        ImGui::SetNextWindowSize(ImVec2(width, ImGui::GetIO().DisplaySize.y), ImGuiCond_Always);
 
         if (ImGui::Begin(this->GetPopupID(), nullptr, defs::UIFlags::windowFlags))
         {
