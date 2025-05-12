@@ -20,7 +20,6 @@ protected:
     /// Constructs a container
     /// \param data data to be stored in the container
     ContainerBase(const ContainerData &data) {
-        m_array = {};
         Update(data);
     }
 
