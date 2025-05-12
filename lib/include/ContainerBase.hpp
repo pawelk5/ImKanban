@@ -7,7 +7,7 @@
 
 /// Template class for storing an array of element along with additional data  
 template <typename Element, typename ContainerData>
-class EXPORT_API ContainerBase {
+class ContainerBase {
 public:
     /// Type alias for shared pointer to element
     using ElementPointer = std::shared_ptr<Element>;
@@ -149,3 +149,24 @@ protected:
     inline static const char* invalidIterator = "Invalid iterator!";
     inline static const char* invalidIndex = "Invalid index!";
 };
+
+
+#ifdef _TEST
+/// Mock element storing only name
+struct MockElement {
+    std::string name;
+};
+
+/// Mock data of a container, storing only name
+struct MockData {
+    std::string name;
+};
+
+/// Mock class derived from ContainerBase class
+class TestContainer : public ContainerBase<MockElement, MockData> {
+public:
+    /// Constructs a test container
+    /// \param data data to be stored in the test container
+    TestContainer(const MockData& data) : ContainerBase<MockElement, MockData>(data) {}
+};
+#endif
