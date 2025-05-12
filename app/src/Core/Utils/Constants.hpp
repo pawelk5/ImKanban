@@ -40,8 +40,8 @@ namespace defs {
             }
         }
 
-        constexpr const std::array<float, 2> fontSizes = {
-            20.f, 24.f
+        constexpr const std::array<float, 3> fontSizes = {
+            20.f, 24.f, 32.f
         };
     }
 

@@ -301,12 +301,12 @@ void ImGuiDemoView::DrawContent(sf::RenderTarget& target) {
     ImGui::PopItemWidth();
 }
 
-void ImGuiDemoView::DrawSidebar(sf::RenderTarget& target) { ; }
-void ImGuiDemoView::DrawTopbar(sf::RenderTarget& target) { 
+void ImGuiDemoView::DrawSidebar(sf::RenderTarget& target) { 
     if (ImGui::Button("Open board")) {
         m_goToBoard = true;
-    }
+    } 
 }
+
 void ImGuiDemoView::DrawImpl(sf::RenderTarget& target) { ; }
 
 void ImGuiDemoView::Update(float deltaTime) { ; }

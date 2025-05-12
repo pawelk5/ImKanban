@@ -25,39 +25,24 @@ public:
         const ImVec2 mainRegionPos = {leftRegionSize.x, 0.f};
 
         const ImVec2 sidebarSize = {leftRegionSize.x - 2*windowPadding, 0.f};
-        const ImVec2 topbarSize = {mainRegionSize.x - 2*windowPadding, 32.f};
         const ImVec2 contentSize = {mainRegionSize.x - 2*windowPadding, 0.f};
 
         ImGui::SetNextWindowSize(leftRegionSize);
         ImGui::SetNextWindowPos({0.f, 0.f});
 
         if (ImGui::Begin("##side-region", nullptr, 
-            defs::UIFlags::windowFlags | ImGuiWindowFlags_NoTitleBar)) {
-            if (ImGui::BeginChild("##sidebar", sidebarSize, 
-                defs::UIFlags::childFlags, defs::UIFlags::windowFlags))
-                DrawSidebar(target);
-            ImGui::EndChild();
-        }
+            defs::UIFlags::windowFlags | ImGuiWindowFlags_NoTitleBar))
+            DrawSidebar(target);
         ImGui::End();
 
 
         ImGui::SetNextWindowSize(mainRegionSize);
         ImGui::SetNextWindowPos(mainRegionPos);
         if (ImGui::Begin("##main-region", nullptr, 
-            defs::UIFlags::windowFlags | ImGuiWindowFlags_NoTitleBar)) {
-            if (ImGui::BeginChild("##topbar", topbarSize, 
-                defs::UIFlags::childFlags, defs::UIFlags::windowFlags))
-                DrawTopbar(target);
-
-            ImGui::EndChild();
-
-            if (ImGui::BeginChild("##view-content", contentSize, 
-                defs::UIFlags::childFlags, defs::UIFlags::contentWindowFlags)) 
-                DrawContent(target);
-
-            ImGui::EndChild();
-        }
+            defs::UIFlags::windowFlags | ImGuiWindowFlags_NoTitleBar))
+            DrawContent(target);
         ImGui::End();
+
         DrawImpl(target);
     }
 
@@ -73,10 +58,6 @@ protected:
     /// Draw contents of the sidebar
     /// \param target SFML render target to draw on
     virtual void DrawSidebar(sf::RenderTarget& target) = 0;
-
-    /// Draw contents of the top bar
-    /// \param target SFML render target to draw on
-    virtual void DrawTopbar(sf::RenderTarget& target) = 0;
 
     /// Draw main content of the view
     /// \param target SFML render target to draw on

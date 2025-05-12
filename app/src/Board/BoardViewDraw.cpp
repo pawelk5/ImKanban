@@ -9,14 +9,15 @@
 
 void BoardView::DrawSidebar(sf::RenderTarget& target) { ImGui::Text("Side bar!"); }
 
-void BoardView::DrawTopbar(sf::RenderTarget& target) { ImGui::Text("Board: %s", m_board->GetDataRef().name.c_str()); }
-
 void BoardView::DrawImpl(sf::RenderTarget& target) {
     m_listPrompt.Draw();
     m_cardPrompt.Draw();
 }
 
 void BoardView::DrawContent(sf::RenderTarget &target) {
+    DrawHeader();
+    ImGui::Separator();
+
     DrawAllLists();
     if (ImGui::Button(defs::Labels::addListLabel, m_listSize))
         m_openPromptHandler.Trigger(
@@ -26,6 +27,12 @@ void BoardView::DrawContent(sf::RenderTarget &target) {
         
         /// drag drop target for list (add list button)
     CreateDragDropTarget({-1, -1}, defs::UI::PayloadType::ListDrag);
+}
+
+void BoardView::DrawHeader() {
+    ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[2]);
+    ImGui::Text("Board: %s", m_board->GetDataRef().name.c_str());
+    ImGui::PopFont();
 }
 
 void BoardView::DrawAllLists() {

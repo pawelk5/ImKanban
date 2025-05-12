@@ -23,13 +23,12 @@ public:
     /// \param target SFML render target
     void DrawContent(sf::RenderTarget& target) override;
 
+    /// Draw main container header
+    void DrawHeader();
+
     /// Draw sidebar content
     /// \param target SFML render target to draw on
     void DrawSidebar(sf::RenderTarget& target) override;
-
-    /// Draw topbar content
-    /// \param target SFML render target to draw on
-    void DrawTopbar(sf::RenderTarget& target) override;
 
     /// Draw popups
     /// \param target SFML render target to draw on
