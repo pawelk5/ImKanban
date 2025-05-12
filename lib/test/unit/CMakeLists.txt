@@ -6,6 +6,7 @@ if (BUILD_TESTING)
         "ContainerBaseTest.cpp"
         "ListTest.cpp"
         "BoardTest.cpp"
+        "SubtaskTest.cpp"
     )
 
     target_compile_features(${TEST_NAME} PRIVATE cxx_std_20)
