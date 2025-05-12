@@ -29,7 +29,7 @@ protected:
 
     /// Constructor that initializes the container with empty data
     ContainerBaseTest() 
-        : t_container(t_data) { ; }
+        : t_data(""), t_container(t_data) { ; }
     
     /// Setup function to initialize data before every test
     void SetUp() override {
