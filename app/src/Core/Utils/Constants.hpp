@@ -43,9 +43,20 @@ namespace defs {
             }
         }
 
-        constexpr const std::array<float, 3> fontSizes = {
+        constexpr const int sizesCount = 3;
+        constexpr const int fontsCount = 1;
+        constexpr const std::array<float, sizesCount> fontSizes = {
             20.f, 24.f, 32.f
         };
+
+        enum class Font {
+            NORMAL_SMALL = 0,
+            NORMAL_MEDIUM,
+            NORMAL_LARGE,
+            COUNT
+        };
+
+        static_assert((int)Font::COUNT == sizesCount * fontsCount);
 
         constexpr const int maxListNameSize = 32;
         constexpr const int maxCardNameSize = 48;

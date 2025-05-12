@@ -1,9 +1,9 @@
-#include "pch.h"
 #include "Core/Utils/Constants.hpp"
+#include "pch.h"
+#include "Core/Utils/Style.hpp"
 #include "Card.hpp"
 #include "List.hpp"
 #include "BoardView.hpp"
-#include <imgui.h>
 
 
 void BoardView::DrawSidebar(sf::RenderTarget& target) { ImGui::Text("Side bar!"); }
@@ -37,9 +37,10 @@ void BoardView::DrawContent(sf::RenderTarget &target) {
 }
 
 void BoardView::DrawHeader() {
-    ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[2]);
-    ImGui::Text("Board: %s", m_board->GetDataRef().name.c_str());
-    ImGui::PopFont();
+    Style::WithFont(defs::UI::Font::NORMAL_LARGE,
+        [this]() {
+        ImGui::Text("Board: %s", m_board->GetDataRef().name.c_str());
+    });
 }
 
 void BoardView::DrawAllLists() {
@@ -61,8 +62,11 @@ void BoardView::DrawList(Board::ElementArrayIterator iter) {
         
     /// drag drop source for list
     CreateDragDropSource(list, Board::MoveData{listIndex, -1});
-
-    ImGui::Text("%s", list.GetDataRef().name.c_str());
+    Style::WithFont(defs::UI::Font::NORMAL_MEDIUM, 
+        [list]() {
+        ImGui::Text("%s", list.GetDataRef().name.c_str());
+    });
+    
     ImGui::SameLine();
     if (ImGui::Button(defs::Labels::deleteItemLabel))
         m_deleteItemHandler.Trigger(DeleteItemData{ {listIndex, -1} });
