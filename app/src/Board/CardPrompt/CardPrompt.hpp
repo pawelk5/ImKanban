@@ -1,15 +1,10 @@
 #pragma once
 #include "pch.h"
-#include "Card.hpp"
-#include "PromptBase/InputPrompt.hpp"
+#include "Board.hpp"
+#include "Core/PromptBase/InputPrompt.hpp"
 
-// TODO: Change to something not prone to off-by-one errors
-struct CardPromptContext {
-    int listIndex = -1;
-    int cardIndex = -1;
-};
-
-class CardPrompt : public InputPrompt<Card::Data, CardPromptContext> {
+/// Prompt for adding new or editing a card
+class CardPrompt : public InputPrompt<CardData, Board::ItemIndex> {
 public:
     CardPrompt();
 

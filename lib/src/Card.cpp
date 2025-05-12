@@ -1,26 +1,20 @@
 #include "Card.hpp"
 
-Card::Card(const std::string& title) {
-    SetTitle(title);
-}
 
-Card::Card(const Card::Data& data) {
+Card::Card(const CardData& data) {
     Update(data);
 }
 
-const std::string& Card::GetTitle() const {
-    return m_data.title;
-}
 
-Card::Data Card::GetData() const {
+CardData Card::GetData() const {
     return m_data;
 }
 
-void Card::SetTitle(const std::string& title) {
-    m_data.title = title;
+const CardData& Card::GetDataRef() const {
+    return m_data;
 }
 
-void Card::Update(const Card::Data& data) {
+void Card::Update(const CardData& data) {
     m_data = data;
 }
 

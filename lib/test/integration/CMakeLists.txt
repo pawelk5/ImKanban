@@ -1,11 +1,8 @@
 if (BUILD_TESTING)
-    set(TEST_NAME "UnitTests")
+    set(TEST_NAME "IntegrationTests")
 
     add_executable(${TEST_NAME}
-        "CardTest.cpp"
-        "ContainerBaseTest.cpp"
-        "ListTest.cpp"
-        "BoardTest.cpp"
+        "Placeholder.cpp"
     )
 
     target_compile_features(${TEST_NAME} PRIVATE cxx_std_20)

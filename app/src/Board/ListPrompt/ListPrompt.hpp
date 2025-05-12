@@ -1,14 +1,14 @@
 #pragma once
 #include "pch.h"
 #include "List.hpp"
-#include "PromptBase/InputPrompt.hpp"
+#include "Core/PromptBase/InputPrompt.hpp"
 
-// TODO: Change to something not prone to off-by-one errors
 struct ListPromptContext {
     int listIndex = -1;
 };
 
-class ListPrompt : public InputPrompt<List::Data, ListPromptContext> {
+/// Prompt for adding new or editing a list
+class ListPrompt : public InputPrompt<ListData, ListPromptContext> {
 public:
     ListPrompt();
     

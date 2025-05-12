@@ -2,127 +2,169 @@
 #include <memory>
 #include <stdexcept>
 #include "Board.hpp"
+#include "List.hpp"
 
-TEST(Board, BaseConstructor)
+static const char* inProgressLabel = "In Progress";
+static const char* toDoLabel = "To Do";
+static const char* doneLabel = "Done";
+
+/// Test suite for Board class
+class BoardTest : public testing::Test {
+protected:
+    BoardData t_data;
+    Board t_board;
+
+    /// Constructor that initializes the board with empty data
+    BoardTest() 
+        : t_board(t_data) { ; }
+    
+    /// Setup function to initialize data before every test
+    void SetUp() override {
+        t_data.name = "test";
+        t_board = Board(t_data);
+    }
+};
+
+/// Test for Board constructor
+/// Verifies if constructor creates predefined lists
+TEST_F(BoardTest, BaseConstructor)
 {
     {
-        Board board("test");
-        const Board::ListArray &lists = board.GetLists();
-
-        EXPECT_EQ(board.GetName(), "test");
-
+        BoardData data {"test2"};
+        Board board(data);
+        const auto &lists = board.GetElementArray();
         EXPECT_EQ(lists.size(), 3);
         for (const auto &list : lists)
-            EXPECT_EQ(list->GetCards().size(), 0);
-    }
-
-    {
-        Board::Data testData;
-        testData.name = "test2";
-        Board board2(testData);
-        const Board::ListArray &lists2 = board2.GetLists();
-        EXPECT_EQ(board2.GetName(), "test2");
-        EXPECT_EQ(lists2.size(), 3);
-        for (const auto &list : lists2)
-            EXPECT_EQ(list->GetCards().size(), 0);
+            EXPECT_EQ(list->GetElementArray().size(), 0);
     }
 }
 
-TEST(Board, SetFunctions)
+/// Test for moving cards between lists
+TEST_F(BoardTest, MoveCard)
 {
-    Board board("test");
+    const auto &lists = t_board.GetElementArray();
+    t_board.RemoveElement(lists.end() - 1);
 
-    board.SetName("changed");
-    EXPECT_EQ(board.GetName(), "changed");
+
+    t_board.At(0)->AddElement(Card({"TestCard"}));
+    EXPECT_EQ(t_board.At(0)->GetElementArray().size(), 1);
+    EXPECT_EQ(t_board.At(1)->GetElementArray().size(), 0);
+    // move same card to {1,0}
+    t_board.MoveCard(
+        {0, 0}, {1, 0});
+
+    EXPECT_EQ(t_board.At(0)->GetElementArray().size(), 0);
+    EXPECT_EQ(t_board.At(1)->GetElementArray().size(), 1);
+    EXPECT_EQ(t_board.At(1)->At(0)->GetData().title, "TestCard");
+
+    // move the same card back to {0,0}
+    t_board.MoveCard(
+        {1, 0},
+        {0, 0});
+
+    EXPECT_EQ(t_board.At(0)->GetElementArray().size(), 1);
+    EXPECT_EQ(t_board.At(1)->GetElementArray().size(), 0);
+    EXPECT_EQ(t_board.At(0)->At(0)->GetData().title, "TestCard");
 }
 
-TEST(Board, GetData)
+/// Test for handling errors during card movement
+TEST_F(BoardTest, MoveCardErrors)
 {
-    Board board("test");
-    auto data = board.GetData();
-    EXPECT_EQ(board.GetName(), "test");
-}
+    auto &lists = t_board.GetElementArray();
 
-TEST(Board, Update)
-{
-    Board board("test");
-    auto data = board.GetData();
-
-    data.name = "changed";
-
-    EXPECT_EQ(board.GetName(), "test");
-    board.Update(data);
-    EXPECT_EQ(board.GetName(), "changed");
-}
-
-TEST(Board, AddList)
-{
-    Board board("test");
-
-    board.AddList(List("testlist"));
-    EXPECT_EQ(board.GetLists().size(), 4);
-
-    board.AddList(std::make_shared<List>("testlist"));
-    EXPECT_EQ(board.GetLists().size(), 5);
-}
-
-TEST(Board, RemoveList)
-{
-    Board board("test");
-    Board::ListArray &lists = board.GetListsRef();
-
-    board.RemoveList(lists.begin());
-    EXPECT_EQ(lists.size(), 2);
-}
-
-TEST(Board, MoveCard)
-{
-    Board board("test");
-    Board::ListArray &lists = board.GetListsRef();
-    board.RemoveList(lists.end() - 1);
-
-    List::CardArray &cards1 = lists.at(0)->GetCardsRef();
-    List::CardArray &cards2 = lists.at(1)->GetCardsRef();
-
-    lists.at(0)->AddCard(Card{"TestCard"});
-    EXPECT_EQ(cards1.size(), 1);
-    EXPECT_EQ(cards2.size(), 0);
-
-    board.MoveCard(
-        lists.begin(), cards1.begin(),
-        lists.begin() + 1);
-
-    EXPECT_EQ(cards1.size(), 0);
-    EXPECT_EQ(cards2.size(), 1);
-
-    board.MoveCard(
-        lists.begin() + 1, cards2.begin(),
-        lists.begin());
-
-    EXPECT_EQ(cards1.size(), 1);
-    EXPECT_EQ(cards2.size(), 0);
-}
-
-TEST(Board, MoveCardErrors)
-{
-    Board board("test");
-    Board::ListArray &lists = board.GetListsRef();
-    auto cardsBeginIt = (*lists.begin())->GetCardsRef().begin();
-
-    // invalid card iterator
+    // invalid card source index
     EXPECT_THROW(
-        board.MoveCard(
-            lists.begin(), cardsBeginIt,
-            lists.begin() + 1);
-        ,
-        std::out_of_range);
-    (*lists.begin())->AddCard(Card{"testcard"});
-
-    // invalid list iterator
+        t_board.MoveCard(
+            {0, 0}, {1, 0});
+            , std::out_of_range);
+    
+    // invalid source list index
     EXPECT_THROW(
-        board.MoveCard(
-            lists.end(), cardsBeginIt,
-            lists.begin());
-        ,
-        std::out_of_range);
+        t_board.MoveCard(
+            {3, 0},
+            {1, 0});
+        , std::out_of_range);
+    
+    // invalid card destination index
+    t_board.At(0)->AddElement(Card( {"testcard"} ));
+    EXPECT_THROW(
+        t_board.MoveCard(
+            {0, 0}, {1, 1});
+            , std::out_of_range);
+    
+    // invalid destination list index
+    EXPECT_THROW(
+        t_board.MoveCard(
+            {0, 0}, {3, 0});
+            , std::out_of_range);
+}
+
+/// Test for moving lists
+TEST_F(BoardTest, MoveList)
+{
+    const auto &lists = t_board.GetElementArray();
+
+    t_board.At(0)->AddElement(Card({"TestCard"}));
+    t_board.At(2)->AddElement(Card({"TestCard2"}));
+    t_board.At(2)->AddElement(Card({"TestCard3"}));
+
+    EXPECT_EQ(t_board.At(0)->GetElementArray().size(), 1);
+    EXPECT_EQ(t_board.At(1)->GetElementArray().size(), 0);
+    // move same list to index = 1
+    t_board.MoveList(0, 1);
+
+    EXPECT_EQ(t_board.GetElementArray().size(), 3);
+
+    // check labels
+    EXPECT_EQ(t_board.At(0)->GetDataRef().name, inProgressLabel);
+    EXPECT_EQ(t_board.At(1)->GetDataRef().name, toDoLabel);
+    EXPECT_EQ(t_board.At(2)->GetDataRef().name, doneLabel);
+
+    // check cards
+    EXPECT_EQ(t_board.At(0)->GetElementArray().size(), 0);
+    EXPECT_EQ(t_board.At(1)->GetElementArray().size(), 1);
+    EXPECT_EQ(t_board.At(1)->At(0)->GetData().title, "TestCard");
+    EXPECT_EQ(t_board.At(2)->GetElementArray().size(), 2);
+
+    // move the same list back to index = 0
+    t_board.MoveList(1, 0);
+
+    EXPECT_EQ(t_board.GetElementArray().size(), 3);
+
+    // check cards
+    EXPECT_EQ(t_board.At(0)->GetElementArray().size(), 1);
+    EXPECT_EQ(t_board.At(0)->At(0)->GetData().title, "TestCard");
+    EXPECT_EQ(t_board.At(1)->GetElementArray().size(), 0);
+    EXPECT_EQ(t_board.At(2)->GetElementArray().size(), 2);
+
+    // check labels
+    EXPECT_EQ(t_board.At(0)->GetDataRef().name, toDoLabel);
+    EXPECT_EQ(t_board.At(1)->GetDataRef().name, inProgressLabel);
+    EXPECT_EQ(t_board.At(2)->GetDataRef().name, doneLabel);
+}
+
+/// Test for handling errors during list movement
+TEST_F(BoardTest, MoveListErrors)
+{
+    auto &lists = t_board.GetElementArray();
+
+    // invalid list source index
+    EXPECT_THROW(
+        t_board.MoveList(-1, 0);
+            , std::out_of_range);
+    
+    // invalid list source index (upper bound)
+    EXPECT_THROW(
+        t_board.MoveList(3, 0);
+        , std::out_of_range);
+    
+    // invalid destination list index
+    EXPECT_THROW(
+        t_board.MoveList(0, -2);
+            , std::out_of_range);
+
+    // invalid destination list index (upper bound)
+    EXPECT_THROW(
+        t_board.MoveList(0, 3);
+            , std::out_of_range);
 }

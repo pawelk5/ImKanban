@@ -1,92 +1,28 @@
 #include <gtest/gtest.h>
 #include "List.hpp"
 
-TEST(List, BaseConstructor)
+
+/// Test suite for List class
+/// For now this is a placeholder, as there are no list-specific functions (all of them are derived from ContainerBase class)
+class ListTest : public testing::Test {
+    protected:
+    ListData t_data;
+    List t_list;
+
+    /// Constructor that initializes the card with empty data
+    ListTest() 
+        : t_list(t_data) { ; }
+    
+    /// Setup function to initialize data before every test
+    void SetUp() override {
+        t_data.name = "test";
+        t_list = List(t_data);
+    }
+};
+
+TEST_F(ListTest, Placeholder)
 {
     {
-        List list("test");
-
-        EXPECT_EQ(list.GetName(), "test");
-        EXPECT_EQ(list.GetCards().size(), 0);
+        SUCCEED();
     }
-
-    {
-        List::Data testData;
-        testData.name = "test2";
-        List list2(testData);
-        EXPECT_EQ(list2.GetName(), "test2");
-        EXPECT_EQ(list2.GetCards().size(), 0);
-    }
-}
-
-TEST(List, SetFunctions)
-{
-    List list("test");
-
-    list.SetName("changed");
-    EXPECT_EQ(list.GetName(), "changed");
-}
-
-TEST(List, GetData)
-{
-    List list("test");
-    List::Data data = list.GetData();
-
-    EXPECT_EQ(data.name, "test");
-}
-
-TEST(List, AddCard)
-{
-    List List("test");
-
-    List.AddCard(Card("testcard"));
-    EXPECT_EQ(List.GetCards().size(), 1);
-
-    List.AddCard(std::make_shared<Card>("testcard"));
-    EXPECT_EQ(List.GetCards().size(), 2);
-}
-
-TEST(List, InsertCard)
-{
-    List List("test");
-
-    List.AddCard(std::make_shared<Card>("testcard"));
-    List.AddCard(std::make_shared<Card>("testcard2"));
-    EXPECT_EQ(List.GetCards().size(), 2);
-
-    List.InsertCard(std::make_shared<Card>("testcard3"), 1);
-    EXPECT_EQ(List.GetCards().size(), 3);
-    EXPECT_EQ(List.GetCards().at(1)->GetTitle(), "testcard3");
-
-    // Index out of range (negative number), card expected to be added at the end
-    List.InsertCard(std::make_shared<Card>("testcard4"), -1);
-    EXPECT_EQ(List.GetCards().size(), 4);
-    EXPECT_EQ(List.GetCards().at(3)->GetTitle(), "testcard4");
-
-    // Index out of range (bigger than list length-1), card expected to be added at the end
-    List.InsertCard(std::make_shared<Card>("testcard5"), 5);
-    EXPECT_EQ(List.GetCards().size(), 5);
-    EXPECT_EQ(List.GetCards().at(4)->GetTitle(), "testcard5");
-}
-
-TEST(List, RemoveCard)
-{
-    List list("test");
-    list.AddCard(Card("testcard"));
-    List::CardArray &lists = list.GetCardsRef();
-
-    list.RemoveCard(lists.begin());
-    EXPECT_EQ(lists.size(), 0);
-}
-
-TEST(List, Update)
-{
-    List list("test");
-    auto data = list.GetData();
-
-    data.name = "changed";
-
-    EXPECT_EQ(list.GetName(), "test");
-    list.Update(data);
-    EXPECT_EQ(list.GetName(), "changed");
 }

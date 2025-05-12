@@ -1,40 +1,18 @@
 #pragma once
 #include "api.h"
-#include <memory>
-#include <vector>
-
 #include "Card.hpp"
+#include "ContainerBase.hpp"
 
-class EXPORT_API List
-{
+
+/// Data held by a list
+struct EXPORT_API ListData {
+    std::string name;
+};
+
+/// List class representing a list of cards
+class EXPORT_API List : public ContainerBase<Card, ListData> {
 public:
-    using CardPointer = std::shared_ptr<Card>;
-    using CardArray = std::vector<CardPointer>;
-
-    struct Data
-    {
-        std::string name;
-    };
-
-public:
-    List(const std::string &name);
-    List(const Data &data);
-
-    CardArray &GetCardsRef();
-    const CardArray &GetCards() const;
-    const std::string &GetName() const;
-    Data GetData() const;
-
-    void SetName(const std::string &name);
-    void Update(const Data &data);
-
-    void AddCard(const Card &card);
-    void AddCard(const CardPointer &card);
-    void InsertCard(const List::CardPointer &card, int index);
-
-    void RemoveCard(CardArray::iterator it);
-
-private:
-    CardArray m_cards;
-    Data m_data;
+    /// Constructs a list
+    /// \param data data to be stored in the list
+    explicit List(const ListData& data) : ContainerBase<Card, ListData>(data) {}
 };

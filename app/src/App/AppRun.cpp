@@ -18,10 +18,15 @@ void App::EventUpdate() {
             break;
         }
 
-        if (event->is<sf::Event::Resized>()) {
-            auto newSize = event->getIf<sf::Event::Resized>()->size;
+        // Handle resize event
+        if (auto resized = event->getIf<sf::Event::Resized>())
             m_window.setView(sf::View(sf::FloatRect({0,0}, 
-                (sf::Vector2f)newSize)));
+                (sf::Vector2f)resized->size)));
+
+
+        if (auto keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+            if (keyPressed->code == sf::Keyboard::Key::F11)
+                ChangeFullscreenMode();
         }
 
         m_currentView->EventUpdate(event.value());
@@ -32,13 +37,13 @@ void App::Update() {
     auto deltaTime = m_clock.restart();
     ImGui::SFML::Update(m_window, deltaTime);
     m_currentView->Update(deltaTime.asSeconds());
+    
+    
+    ChangeViewHandler();
 }
 
 void App::Draw() {
     m_window.clear();
-    // for debuging
-    ImGui::ShowDemoWindow();
-    
     m_currentView->Draw(m_window);
     ImGui::SFML::Render(m_window);
     m_window.display();

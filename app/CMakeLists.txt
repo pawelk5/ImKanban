@@ -1,10 +1,12 @@
 add_executable(${PROJECT_NAME}
     "src/main.cpp"
-    "src/App/AppInit.cpp"
+    "src/App/AppCore.cpp"
     "src/App/AppRun.cpp"
-    "src/Board/BoardView.cpp"
+    "src/Board/BoardViewCore.cpp"
+    "src/Board/BoardViewDraw.cpp"
     "src/Board/ListPrompt/ListPrompt.cpp"
     "src/Board/CardPrompt/CardPrompt.cpp"
+    "src/ImGuiDemoView/ImGuiDemoView.cpp"
 )
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE "src/pch.h")

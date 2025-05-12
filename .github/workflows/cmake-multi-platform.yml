@@ -4,7 +4,7 @@ name: Build and test
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "dev" ]
   pull_request:
     branches: [ "main", "dev" ]
 
@@ -58,7 +58,7 @@ jobs:
         -S ${{ github.workspace }}
 
     - name: Build
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config Release
+      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config Release --parallel $(nproc)
 
     - name: Test
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
@@ -83,7 +83,8 @@ jobs:
         -S ${{ github.workspace }}
 
     - name: Build
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config Release
+      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config Release --parallel %NUMBER_OF_PROCESSORS%
+      shell: cmd
 
     - name: Test
       working-directory: ${{ steps.strings.outputs.build-output-dir }}

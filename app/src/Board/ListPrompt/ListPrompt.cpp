@@ -6,14 +6,11 @@ ListPrompt::ListPrompt() {
     m_open = false;
 }
 
-static const char* newListPopupID = "New List";
-static const char* editListPopupID = "Edit List";
-
 const char* ListPrompt::GetPopupID() {
     if (m_contextData.listIndex < 0)
-        return newListPopupID;
+        return defs::Labels::newListPopup;
     
-    return editListPopupID;
+    return defs::Labels::editListPopup;
 }
 
 void ListPrompt::DrawImpl() {
