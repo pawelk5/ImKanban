@@ -21,6 +21,7 @@ void BoardView::Update(float deltaTime) {
 void BoardView::EventUpdate(const sf::Event &event) { 
     m_cardPrompt.EventUpdate(event);
     m_listPrompt.EventUpdate(event);
+    m_deleteItemPrompt.EventUpdate(event);
 }
 
 void BoardView::SetUpEventHandlers() {
@@ -48,13 +49,7 @@ void BoardView::SetUpEventHandlers() {
 
     /// DELETE CALLBACK
     const auto& deleteItemCallback = [this] (DeleteItemData data) {
-        const auto& listIndex = data.index.list;
-        const auto& cardIndex = data.index.card;
-
-        if (cardIndex == -1)
-            m_board->RemoveElement(listIndex);
-        else
-            m_board->At(listIndex)->RemoveElement(cardIndex);
+        m_deleteItemPrompt.Open(std::nullopt, data.index);
     };
 
     m_dragdropHandler = EventHandler<DragDropData>(dragdropCallback);
@@ -85,7 +80,21 @@ void BoardView::SetUpPromptCallbacks() {
             list->At(promptContext.card)->Update(cardData);
     };
 
+    /// DELETE ITEM PROMPT
+    const auto deleteItemPromptCallback =
+        [this](int, const Board::ItemIndex& itemIndex)
+    {
+        const auto& listIndex = itemIndex.list;
+        const auto& cardIndex = itemIndex.card;
+
+        if (cardIndex == -1)
+            m_board->RemoveElement(listIndex);
+        else
+            m_board->At(listIndex)->RemoveElement(cardIndex);
+    };
+
     m_listPrompt.SetOnExitCallback(listPromptSubmitCallback);
     m_cardPrompt.SetOnExitCallback(cardPromptSubmitCallback);
+    m_deleteItemPrompt.SetOnExitCallback(deleteItemPromptCallback);
 }
 

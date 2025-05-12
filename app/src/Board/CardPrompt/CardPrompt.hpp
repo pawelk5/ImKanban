@@ -9,7 +9,7 @@ public:
     CardPrompt();
 
 private:
-    void DrawImpl() override;
+    void DrawImpl(sf::RenderTarget& target) override;
     void OpenImpl() override;
     const char* GetPopupID() override;
 };

@@ -1,15 +1,16 @@
 #pragma once
 #include "Core/Utils/Constants.hpp"
-#include "PromptBase.hpp"
+#include "Core/PromptBase/PromptBase.hpp"
 
-/// Base class for input prompts (forms)
+/// Base class confirming actions
 ///
 /// Calls onExit callback when user confirms changes (presses OK button)
-template <typename InputData, typename ContextData>
-class InputPrompt : public PromptBase<InputData, ContextData> {
+/// Uses char as a template just to satisfy compiler requirements
+template <typename ContextData>
+class ConfirmPrompt : public PromptBase<char, ContextData> {
 public:
-    virtual ~InputPrompt() = default;
-    
+    virtual ~ConfirmPrompt() = default;
+
     /// Override of Draw function
     /// Draws a modal popup with OK and Close buttons
     void Draw(sf::RenderTarget& target) override {
@@ -22,7 +23,7 @@ public:
         ImGui::SetNextWindowPos(center, ImGuiCond_Always, ImVec2{0.5f, 0.5f});
 
         if (ImGui::BeginPopupModal(this->GetPopupID(), nullptr, defs::UIFlags::promptFlags)) {
-            this->DrawImpl(target);
+            ImGui::Text("%s", this->GetPromptMessage());
             ImGui::Spacing();
             
             if (ImGui::Button(defs::Labels::okButtonLabel)){
@@ -36,7 +37,16 @@ public:
         }
         ImGui::EndPopup();
     }
+
+    /// Override open function
+    void OpenImpl() override { ; }
+    
 protected:
-    /// Called in Draw function, for displaying widgets
-    virtual void DrawImpl(sf::RenderTarget& target) = 0;
+    /// Override id (header) of the modal prompt
+    const char* GetPopupID() override {
+        return defs::Labels::confirmPromptLabel;
+    }
+
+    /// Returns prompt message
+    virtual const char* GetPromptMessage() = 0;
 };

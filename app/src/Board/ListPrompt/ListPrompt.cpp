@@ -13,10 +13,10 @@ const char* ListPrompt::GetPopupID() {
     return defs::Labels::editListPopup;
 }
 
-void ListPrompt::DrawImpl() {
-    ImGui::InputText("Name", m_data.name.data(), m_data.name.size());
+void ListPrompt::DrawImpl(sf::RenderTarget& target) {
+    ImGui::InputText("##Name", m_data.name.data(), m_data.name.size());
 }
 
 void ListPrompt::OpenImpl() {
-    m_data.name.resize(255);
+    m_data.name.resize(defs::UI::maxListNameSize);
 }

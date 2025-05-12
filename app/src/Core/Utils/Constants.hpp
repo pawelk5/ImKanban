@@ -16,6 +16,9 @@ namespace defs {
 
         constexpr const char* deleteItemLabel = "Delete";
         constexpr const char* editItemLabel = "Edit";
+
+        constexpr const char* confirmPromptLabel = "Confirm";
+        constexpr const char* deleteItemConfirmPromptMessage = "Are you sure you want to delete this item?";
     }
 
     namespace UI {
@@ -43,6 +46,9 @@ namespace defs {
         constexpr const std::array<float, 3> fontSizes = {
             20.f, 24.f, 32.f
         };
+
+        constexpr const int maxListNameSize = 32;
+        constexpr const int maxCardNameSize = 48;
     }
 
     namespace UIFlags {

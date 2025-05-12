@@ -1,4 +1,5 @@
 #pragma once
+#include "DeleteItemPrompt/DeleteItemPrompt.hpp"
 #include "ListPrompt/ListPrompt.hpp"
 #include "CardPrompt/CardPrompt.hpp"
 #include "Core/View/ViewBase.hpp"
@@ -51,6 +52,10 @@ private:
 
     /// Prompt for editing or adding cards
     CardPrompt m_cardPrompt;
+
+    /// Confirm prompt for deleting items
+    /// Uses int to satisfy template requirements
+    DeleteItemPrompt m_deleteItemPrompt;
 
     /// Size of list window (updated every frame in the beginning of the Draw function)
     /// (TODO: make this more dynamic)

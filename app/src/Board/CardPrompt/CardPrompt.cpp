@@ -1,3 +1,4 @@
+#include "Core/Utils/Constants.hpp"
 #include "pch.h"
 #include "CardPrompt.hpp"
 
@@ -13,10 +14,10 @@ const char* CardPrompt::GetPopupID() {
     return defs::Labels::editCardPopup;
 }
 
-void CardPrompt::DrawImpl() {
-    ImGui::InputText("Name", m_data.title.data(), m_data.title.size());
+void CardPrompt::DrawImpl(sf::RenderTarget& target) {
+    ImGui::InputText("##Name", m_data.title.data(), m_data.title.size());
 }
 
 void CardPrompt::OpenImpl() {
-    m_data.title.resize(255);
+    m_data.title.resize(defs::UI::maxCardNameSize);
 }

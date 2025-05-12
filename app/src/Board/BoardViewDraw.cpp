@@ -6,27 +6,34 @@
 #include <imgui.h>
 
 
-
 void BoardView::DrawSidebar(sf::RenderTarget& target) { ImGui::Text("Side bar!"); }
 
 void BoardView::DrawImpl(sf::RenderTarget& target) {
-    m_listPrompt.Draw();
-    m_cardPrompt.Draw();
+    m_deleteItemPrompt.Draw(target);
+    m_listPrompt.Draw(target);
+    m_cardPrompt.Draw(target);
 }
 
 void BoardView::DrawContent(sf::RenderTarget &target) {
     DrawHeader();
     ImGui::Separator();
+    if (ImGui::BeginChild("##board-container", ImGui::GetContentRegionAvail(), 
+        defs::UIFlags::childFlags, defs::UIFlags::contentWindowFlags)) {
+        m_listSize.x = std::max(
+            (ImGui::GetContentRegionAvail().x - 4*ImGui::GetStyle().ItemSpacing.x) / 4, 400.f);
 
-    DrawAllLists();
-    if (ImGui::Button(defs::Labels::addListLabel, m_listSize))
-        m_openPromptHandler.Trigger(
-            OpenPromptData{ Board::ItemIndex{-1, -1},
-            std::optional<ListData>(std::nullopt) 
-        });
-        
-        /// drag drop target for list (add list button)
-    CreateDragDropTarget({-1, -1}, defs::UI::PayloadType::ListDrag);
+
+        DrawAllLists();
+        if (ImGui::Button(defs::Labels::addListLabel, m_listSize))
+            m_openPromptHandler.Trigger(
+                OpenPromptData{ Board::ItemIndex{-1, -1},
+                std::optional<ListData>(std::nullopt) 
+            });
+            
+            /// drag drop target for list (add list button)
+        CreateDragDropTarget({-1, -1}, defs::UI::PayloadType::ListDrag);
+    }
+    ImGui::EndChild();
 }
 
 void BoardView::DrawHeader() {
