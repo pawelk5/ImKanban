@@ -53,7 +53,7 @@ void BoardView::DrawList(Board::ElementArrayIterator iter) {
         return ImGui::EndChild();
         
     /// drag drop source for list
-    CreateDragDropSource(list, (Board::MoveData){listIndex, -1});
+    CreateDragDropSource(list, Board::MoveData{listIndex, -1});
 
     ImGui::Text("%s", list.GetDataRef().name.c_str());
     ImGui::SameLine();
