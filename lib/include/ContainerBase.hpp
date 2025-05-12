@@ -19,11 +19,13 @@ public:
 protected:
     /// Constructs a container
     /// \param data data to be stored in the container
-    explicit ContainerBase(const ContainerData &data) {
+    ContainerBase(const ContainerData &data) {
         Update(data);
     }
 
 public:
+    virtual ~ContainerBase() = default;
+
     /// Get element using an iterator
     /// \return pointer to element at specified position
     /// \throws std::out_of_range if iterator is invalid/out of range
@@ -149,24 +151,3 @@ protected:
     inline static const char* invalidIterator = "Invalid iterator!";
     inline static const char* invalidIndex = "Invalid index!";
 };
-
-
-#ifdef _TEST
-/// Mock element storing only name
-struct MockElement {
-    std::string name;
-};
-
-/// Mock data of a container, storing only name
-struct MockData {
-    std::string name;
-};
-
-/// Mock class derived from ContainerBase class
-class TestContainer : public ContainerBase<MockElement, MockData> {
-public:
-    /// Constructs a test container
-    /// \param data data to be stored in the test container
-    TestContainer(const MockData& data) : ContainerBase<MockElement, MockData>(data) {}
-};
-#endif

@@ -7,3 +7,5 @@ imgui.ini
 .vscode
 .fleet
 .idea
+
+run.sh

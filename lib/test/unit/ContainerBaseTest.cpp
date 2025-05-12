@@ -1,12 +1,25 @@
 #include <gtest/gtest.h>
 #include <stdexcept>
 #include <string>
-
-#ifndef _TEST
-#define _TEST
-#endif
-
 #include "ContainerBase.hpp"
+
+/// Mock element storing only name
+struct MockElement {
+    std::string name;
+};
+
+/// Mock data of a container, storing only name
+struct MockData {
+    std::string name;
+};
+
+/// Mock class derived from ContainerBase class
+class TestContainer : public ContainerBase<MockElement, MockData> {
+public:
+    /// Constructs a test container
+    /// \param data data to be stored in the test container
+    TestContainer(const MockData& data) : ContainerBase<MockElement, MockData>(data) {}
+};
 
 
 class ContainerBaseTest : public testing::Test {
