@@ -16,7 +16,8 @@ target_precompile_headers(${PROJECT_NAME} PRIVATE "src/pch.h")
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
-    "${CMAKE_CURRENT_LIST_DIR}/src" 
+    "${CMAKE_CURRENT_LIST_DIR}/src"
+    "${CMAKE_CURRENT_LIST_DIR}/assets"
     ${LIBRARY_INCLUDE_PATH}
     ${SFML_INCLUDE_DIR} ${IMGUI_DIR} ${OPENGL_INCLUDE_DIRS}
 )

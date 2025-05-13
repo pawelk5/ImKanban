@@ -1,10 +1,10 @@
-#include "MainView/MainView.hpp"
 #include "pch.h"
+#include "MainView/MainView.hpp"
 #include "App.hpp"
 #include "Core/Utils/Constants.hpp"
 #include "Board/BoardView.hpp"
 #include "ImGuiDemoView/ImGuiDemoView.hpp"
-
+#include "notosans/noto.embed"
 
 App::App()
     :m_isFullscreen(false)
@@ -50,7 +50,7 @@ void App::LoadFont() {
     };
 
     for (const auto& size : defs::UI::fontSizes)
-        io.Fonts->AddFontFromFileTTF("assets/NotoSans.ttf", size, 
+        io.Fonts->AddFontFromMemoryTTF((void*)notoFont, notoFontSize, size, 
             nullptr, ranges);
 
     if (!ImGui::SFML::UpdateFontTexture())
