@@ -14,8 +14,8 @@ public:
     void Update(float deltaTime) override;
     void EventUpdate(const sf::Event& event) override;
 
-    bool GoToBoard();
+    bool GoToMainView();
 
 private:
-    bool m_goToBoard;
+    bool m_goToMainView;
 };

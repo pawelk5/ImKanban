@@ -19,6 +19,8 @@ namespace defs {
 
         constexpr const char* confirmPromptLabel = "Confirm";
         constexpr const char* deleteItemConfirmPromptMessage = "Are you sure you want to delete this item?";
+
+        constexpr const char* mainViewContainerHeader = "Your boards";
     }
 
     namespace UI {

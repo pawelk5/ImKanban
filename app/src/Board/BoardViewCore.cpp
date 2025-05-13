@@ -4,12 +4,14 @@
 
 
 BoardView::BoardView(const BoardView::BoardPointer &pointer)
-    : m_board(pointer)
+    : m_board(pointer), m_returnToMainView(false), m_listSize(0.f, 0.f)
 {
-    m_listSize = {250.f, 0.f};
-
     SetUpEventHandlers();
     SetUpPromptCallbacks(); 
+}
+
+bool BoardView::GoToMainView() {
+    return m_returnToMainView;
 }
 
 void BoardView::Update(float deltaTime) {

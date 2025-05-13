@@ -29,8 +29,11 @@ private:
     /// Loads up fonts
     void LoadFont();
     
-    /// Create the starting view of the app
-    void CreateStartView();
+    /// Create main view
+    void CreateMainView();
+
+    /// Create imgui demo view
+    void CreateImGuiDemoView();
 
     /// Create board view
     void CreateBoardView();

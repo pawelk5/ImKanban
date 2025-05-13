@@ -2,6 +2,8 @@ add_executable(${PROJECT_NAME}
     "src/main.cpp"
     "src/App/AppCore.cpp"
     "src/App/AppRun.cpp"
+    "src/MainView/MainViewCore.cpp"
+    "src/MainView/MainViewDraw.cpp"
     "src/Board/BoardViewCore.cpp"
     "src/Board/BoardViewDraw.cpp"
     "src/Board/ListPrompt/ListPrompt.cpp"

@@ -1,3 +1,4 @@
+#include "MainView/MainView.hpp"
 #include "pch.h"
 #include "App.hpp"
 #include "Core/Utils/Constants.hpp"
@@ -13,7 +14,7 @@ App::App()
         throw std::runtime_error(defs::Error::errorImGuiInit);
     LoadFont();
     
-    CreateStartView();    
+    CreateMainView();
 }
 
 App::~App() {
@@ -56,7 +57,11 @@ void App::LoadFont() {
         throw std::runtime_error(defs::Error::updateFontTexture);
 }
 
-void App::CreateStartView() {
+void App::CreateMainView() {
+    m_currentView = std::make_unique<MainView>();
+}
+
+void App::CreateImGuiDemoView() {
     m_currentView = std::make_unique<ImGuiDemoView>();
 }
 
@@ -75,7 +80,17 @@ void App::ChangeFullscreenMode() {
 
 void App::ChangeViewHandler() {
     if (auto view = dynamic_cast<ImGuiDemoView*>(m_currentView.get())) {
+        if (view->GoToMainView())
+            CreateMainView();
+    }
+    else if (auto view = dynamic_cast<BoardView*>(m_currentView.get())) {
+        if (view->GoToMainView())
+            CreateMainView();
+    }
+    else if (auto view = dynamic_cast<MainView*>(m_currentView.get())) {
         if (view->GoToBoard())
             CreateBoardView();
+        else if (view->GoToImGuiDemo())
+            CreateImGuiDemoView();
     }
 }
