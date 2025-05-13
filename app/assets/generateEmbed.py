@@ -3,7 +3,7 @@ import argparse
 
 parser = argparse.ArgumentParser(
         prog='generateEmbed',
-        description='Generate file for embedding resources in C/C++')
+        description='Script for embedding resources in C/C++')
 
 parser.add_argument('sourcefile', help='source file', type=str)
 parser.add_argument('destinationfile', help='destination file', type=str)
@@ -18,7 +18,7 @@ def main():
     with open(args.sourcefile, 'rb') as input_file, open(args.destinationfile, 'w') as output_file:
         data = input_file.read()
 
-        output_file.write(f"// Generated from {args.sourcefile}\n")
+        output_file.write(f"#pragma once\n// Generated from {args.sourcefile}\n")
         if (args.licencefile):
             with open(args.licencefile, 'r') as licence_file:
                 output_file.write(f"/* LICENCE:\n{licence_file.read()}\n*/\n")
