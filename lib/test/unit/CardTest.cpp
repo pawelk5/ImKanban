@@ -195,3 +195,26 @@ TEST_F(CardTest, UpdateCompletionStatusWithSubtasks)
     t_card.UpdateCompletionStatus();
     EXPECT_TRUE(t_card.GetCardDataRef().isCompleted);
 }
+
+/// Test for counting completed subtasks
+/// Verifies that CountCompletedSubtasks returns the correct number of completed subtasks
+TEST_F(CardTest, CountCompletedSubtasks)
+{
+    Subtask subtask1("Subtask 1", true);  // Completed subtask
+    Subtask subtask2("Subtask 2", false); // Incomplete subtask
+    Subtask subtask3("Subtask 3", true);  // Completed subtask
+
+    t_card.AddElement(subtask1);
+    t_card.AddElement(subtask2);
+    t_card.AddElement(subtask3);
+
+    EXPECT_EQ(t_card.CountCompletedSubtasks(), 2);
+
+    // Mark the second subtask as completed
+    t_card.GetElementArray()[1]->SetCompleted(true);
+    EXPECT_EQ(t_card.CountCompletedSubtasks(), 3);
+
+    // Remove a completed subtask and verify the count
+    t_card.RemoveElement(t_card.GetElementArray().begin());
+    EXPECT_EQ(t_card.CountCompletedSubtasks(), 2);
+}

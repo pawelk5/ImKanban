@@ -8,8 +8,8 @@
 struct CardData
 {
     std::string title;       ///< Title of the card
-    bool isCompleted;        ///< Completion status of the card
     std::string description; ///< Description of the card
+    bool isCompleted;        ///< Completion status of the card
 };
 
 /// Represents a card containing a list of subtasks
@@ -25,7 +25,7 @@ public:
     /// \param title Title of the card
     /// \param description Description of the card
     Card(const std::string &title, const std::string &description)
-        : ContainerBase({title, false, description}) {}
+        : ContainerBase({title, description, false}) {}
 
     /// Returns a copy of stored card data
     /// \return Copy of stored card data
@@ -46,6 +46,18 @@ public:
     void UpdateCardData(const CardData &data)
     {
         Update(data);
+    }
+
+    /// Counts completed subtasks from the card
+    int CountCompletedSubtasks()
+    {
+        int completedCount = 0;
+        for (const auto &subtask : GetElementArray())
+        {
+            if (subtask->IsCompleted())
+                ++completedCount;
+        }
+        return completedCount;
     }
 
     /// Marks the card as completed if all subtasks are completed

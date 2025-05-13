@@ -2,54 +2,71 @@
 #include "Core/EventHandler/EventHandler.hpp"
 #include "BoardView.hpp"
 
-
 BoardView::BoardView(const BoardView::BoardPointer &pointer)
     : m_board(pointer)
 {
     m_listSize = {250.f, 0.f};
 
     SetUpEventHandlers();
-    SetUpPromptCallbacks(); 
+    SetUpPromptCallbacks();
 }
 
-void BoardView::Update(float deltaTime) {
+void BoardView::Update(float deltaTime)
+{
     m_dragdropHandler.Update();
     m_openPromptHandler.Update();
     m_deleteItemHandler.Update();
 }
 
-void BoardView::EventUpdate(const sf::Event &event) { 
+void BoardView::EventUpdate(const sf::Event &event)
+{
     m_cardPrompt.EventUpdate(event);
     m_listPrompt.EventUpdate(event);
+    m_subtaskPrompt.EventUpdate(event);
 }
 
-void BoardView::SetUpEventHandlers() {
+void BoardView::SetUpEventHandlers()
+{
     /// DRAG AND DROP CALLBACK
-    const auto& dragdropCallback = [this] (DragDropData m_data) {
+    const auto &dragdropCallback = [this](DragDropData m_data)
+    {
         if (m_data.source.card != -1)
-            m_board->MoveCard( m_data.source, m_data.destination );
+            m_board->MoveCard(m_data.source, m_data.destination);
         else
-            m_board->MoveList( m_data.source.list, m_data.destination.list );
+            m_board->MoveList(m_data.source.list, m_data.destination.list);
     };
-    
+
     /// OPEN PROMPT CALLBACK
-    const auto& openPromptCallback = [this] (OpenPromptData data) {
-        const auto& listIndex = data.index.list;
-        const auto& cardIndex = data.index.card;
-        const auto& promptData = data.promptData;
+    const auto &openPromptCallback = [this](OpenPromptData data)
+    {
+        const auto &listIndex = data.index.list;
+        const auto &cardIndex = data.index.card;
+        const auto &subtaskIndex = data.index.subtask;
+        const auto &promptData = data.promptData;
         if (std::holds_alternative<std::optional<ListData>>(promptData))
             m_listPrompt.Open(std::get<std::optional<ListData>>(promptData),
-            { listIndex });
-        else
+                              {listIndex});
+        else if (std::holds_alternative<std::optional<CardData>>(promptData))
             m_cardPrompt.Open(std::get<std::optional<CardData>>(promptData),
-            { listIndex, cardIndex });
+                              {listIndex,
+                               cardIndex});
+        else if (std::holds_alternative<std::optional<SubtaskData>>(promptData))
+            m_subtaskPrompt.Open(std::get<std::optional<SubtaskData>>(promptData),
+                                 {
+                                     listIndex,
+                                     cardIndex,
+                                     subtaskIndex,
+                                 });
+        else
+            throw std::runtime_error("Invalid prompt data");
     };
 
-
     /// DELETE CALLBACK
-    const auto& deleteItemCallback = [this] (DeleteItemData data) {
-        const auto& listIndex = data.index.list;
-        const auto& cardIndex = data.index.card;
+    const auto &deleteItemCallback = [this](DeleteItemData data)
+    {
+        const auto &listIndex = data.index.list;
+        const auto &cardIndex = data.index.card;
+        const auto &subtaskIndex = data.index.subtask;
 
         if (cardIndex == -1)
             m_board->RemoveElement(listIndex);
@@ -62,10 +79,11 @@ void BoardView::SetUpEventHandlers() {
     m_deleteItemHandler = EventHandler<DeleteItemData>(deleteItemCallback);
 }
 
-void BoardView::SetUpPromptCallbacks() {
+void BoardView::SetUpPromptCallbacks()
+{
     /// LIST PROMPT CALLBACK
-    const auto listPromptSubmitCallback = 
-    [this](const ListData &listData, const ListPromptContext& promptContext)
+    const auto listPromptSubmitCallback =
+        [this](const ListData &listData, const ListPromptContext &promptContext)
     {
         if (promptContext.listIndex < 0)
             m_board->AddElement(List(listData));
@@ -73,10 +91,9 @@ void BoardView::SetUpPromptCallbacks() {
             m_board->At(promptContext.listIndex)->Update(listData);
     };
 
-
     /// CARD PROMPT CALLBACK
     const auto cardPromptSubmitCallback =
-        [this](const CardData &cardData, const Board::ItemIndex& promptContext)
+        [this](const CardData &cardData, const Board::ItemIndex &promptContext)
     {
         auto &list = m_board->At(promptContext.list);
         if (promptContext.card < 0)
@@ -85,7 +102,24 @@ void BoardView::SetUpPromptCallbacks() {
             list->At(promptContext.card)->Update(cardData);
     };
 
+    /// SUBTASK PROMPT CALLBACK
+    const auto subtaskPromptSubmitCallback =
+        [this](const SubtaskData &subtaskData, const Board::ItemIndex &promptContext)
+    {
+        auto &list = m_board->At(promptContext.list);
+        auto card = list->At(promptContext.card);
+
+        if (promptContext.subtask < 0)
+            card->AddElement(Subtask(subtaskData));
+        else
+        {
+            auto subtask = card->At(promptContext.subtask);
+            subtask->SetTitle(subtaskData.title);
+            subtask->SetCompleted(subtaskData.isCompleted);
+        }
+    };
+
     m_listPrompt.SetOnExitCallback(listPromptSubmitCallback);
     m_cardPrompt.SetOnExitCallback(cardPromptSubmitCallback);
+    m_subtaskPrompt.SetOnExitCallback(subtaskPromptSubmitCallback);
 }
-

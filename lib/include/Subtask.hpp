@@ -1,6 +1,12 @@
 #pragma once
 #include <string>
 
+struct SubtaskData
+{
+    std::string title;
+    bool isCompleted = false;
+};
+
 /// Represents a subtask with a title and completion status
 class Subtask
 {
@@ -15,6 +21,11 @@ public:
     /// \param title Title of the subtask
     Subtask(const std::string &title)
         : m_title(title), m_isCompleted(false) {}
+
+    /// Constructs a subtask from SubtaskData
+    /// \param data SubtaskData containing title and completion status
+    Subtask(const SubtaskData &data)
+        : m_title(data.title), m_isCompleted(data.isCompleted) {}
 
     /// Gets the title of the subtask
     /// \return Title of the subtask
@@ -44,7 +55,12 @@ public:
         m_isCompleted = isCompleted;
     }
 
-private:
+    SubtaskData GetData() const
+    {
+        return {m_title, m_isCompleted};
+    }
+
+public:
     /// Title of the subtask
     std::string m_title;
 
