@@ -32,5 +32,5 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     PROJECT_NAME="${PROJECT_NAME}"
 )
 
-file(COPY "assets"
+file(COPY "resources"
     DESTINATION "${EXECUTABLE_OUTPUT_PATH}")

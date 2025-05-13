@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
-project(project VERSION 1.0)
+project(ImKanban VERSION 1.0)
 include(CTest)
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)

@@ -1,4 +1,4 @@
-# Kanban board app
+# ImKanban
 [![Build and test](https://github.com/pawelk5/projekt-jipp/actions/workflows/cmake-multi-platform.yml/badge.svg?event=push)](https://github.com/pawelk5/projekt-jipp/actions/workflows/cmake-multi-platform.yml)
 ## About
 
