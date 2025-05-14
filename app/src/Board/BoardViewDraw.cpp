@@ -13,7 +13,7 @@ void BoardView::DrawSidebar(sf::RenderTarget& target) {
         ImGui::Text("Side bar!");
         ImGui::Separator();
 
-        m_returnToMainView = ImGui::Button("Return", ImVec2{ImGui::GetContentRegionAvail().x, 2*ImGui::GetTextLineHeightWithSpacing()});
+        m_returnToMainView = ImGui::Button(ICON_FA_ARROW_LEFT " Return", ImVec2{ImGui::GetContentRegionAvail().x, 2*ImGui::GetTextLineHeightWithSpacing()});
     });
 }
 

@@ -304,7 +304,7 @@ void ImGuiDemoView::DrawContent(sf::RenderTarget& target) {
 }
 
 void ImGuiDemoView::DrawSidebar(sf::RenderTarget& target) { 
-    m_goToMainView = ImGui::Button("Return");
+    m_goToMainView = ImGui::Button(ICON_FA_ARROW_LEFT " Return");
 }
 
 void ImGuiDemoView::DrawImpl(sf::RenderTarget& target) { ; }

@@ -1,23 +1,24 @@
 #pragma once
+#include "fontawesome/IconFontCppHeaders/IconsFontAwesome6.h"
 
 namespace defs {
     namespace Labels {
-        constexpr const char* okButtonLabel = "OK";
-        constexpr const char* cancelButtonLabel = "Cancel";
+        constexpr const char* okButtonLabel = ICON_FA_CHECK " OK";
+        constexpr const char* cancelButtonLabel = ICON_FA_XMARK " Cancel";
 
-        constexpr const char* newCardPopup = "New Task";
-        constexpr const char* editCardPopup = "Edit Task";
+        constexpr const char* newCardPopup = ICON_FA_SQUARE_PLUS " New Task";
+        constexpr const char* editCardPopup = ICON_FA_PENCIL " Edit Task";
 
-        constexpr const char* newListPopup = "New List";
-        constexpr const char* editListPopup = "Edit List";
+        constexpr const char* newListPopup = ICON_FA_SQUARE_PLUS " New List";
+        constexpr const char* editListPopup = ICON_FA_PENCIL " Edit List";
 
-        constexpr const char* addListLabel = "Add List";
-        constexpr const char* addTaskLabel = "Add Task";
+        constexpr const char* addListLabel = ICON_FA_SQUARE_PLUS " Add List";
+        constexpr const char* addTaskLabel = ICON_FA_SQUARE_PLUS " Add Task";
 
-        constexpr const char* deleteItemLabel = "Delete";
-        constexpr const char* editItemLabel = "Edit";
+        constexpr const char* deleteItemLabel = ICON_FA_TRASH " Delete";
+        constexpr const char* editItemLabel = ICON_FA_PENCIL " Edit";
 
-        constexpr const char* confirmPromptLabel = "Confirm";
+        constexpr const char* confirmPromptLabel = ICON_FA_CHECK " Confirm";
         constexpr const char* deleteItemConfirmPromptMessage = "Are you sure you want to delete this item?";
 
         constexpr const char* mainViewContainerHeader = "Your boards";

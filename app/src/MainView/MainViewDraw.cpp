@@ -11,8 +11,8 @@ void MainView::DrawSidebar(sf::RenderTarget& target) {
 
         const ImVec2 size = ImVec2{ImGui::GetContentRegionAvail().x, 2*ImGui::GetTextLineHeightWithSpacing()};
 
-        m_openBoard = ImGui::Button(ICON_FA_ARROW_UP " Open Board", size);
-        m_openImGuiDemo = ImGui::Button("Open ImGui Demo", size);
+        m_openBoard = ImGui::Button(ICON_FA_CHALKBOARD " Open Board", size);
+        m_openImGuiDemo = ImGui::Button(ICON_FA_BUG "Open ImGui Demo", size);
     });
 }
 
