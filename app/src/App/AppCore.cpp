@@ -5,6 +5,8 @@
 #include "Board/BoardView.hpp"
 #include "ImGuiDemoView/ImGuiDemoView.hpp"
 #include "notosans/noto.embed"
+#include "fontawesome/fontawesome.embed"
+
 
 App::App()
     :m_isFullscreen(false)
@@ -38,7 +40,7 @@ void App::LoadFont() {
 
     /// NOTE: THIS IS FONT SPECIFIC!
     /// unicode ranges
-    constexpr const ImWchar ranges[] = {
+    constexpr const ImWchar notoRanges[] = {
         0x0020, 0x00FF, // basic
         0x0100, 0x017F, // latin extended a
         0x0180, 0x024F, // latin extended b
@@ -49,9 +51,30 @@ void App::LoadFont() {
         0,
     };
 
-    for (const auto& size : defs::UI::fontSizes)
+    constexpr const ImWchar fontawesomeRanges[] = {
+        ICON_MIN_FA, ICON_MAX_FA,
+        0,
+    };
+
+    ImFontConfig fontawesomeConfig{};
+    fontawesomeConfig.MergeMode = true;
+    fontawesomeConfig.GlyphMinAdvanceX = 13.0f;
+    
+    ImFontConfig notoConfig{};
+    notoConfig.MergeMode = false;
+
+
+    notoConfig.FontDataOwnedByAtlas = false;
+    fontawesomeConfig.FontDataOwnedByAtlas = false;
+
+    for (const auto& size : defs::UI::fontSizes) {
         io.Fonts->AddFontFromMemoryTTF((void*)notoFont, notoFontSize, size, 
-            nullptr, ranges);
+            &notoConfig, notoRanges);
+
+
+        io.Fonts->AddFontFromMemoryTTF((void*)fontawesomeFont, fontawesomeFontSize, size, 
+            &fontawesomeConfig, fontawesomeRanges);
+    }
 
     if (!ImGui::SFML::UpdateFontTexture())
         throw std::runtime_error(defs::Error::updateFontTexture);

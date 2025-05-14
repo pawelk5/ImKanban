@@ -15,3 +15,5 @@
 #include <imgui.h>
 #include <imgui-SFML.h>
 
+// fontawesome icons
+#include "fontawesome/IconFontCppHeaders/IconsFontAwesome6.h"

@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Core/Utils/Style.hpp"
 #include "MainView.hpp"
-#include <imgui.h>
 
 
 void MainView::DrawSidebar(sf::RenderTarget& target) {
@@ -12,7 +11,7 @@ void MainView::DrawSidebar(sf::RenderTarget& target) {
 
         const ImVec2 size = ImVec2{ImGui::GetContentRegionAvail().x, 2*ImGui::GetTextLineHeightWithSpacing()};
 
-        m_openBoard = ImGui::Button("Open Board", size);
+        m_openBoard = ImGui::Button(ICON_FA_ARROW_UP " Open Board", size);
         m_openImGuiDemo = ImGui::Button("Open ImGui Demo", size);
     });
 }
