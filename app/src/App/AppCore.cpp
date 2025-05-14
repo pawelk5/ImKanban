@@ -9,7 +9,7 @@
 
 
 App::App()
-    :m_isFullscreen(false)
+    :m_isFullscreen(false), m_settings()
 {
     CreateWindow();
     if (!ImGui::SFML::Init(m_window, false))
@@ -26,6 +26,14 @@ App::~App() {
 App& App::Get() {
     static App s_App{};
     return s_App;
+}
+
+const AppSettings& App::GetSettings() {
+    return m_settings;
+}
+
+const AppSettings& App::Settings() {
+    return App::Get().GetSettings();
 }
 
 void App::CreateWindow() {

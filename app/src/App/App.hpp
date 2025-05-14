@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "Core/View/ViewBase.hpp"
+#include "AppSettings/AppSettings.hpp"
 
 /// Main app class (IMPLEMENTED AS A SINGLETON)
 class App {
@@ -16,6 +17,12 @@ public:
     /// Main app function, starts the main loop
     void Run();
     
+    /// Returns app settings (static version)
+    static const AppSettings& Settings();
+
+    /// Returns app settings
+    const AppSettings& GetSettings();
+
 private:
     /// Initializes application and ImGui
     App();
@@ -65,4 +72,7 @@ private:
 
     /// Current view
     std::unique_ptr<ViewBase> m_currentView;
+
+    /// Current app settings
+    AppSettings m_settings;
 };

@@ -4,11 +4,12 @@
 #include "Card.hpp"
 #include "List.hpp"
 #include "BoardView.hpp"
+#include "App/App.hpp"
 #include <imgui.h>
 
 
 void BoardView::DrawSidebar(sf::RenderTarget& target) { 
-    Style::WithFont(defs::UI::Font::NORMAL_LARGE, 
+    Style::WithFont(App::Settings().GetFont(+2), 
         [this]() {
         ImGui::Text("Side bar!");
         ImGui::Separator();
@@ -46,7 +47,7 @@ void BoardView::DrawContent(sf::RenderTarget &target) {
 }
 
 void BoardView::DrawHeader() {
-    Style::WithFont(defs::UI::Font::NORMAL_LARGE,
+    Style::WithFont(App::Settings().GetFont(+2),
         [this]() {
         ImGui::Text("Board: %s", m_board->GetDataRef().name.c_str());
     });
@@ -71,7 +72,7 @@ void BoardView::DrawList(Board::ElementArrayIterator iter) {
         
     /// drag drop source for list
     CreateDragDropSource(list, Board::MoveData{listIndex, -1});
-    Style::WithFont(defs::UI::Font::NORMAL_MEDIUM, 
+    Style::WithFont(App::Settings().GetFont(+1), 
         [list]() {
         ImGui::Text("%s", list.GetDataRef().name.c_str());
     });

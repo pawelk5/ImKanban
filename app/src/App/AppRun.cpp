@@ -1,3 +1,4 @@
+#include "Core/Utils/Style.hpp"
 #include "pch.h"
 #include "App.hpp"
 
@@ -44,7 +45,10 @@ void App::Update() {
 
 void App::Draw() {
     m_window.clear();
-    m_currentView->Draw(m_window);
+    Style::WithFont(m_settings.fontSize, [this](){
+        m_currentView->Draw(m_window);
+    });
+    
     ImGui::SFML::Render(m_window);
     m_window.display();
 }

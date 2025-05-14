@@ -46,20 +46,22 @@ namespace defs {
             }
         }
 
-        constexpr const int sizesCount = 3;
-        constexpr const int fontsCount = 1;
+        constexpr const int sizesCount = 6;
         constexpr const std::array<float, sizesCount> fontSizes = {
-            20.f, 24.f, 32.f
+            16.f, 20.f, 24.f, 32.f, 40.f, 48.f
         };
 
-        enum class Font {
-            NORMAL_SMALL = 0,
-            NORMAL_MEDIUM,
-            NORMAL_LARGE,
+        enum class Font : int {
+            VerySmall = 0,
+            Small,
+            Medium,
+            Large,
+            VeryLarge,
+            Huge,
             COUNT
         };
 
-        static_assert((int)Font::COUNT == sizesCount * fontsCount);
+        static_assert((int)Font::COUNT == sizesCount);
 
         constexpr const int maxListNameSize = 32;
         constexpr const int maxCardNameSize = 48;

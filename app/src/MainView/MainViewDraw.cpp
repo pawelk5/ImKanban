@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "Core/Utils/Style.hpp"
 #include "MainView.hpp"
-
+#include "App/App.hpp"
 
 void MainView::DrawSidebar(sf::RenderTarget& target) {
-    Style::WithFont(defs::UI::Font::NORMAL_LARGE, 
+    Style::WithFont(App::Settings().GetFont(+1), 
         [this](){
         ImGui::Text("%s", PROJECT_NAME);
         ImGui::Separator();
@@ -31,7 +31,7 @@ void MainView::DrawContent(sf::RenderTarget &target) {
 }
 
 void MainView::DrawHeader() {
-    Style::WithFont(defs::UI::Font::NORMAL_LARGE,
+    Style::WithFont(App::Settings().GetFont(+2),
         [this]() {
         ImGui::Text("%s", defs::Labels::mainViewContainerHeader);
     });
