@@ -40,6 +40,18 @@ make
 
 See the [docs](docs) folder for more details.
 
+## Credits
+
+This project uses following open source libraries and fonts:
+
+- [Dear ImGui](https://github.com/ocornut/imgui)
+- [SFML](https://github.com/SFML/SFML)
+- [imgui-sfml](https://github.com/SFML/imgui-sfml)
+- [IconFontCppHeaders](https://github.com/juliettef/IconFontCppHeaders)
+- [googletest](https://github.com/google/googletest)
+- [Noto Sans](https://github.com/notofonts)
+- [FontAwesome 6 Free](https://github.com/FortAwesome/Font-Awesome)
+
 ## License
 
 This project is licensed under the GNU GPL-3.0 [license](LICENSE).
