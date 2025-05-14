@@ -3,7 +3,9 @@
 #include "MainView.hpp"
 
 
-MainView::MainView() {
+MainView::MainView() 
+    :m_openImGuiDemo(false), m_openBoard(false), m_openSettings(false)
+{
     ;
 }
 
@@ -21,4 +23,8 @@ bool MainView::GoToBoard() {
 
 bool MainView::GoToImGuiDemo() {
     return m_openImGuiDemo;
+}
+
+bool MainView::GoToSettings() {
+    return m_openSettings;
 }

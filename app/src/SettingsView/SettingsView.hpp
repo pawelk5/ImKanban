@@ -1,11 +1,12 @@
 #pragma once
+#include "App/AppSettings/AppSettings.hpp"
 #include "Core/View/ViewBase.hpp"
 
-/// View displaying a board's content
-class MainView : public ViewBase {
+/// View displaying application settings
+class SettingsView : public ViewBase {
 public:
     /// Constructs main view
-    explicit MainView();
+    explicit SettingsView(AppSettings& appSettings);
 
     /// Draw board in the main container
     /// \param target SFML render target
@@ -31,17 +32,12 @@ public:
     void EventUpdate(const sf::Event& event) override;
 
 public:
-    /// Getter function for m_openBoard
-    bool GoToBoard();
-
-    /// Getter function for m_openImGuiDemo
-    bool GoToImGuiDemo();
-
-    /// Getter function for m_openSettings
-    bool GoToSettings();
+    /// Getter function for m_openMainView
+    bool GoToMainView();
 
 private:
-    bool m_openImGuiDemo;
-    bool m_openBoard;
-    bool m_openSettings;
+    bool m_openMainView;
+    
+    /// Reference to apps settings
+    AppSettings& m_appSettingsRef;
 };

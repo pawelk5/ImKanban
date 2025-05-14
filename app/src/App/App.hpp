@@ -45,6 +45,9 @@ private:
     /// Create board view
     void CreateBoardView();
 
+    /// Create settings view
+    void CreateSettingsView();
+
     /// Handles all SFML events
     void EventUpdate();
 

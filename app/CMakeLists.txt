@@ -6,6 +6,8 @@ add_executable(${PROJECT_NAME}
     "src/MainView/MainViewDraw.cpp"
     "src/Board/BoardViewCore.cpp"
     "src/Board/BoardViewDraw.cpp"
+    "src/SettingsView/SettingsViewCore.cpp"
+    "src/SettingsView/SettingsViewDraw.cpp"
     "src/Board/ListPrompt/ListPrompt.cpp"
     "src/Board/CardPrompt/CardPrompt.cpp"
     "src/Board/DeleteItemPrompt/DeleteItemPrompt.cpp"

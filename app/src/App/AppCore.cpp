@@ -4,6 +4,7 @@
 #include "Core/Utils/Constants.hpp"
 #include "Board/BoardView.hpp"
 #include "ImGuiDemoView/ImGuiDemoView.hpp"
+#include "SettingsView/SettingsView.hpp"
 #include "notosans/noto.embed"
 #include "fontawesome/fontawesome.embed"
 
@@ -100,6 +101,10 @@ void App::CreateBoardView() {
     m_currentView = std::make_unique<BoardView>(std::make_shared<Board>(BoardData{"example"}));
 }
 
+void App::CreateSettingsView() {
+    m_currentView = std::make_unique<SettingsView>(m_settings);
+}
+
 
 void App::ChangeFullscreenMode() {
     m_isFullscreen = !m_isFullscreen;
@@ -118,10 +123,16 @@ void App::ChangeViewHandler() {
         if (view->GoToMainView())
             CreateMainView();
     }
+    else if (auto view = dynamic_cast<SettingsView*>(m_currentView.get())) {
+        if (view->GoToMainView())
+            CreateMainView();
+    }
     else if (auto view = dynamic_cast<MainView*>(m_currentView.get())) {
         if (view->GoToBoard())
             CreateBoardView();
         else if (view->GoToImGuiDemo())
             CreateImGuiDemoView();
+        else if (view->GoToSettings())
+            CreateSettingsView();
     }
 }
