@@ -38,6 +38,16 @@ void SettingsView::DrawContent(sf::RenderTarget &target) {
             if (i != (int)defs::UI::Font::Large)
                 ImGui::SameLine();
         }
+        
+        ImGui::Separator();
+
+        ImGui::Text("Theme");
+        for (int i = (int)defs::UI::Theme::Light; i < (int)defs::UI::Theme::COUNT; i++) {
+            if (ImGui::Button(defs::UI::themes[i], size))
+                m_appSettingsRef.SetTheme((defs::UI::Theme)i);
+            if (i != (int)defs::UI::Font::COUNT - 1)
+                ImGui::SameLine();
+        }
     }
     ImGui::EndChild();
 }

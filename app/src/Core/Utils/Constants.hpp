@@ -46,8 +46,8 @@ namespace defs {
             }
         }
 
-        constexpr const int sizesCount = 6;
-        constexpr const std::array<float, sizesCount> fontSizes = {
+        constexpr const int fontSizesCount = 6;
+        constexpr const std::array<float, fontSizesCount> fontSizes = {
             16.f, 20.f, 24.f, 32.f, 40.f, 48.f
         };
 
@@ -61,7 +61,23 @@ namespace defs {
             COUNT
         };
 
-        static_assert((int)Font::COUNT == sizesCount);
+        static_assert((int)Font::COUNT == fontSizesCount);
+
+
+        constexpr const int themeCount = 2;
+        constexpr const std::array<const char*, themeCount> themes = {
+            "Light", "Dark"
+        };
+
+        enum class Theme {
+            Light = 0,
+            Dark,
+            COUNT
+        };
+
+        static_assert((int)Theme::COUNT == themeCount);
+
+        
 
         constexpr const int maxListNameSize = 32;
         constexpr const int maxCardNameSize = 48;
