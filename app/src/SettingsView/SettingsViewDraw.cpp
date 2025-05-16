@@ -1,5 +1,5 @@
-#include "Core/Utils/Constants.hpp"
 #include "pch.h"
+#include "Core/Utils/Constants.hpp"
 #include "SettingsView.hpp"
 #include "Core/Utils/Style.hpp"
 #include "App/App.hpp"

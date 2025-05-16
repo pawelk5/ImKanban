@@ -1,3 +1,4 @@
+#include "App/AppSettings/AppSettings.hpp"
 #include "pch.h"
 #include "MainView/MainView.hpp"
 #include "App.hpp"
@@ -18,6 +19,8 @@ App::App()
     LoadFont();
     
     CreateMainView();
+
+    m_settings = AppSettings::LoadFromFile(defs::App::settingsFile);
 }
 
 App::~App() {

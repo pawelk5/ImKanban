@@ -82,6 +82,13 @@ namespace defs {
         constexpr const int maxListNameSize = 32;
         constexpr const int maxCardNameSize = 48;
     }
+    
+    namespace App {
+        constexpr ::defs::UI::Font defaultFont = ::defs::UI::Font::Small;
+        constexpr ::defs::UI::Theme defaultTheme = ::defs::UI::Theme::Dark;
+
+        constexpr const char* settingsFile = "settings.json";
+    }
 
     namespace UIFlags {
         /// Window flag for modal prompts
