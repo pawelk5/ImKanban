@@ -10,7 +10,7 @@ SettingsView::SettingsView(AppSettings& appSettings)
 }
 
 SettingsView::~SettingsView() {
-    AppSettings::SaveToFile(m_appSettingsRef, defs::App::settingsFile);
+    AppSettings::SaveToFile(m_appSettingsRef, AppDefs::settingsFile);
 }
 
 void SettingsView::Update(float deltaTime) {

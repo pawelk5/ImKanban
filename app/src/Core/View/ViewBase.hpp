@@ -31,7 +31,7 @@ public:
         ImGui::SetNextWindowPos({0.f, 0.f});
 
         if (ImGui::Begin("##side-region", nullptr, 
-            defs::UIFlags::windowFlags | ImGuiWindowFlags_NoTitleBar))
+            UIFlags::windowFlags | ImGuiWindowFlags_NoTitleBar))
             DrawSidebar(target);
         ImGui::End();
 
@@ -39,7 +39,7 @@ public:
         ImGui::SetNextWindowSize(mainRegionSize);
         ImGui::SetNextWindowPos(mainRegionPos);
         if (ImGui::Begin("##main-region", nullptr, 
-            defs::UIFlags::windowFlags | ImGuiWindowFlags_NoTitleBar))
+            UIFlags::windowFlags | ImGuiWindowFlags_NoTitleBar))
             DrawContent(target);
         ImGui::End();
 

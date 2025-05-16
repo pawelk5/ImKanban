@@ -5,7 +5,7 @@
 
 namespace Style {
     template<typename T>
-    void WithFont(defs::UI::Font font, const T& lambda) {
+    void WithFont(UI::Font font, const T& lambda) {
         ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[(int)font]);
         lambda();
         ImGui::PopFont();

@@ -4,24 +4,24 @@
 #include <imgui.h>
 #include "AppSettings.hpp"
 
-defs::UI::Font AppSettings::GetFont(int diff) const {
+UI::Font AppSettings::GetFont(int diff) const {
     int currentFont = (int)fontSize;
     if (currentFont + diff < 0 || currentFont + diff <= 1)
-        return (defs::UI::Font)currentFont;
+        return (UI::Font)currentFont;
 
-    return (defs::UI::Font)(currentFont + diff);
+    return (UI::Font)(currentFont + diff);
 }
 
-void AppSettings::SetTheme(defs::UI::Theme newTheme) {
+void AppSettings::SetTheme(UI::Theme newTheme) {
     theme = newTheme;
     UpdateTheme();
 }
 
 /// (TODO: make custom themes)
 void AppSettings::UpdateTheme() const {
-    if (theme == defs::UI::Theme::Light)
+    if (theme == UI::Theme::Light)
         ImGui::StyleColorsLight();
-    else if (theme == defs::UI::Theme::Dark)
+    else if (theme == UI::Theme::Dark)
         ImGui::StyleColorsDark();
 }
 
@@ -49,16 +49,16 @@ AppSettings AppSettings::LoadFromFile(std::string filepath) {
     };
 
 
-    if (hasNumber(defs::App::settingsThemeKey)) {
-        const auto theme = data[defs::App::settingsThemeKey].template get<int>();
-        if (inRange(theme, (int)defs::UI::Theme::Light, (int)defs::UI::Theme::COUNT - 1))
-            settings.theme = (defs::UI::Theme)theme;
+    if (hasNumber(AppDefs::settingsThemeKey)) {
+        const auto theme = data[AppDefs::settingsThemeKey].template get<int>();
+        if (inRange(theme, (int)UI::Theme::Light, (int)UI::Theme::COUNT - 1))
+            settings.theme = (UI::Theme)theme;
     }
 
-    if (hasNumber(defs::App::settingsFontKey)) {
-        const auto fontSize = data[defs::App::settingsFontKey].template get<int>();
-        if (inRange(fontSize, (int)defs::UI::Font::Small, (int)defs::UI::Font::Large))
-            settings.fontSize = (defs::UI::Font)fontSize;
+    if (hasNumber(AppDefs::settingsFontKey)) {
+        const auto fontSize = data[AppDefs::settingsFontKey].template get<int>();
+        if (inRange(fontSize, (int)UI::Font::Small, (int)UI::Font::Large))
+            settings.fontSize = (UI::Font)fontSize;
     }
     
     settingsFile.close();
@@ -73,8 +73,8 @@ void AppSettings::SaveToFile(AppSettings settings, std::string filepath) {
         return;
 
     nlohmann::json settingsJson = {
-        {defs::App::settingsFontKey, settings.fontSize},
-        {defs::App::settingsThemeKey, settings.theme}
+        {AppDefs::settingsFontKey, settings.fontSize},
+        {AppDefs::settingsThemeKey, settings.theme}
     };
 
     settingsFile << settingsJson.dump();

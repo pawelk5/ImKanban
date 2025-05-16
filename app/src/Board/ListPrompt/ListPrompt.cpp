@@ -8,9 +8,9 @@ ListPrompt::ListPrompt() {
 
 const char* ListPrompt::GetPopupID() {
     if (m_contextData.listIndex < 0)
-        return defs::Labels::newListPopup;
+        return Labels::newListPopup;
     
-    return defs::Labels::editListPopup;
+    return Labels::editListPopup;
 }
 
 void ListPrompt::DrawImpl(sf::RenderTarget& target) {
@@ -18,5 +18,5 @@ void ListPrompt::DrawImpl(sf::RenderTarget& target) {
 }
 
 void ListPrompt::OpenImpl() {
-    m_data.name.resize(defs::UI::maxListNameSize);
+    m_data.name.resize(UI::maxListNameSize);
 }

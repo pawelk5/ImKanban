@@ -25,7 +25,7 @@ void MainView::DrawContent(sf::RenderTarget &target) {
     DrawHeader();
     ImGui::Separator();
     if (ImGui::BeginChild("##boards-container", ImGui::GetContentRegionAvail(), 
-        defs::UIFlags::childFlags, defs::UIFlags::contentWindowFlags)) {
+        UIFlags::childFlags, UIFlags::contentWindowFlags)) {
         
     }
     ImGui::EndChild();
@@ -34,6 +34,6 @@ void MainView::DrawContent(sf::RenderTarget &target) {
 void MainView::DrawHeader() {
     Style::WithFont(App::Settings().GetFont(+2),
         [this]() {
-        ImGui::Text("%s", defs::Labels::mainViewContainerHeader);
+        ImGui::Text("%s", Labels::mainViewContainerHeader);
     });
 }

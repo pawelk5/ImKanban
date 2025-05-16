@@ -23,29 +23,29 @@ void SettingsView::DrawImpl(sf::RenderTarget& target) {
 
 void SettingsView::DrawContent(sf::RenderTarget &target) {
     if (ImGui::BeginChild("##settings-container", ImGui::GetContentRegionAvail(), 
-        defs::UIFlags::childFlags, defs::UIFlags::contentWindowFlags)) {
+        UIFlags::childFlags, UIFlags::contentWindowFlags)) {
         ImGui::Text("Font Size");
 
         const ImVec2 size = { 80.f, 80.f };
-        for (int i = (int)defs::UI::Font::Small; i <= (int)defs::UI::Font::Large; i++) {
-            Style::WithFont((defs::UI::Font) i, 
+        for (int i = (int)UI::Font::Small; i <= (int)UI::Font::Large; i++) {
+            Style::WithFont((UI::Font) i, 
             [this, size, i ]() {
                 
                 if (ImGui::Button(("Aa##" + std::to_string(i)).c_str(), size))
-                    m_appSettingsRef.fontSize = (defs::UI::Font)i;
+                    m_appSettingsRef.fontSize = (UI::Font)i;
             });
 
-            if (i != (int)defs::UI::Font::Large)
+            if (i != (int)UI::Font::Large)
                 ImGui::SameLine();
         }
         
         ImGui::Separator();
 
         ImGui::Text("Theme");
-        for (int i = (int)defs::UI::Theme::Light; i < (int)defs::UI::Theme::COUNT; i++) {
-            if (ImGui::Button(defs::UI::themes[i], size))
-                m_appSettingsRef.SetTheme((defs::UI::Theme)i);
-            if (i != (int)defs::UI::Font::COUNT - 1)
+        for (int i = (int)UI::Theme::Light; i < (int)UI::Theme::COUNT; i++) {
+            if (ImGui::Button(UI::themes[i], size))
+                m_appSettingsRef.SetTheme((UI::Theme)i);
+            if (i != (int)UI::Font::COUNT - 1)
                 ImGui::SameLine();
         }
     }

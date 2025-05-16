@@ -8,5 +8,5 @@ DeleteItemPrompt::DeleteItemPrompt() {
 }
 
 const char* DeleteItemPrompt::GetPromptMessage() {
-    return defs::Labels::deleteItemConfirmPromptMessage;
+    return Labels::deleteItemConfirmPromptMessage;
 }

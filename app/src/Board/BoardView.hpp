@@ -147,11 +147,11 @@ private:
     /// \param payloadType type of drag and drop payload (list/card)
     /// \param payload index of the element
     /// \param drawTooltip function for drawing tooltips (NOTE: highly recommended to use lambda function)
-    void HandleDragDropSource(defs::UI::PayloadType payloadType,
+    void HandleDragDropSource(UI::PayloadType payloadType,
         const DragDropPayload& payload, const std::function<void()>& drawTooltip);
 
     /// Creates ImGui drag and drop target for cards and lists
     /// \param destination destination index where dragged item will be dropped
     /// \param payloadType drag and drop target type (list/card)
-    void CreateDragDropTarget(const DragDropPayload& destination, defs::UI::PayloadType payloadType);
+    void CreateDragDropTarget(const DragDropPayload& destination, UI::PayloadType payloadType);
 };

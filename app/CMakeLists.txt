@@ -1,6 +1,7 @@
 add_executable(${PROJECT_NAME}
     "src/main.cpp"
     "src/App/AppCore.cpp"
+    "src/App/AppFonts.cpp"
     "src/App/AppRun.cpp"
     "src/App/AppSettings/AppSettings.cpp"
     "src/MainView/MainViewCore.cpp"

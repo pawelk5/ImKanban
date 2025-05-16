@@ -22,17 +22,17 @@ public:
         ImVec2 center = ImGui::GetMainViewport()->GetCenter();
         ImGui::SetNextWindowPos(center, ImGuiCond_Always, ImVec2{0.5f, 0.5f});
 
-        if (ImGui::BeginPopupModal(this->GetPopupID(), nullptr, defs::UIFlags::promptFlags)) {
+        if (ImGui::BeginPopupModal(this->GetPopupID(), nullptr, UIFlags::promptFlags)) {
             ImGui::Text("%s", this->GetPromptMessage());
             ImGui::Spacing();
             
-            if (ImGui::Button(defs::Labels::okButtonLabel)){
+            if (ImGui::Button(Labels::okButtonLabel)){
                 this->m_onExit(this->m_data, this->m_contextData);
                 this->ClosePopup();
             }
         
             ImGui::SameLine();
-            if (ImGui::Button(defs::Labels::cancelButtonLabel))
+            if (ImGui::Button(Labels::cancelButtonLabel))
                 this->ClosePopup();
         }
         ImGui::EndPopup();
@@ -44,7 +44,7 @@ public:
 protected:
     /// Override id (header) of the modal prompt
     const char* GetPopupID() override {
-        return defs::Labels::confirmPromptLabel;
+        return Labels::confirmPromptLabel;
     }
 
     /// Returns prompt message

@@ -9,9 +9,9 @@ CardPrompt::CardPrompt() {
 
 const char* CardPrompt::GetPopupID() {
     if (m_contextData.card < 0)
-        return defs::Labels::newCardPopup;
+        return Labels::newCardPopup;
     
-    return defs::Labels::editCardPopup;
+    return Labels::editCardPopup;
 }
 
 void CardPrompt::DrawImpl(sf::RenderTarget& target) {
@@ -19,5 +19,5 @@ void CardPrompt::DrawImpl(sf::RenderTarget& target) {
 }
 
 void CardPrompt::OpenImpl() {
-    m_data.title.resize(defs::UI::maxCardNameSize);
+    m_data.title.resize(UI::maxCardNameSize);
 }

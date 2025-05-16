@@ -5,18 +5,18 @@
 /// Struct for holding current app settings
 struct AppSettings {
     /// Current font size
-    defs::UI::Font fontSize = defs::App::defaultFont;
+    UI::Font fontSize = AppDefs::defaultFont;
 
     /// Current theme
-    defs::UI::Theme theme = defs::App::defaultTheme;
+    UI::Theme theme = AppDefs::defaultTheme;
 
     /// Get ID of the font relative to current ID
     /// \param diff difference in font size (e.g. +1 returns a larger font)
     /// \return A font size offset by diff, (in a valid range)
-    defs::UI::Font GetFont(int diff) const;
+    UI::Font GetFont(int diff) const;
 
     /// Sets theme variable and updates ImGui theme
-    void SetTheme(defs::UI::Theme newTheme);
+    void SetTheme(UI::Theme newTheme);
 
     /// Updates current ImGui theme
     void UpdateTheme() const;
