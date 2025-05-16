@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "App/AppSettings/AppSettings.hpp"
+#include "Core/AppSettings/AppSettings.hpp"
 #include "MainView/MainView.hpp"
 #include "App.hpp"
 #include "Core/Utils/Constants.hpp"

@@ -1,4 +1,4 @@
-#include "App/AppSettings/AppSettings.hpp"
+#include "Core/AppSettings/AppSettings.hpp"
 #include "Core/Utils/Constants.hpp"
 #include "pch.h"
 #include "SettingsView.hpp"

@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "Core/View/ViewBase.hpp"
-#include "AppSettings/AppSettings.hpp"
+#include "Core/AppSettings/AppSettings.hpp"
 
 /// Main app class (IMPLEMENTED AS A SINGLETON)
 class App {

@@ -3,7 +3,7 @@ add_executable(${PROJECT_NAME}
     "src/App/AppCore.cpp"
     "src/App/AppFonts.cpp"
     "src/App/AppRun.cpp"
-    "src/App/AppSettings/AppSettings.cpp"
+    "src/Core/AppSettings/AppSettings.cpp"
     "src/MainView/MainViewCore.cpp"
     "src/MainView/MainViewDraw.cpp"
     "src/Board/BoardViewCore.cpp"

@@ -1,5 +1,5 @@
 #pragma once
-#include "App/AppSettings/AppSettings.hpp"
+#include "Core/AppSettings/AppSettings.hpp"
 #include "Core/View/ViewBase.hpp"
 
 /// View displaying application settings
