@@ -21,6 +21,6 @@ void SettingsView::EventUpdate(const sf::Event &event) {
     ;
 }
 
-bool SettingsView::GoToMainView() {
-    return m_openMainView;
+ViewNavigation SettingsView::GetState() {
+    return m_viewNavigation;
 }

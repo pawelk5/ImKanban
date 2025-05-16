@@ -43,7 +43,8 @@ private:
     void CreateImGuiDemoView();
 
     /// Create board view
-    void CreateBoardView();
+    /// \param boardViewData data required to create BoardView
+    void CreateBoardView(const OpenBoardView& boardViewData);
 
     /// Create settings view
     void CreateSettingsView();

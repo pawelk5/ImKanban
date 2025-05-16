@@ -43,8 +43,7 @@ public:
     /// \param event SFML event
     void EventUpdate(const sf::Event& event) override;
 
-    /// Check if the app should return to main view
-    bool GoToMainView();
+    ViewNavigation GetState() override;
 
 private:
     /// Pointer to current board
@@ -63,9 +62,8 @@ private:
     /// Size of list window (updated every frame in the beginning of the Draw function)
     /// (TODO: make this more dynamic)
     ImVec2 m_listSize;
-    
-    /// flag to check if the app should return to main view
-    bool m_returnToMainView;
+
+    ViewNavigation m_viewNavigation;
 
 private:
     /// Draws all lists of a board

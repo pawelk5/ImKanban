@@ -4,7 +4,7 @@
 
 
 MainView::MainView() 
-    :m_openImGuiDemo(false), m_openBoard(false), m_openSettings(false)
+    : m_viewNavigation(std::nullopt)
 {
     ;
 }
@@ -17,14 +17,6 @@ void MainView::EventUpdate(const sf::Event &event) {
     ;
 }
 
-bool MainView::GoToBoard() {
-    return m_openBoard;
-}
-
-bool MainView::GoToImGuiDemo() {
-    return m_openImGuiDemo;
-}
-
-bool MainView::GoToSettings() {
-    return m_openSettings;
+ViewNavigation MainView::GetState() {
+    return m_viewNavigation;
 }

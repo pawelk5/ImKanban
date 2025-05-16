@@ -1,3 +1,4 @@
+#include "Core/ViewNavigation/ViewNavigation.hpp"
 #include "pch.h"
 #include "Core/Utils/Constants.hpp"
 #include "SettingsView.hpp"
@@ -13,7 +14,8 @@ void SettingsView::DrawSidebar(sf::RenderTarget& target) {
 
         const ImVec2 size = ImVec2{ImGui::GetContentRegionAvail().x, 2*ImGui::GetTextLineHeightWithSpacing()};
 
-        m_openMainView = ImGui::Button(ICON_FA_HOUSE " Return", size);
+        if (ImGui::Button(ICON_FA_HOUSE " Return", size))
+            m_viewNavigation = OpenMainView();
     });
 }
 

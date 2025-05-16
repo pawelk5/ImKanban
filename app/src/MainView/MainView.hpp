@@ -30,18 +30,8 @@ public:
     /// \param event SFML event
     void EventUpdate(const sf::Event& event) override;
 
-public:
-    /// Getter function for m_openBoard
-    bool GoToBoard();
-
-    /// Getter function for m_openImGuiDemo
-    bool GoToImGuiDemo();
-
-    /// Getter function for m_openSettings
-    bool GoToSettings();
+    ViewNavigation GetState() override;
 
 private:
-    bool m_openImGuiDemo;
-    bool m_openBoard;
-    bool m_openSettings;
+    ViewNavigation m_viewNavigation;
 };

@@ -1,3 +1,4 @@
+#include "Core/ViewNavigation/ViewNavigation.hpp"
 #include "pch.h"
 #include "Core/AppSettings/AppSettings.hpp"
 #include "MainView/MainView.hpp"
@@ -6,6 +7,7 @@
 #include "Board/BoardView.hpp"
 #include "ImGuiDemoView/ImGuiDemoView.hpp"
 #include "SettingsView/SettingsView.hpp"
+#include <variant>
 
 
 App::App()
@@ -54,8 +56,8 @@ void App::CreateImGuiDemoView() {
     m_currentView = std::make_unique<ImGuiDemoView>();
 }
 
-void App::CreateBoardView() {
-    m_currentView = std::make_unique<BoardView>(std::make_shared<Board>(BoardData{"example"}));
+void App::CreateBoardView(const OpenBoardView& boardViewData) {
+    m_currentView = std::make_unique<BoardView>(boardViewData.pointer);
 }
 
 void App::CreateSettingsView() {
@@ -72,24 +74,16 @@ void App::ChangeFullscreenMode() {
 
 
 void App::ChangeViewHandler() {
-    if (auto view = dynamic_cast<ImGuiDemoView*>(m_currentView.get())) {
-        if (view->GoToMainView())
-            CreateMainView();
-    }
-    else if (auto view = dynamic_cast<BoardView*>(m_currentView.get())) {
-        if (view->GoToMainView())
-            CreateMainView();
-    }
-    else if (auto view = dynamic_cast<SettingsView*>(m_currentView.get())) {
-        if (view->GoToMainView())
-            CreateMainView();
-    }
-    else if (auto view = dynamic_cast<MainView*>(m_currentView.get())) {
-        if (view->GoToBoard())
-            CreateBoardView();
-        else if (view->GoToImGuiDemo())
+    if (auto state = m_currentView->GetState()) {
+        if (std::holds_alternative<OpenBoardView>(*state)){
+            auto data = std::get<OpenBoardView>(*state);
+            CreateBoardView(data);
+        }
+        else if (std::holds_alternative<OpenImGuiDemoView>(*state))
             CreateImGuiDemoView();
-        else if (view->GoToSettings())
+        else if (std::holds_alternative<OpenSettingsView>(*state))
             CreateSettingsView();
+        else if (std::holds_alternative<OpenMainView>(*state))
+            CreateMainView();
     }
 }

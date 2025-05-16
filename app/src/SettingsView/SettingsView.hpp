@@ -35,12 +35,10 @@ public:
     /// \param event SFML event
     void EventUpdate(const sf::Event& event) override;
 
-public:
-    /// Getter function for m_openMainView
-    bool GoToMainView();
+    ViewNavigation GetState() override;
 
 private:
-    bool m_openMainView;
+    ViewNavigation m_viewNavigation;
     
     /// Reference to apps settings
     AppSettings& m_appSettingsRef;

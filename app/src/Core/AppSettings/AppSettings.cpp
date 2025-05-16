@@ -1,7 +1,5 @@
-#include "Core/Utils/Constants.hpp"
 #include "pch.h"
-#include <fstream>
-#include <imgui.h>
+#include "Core/Utils/Constants.hpp"
 #include "AppSettings.hpp"
 
 UI::Font AppSettings::GetFont(int diff) const {
@@ -27,42 +25,6 @@ void AppSettings::UpdateTheme() const {
 
 void AppSettings::Apply() const {
     UpdateTheme();
-}
-
-AppSettings AppSettings::LoadFromFile(std::string filepath) {
-    std::ifstream settingsFile;
-    settingsFile.open(filepath);
-
-    if (!settingsFile)
-        return AppSettings{};
-
-    AppSettings settings{};
-    nlohmann::json data = nlohmann::json::parse(settingsFile);
-
-    /// USEFUL LAMBDA FUNCTIONS
-    const auto hasNumber = [data](const char* key) {
-        return data.contains(key) && data[key].is_number_integer();
-    };
-
-    const auto inRange = [](int var, int min, int max) {
-        return var >= min && var <= max;
-    };
-
-
-    if (hasNumber(AppDefs::settingsThemeKey)) {
-        const auto theme = data[AppDefs::settingsThemeKey].template get<int>();
-        if (inRange(theme, (int)UI::Theme::Light, (int)UI::Theme::COUNT - 1))
-            settings.theme = (UI::Theme)theme;
-    }
-
-    if (hasNumber(AppDefs::settingsFontKey)) {
-        const auto fontSize = data[AppDefs::settingsFontKey].template get<int>();
-        if (inRange(fontSize, (int)UI::Font::Small, (int)UI::Font::Large))
-            settings.fontSize = (UI::Font)fontSize;
-    }
-    
-    settingsFile.close();
-    return settings;
 }
 
 void AppSettings::SaveToFile(AppSettings settings, std::string filepath) {

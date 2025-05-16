@@ -1,17 +1,18 @@
 #include "pch.h"
+#include "Core/View/ViewBase.hpp"
 #include "Core/EventHandler/EventHandler.hpp"
 #include "BoardView.hpp"
 
 
 BoardView::BoardView(const BoardView::BoardPointer &pointer)
-    : m_board(pointer), m_returnToMainView(false), m_listSize(0.f, 0.f)
+    : m_viewNavigation(std::nullopt), m_board(pointer), m_listSize(0.f, 0.f)
 {
     SetUpEventHandlers();
     SetUpPromptCallbacks(); 
 }
 
-bool BoardView::GoToMainView() {
-    return m_returnToMainView;
+ViewNavigation BoardView::GetState() {
+    return m_viewNavigation;
 }
 
 void BoardView::Update(float deltaTime) {
@@ -99,4 +100,3 @@ void BoardView::SetUpPromptCallbacks() {
     m_cardPrompt.SetOnExitCallback(cardPromptSubmitCallback);
     m_deleteItemPrompt.SetOnExitCallback(deleteItemPromptCallback);
 }
-

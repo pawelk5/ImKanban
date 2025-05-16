@@ -1,8 +1,7 @@
 #pragma once
-#include "Core/Utils/Constants.hpp"
 #include "pch.h"
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <imgui.h>
+#include "Core/Utils/Constants.hpp"
+#include "Core/ViewNavigation/ViewNavigation.hpp"
 
 /// Virtual class for a view (managed by App class)
 class ViewBase {
@@ -53,6 +52,9 @@ public:
     /// Handle an SFML event
     /// \param event SFML event to handle
     virtual void EventUpdate(const sf::Event& event) = 0;
+
+    /// Handle view changing
+    virtual ViewNavigation GetState() = 0;
 
 protected:
     /// Draw contents of the sidebar
