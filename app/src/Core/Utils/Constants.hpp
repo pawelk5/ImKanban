@@ -88,6 +88,8 @@ namespace defs {
         constexpr ::defs::UI::Theme defaultTheme = ::defs::UI::Theme::Dark;
 
         constexpr const char* settingsFile = "settings.json";
+        constexpr const char* settingsThemeKey = "theme";
+        constexpr const char* settingsFontKey = "fontsize";
     }
 
     namespace UIFlags {

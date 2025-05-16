@@ -22,13 +22,14 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     "${CMAKE_CURRENT_LIST_DIR}/src"
     "${CMAKE_CURRENT_LIST_DIR}/assets"
     ${LIBRARY_INCLUDE_PATH}
-    ${SFML_INCLUDE_DIR} ${IMGUI_DIR} ${OPENGL_INCLUDE_DIRS}
+    ${SFML_INCLUDE_DIR} ${IMGUI_DIR} ${OPENGL_INCLUDE_DIRS} 
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     ${DYNAMIC_LIBRARY}
     ImGui-SFML::ImGui-SFML
     sfml-system sfml-window sfml-graphics
+    nlohmann_json::nlohmann_json
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE 

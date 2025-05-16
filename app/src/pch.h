@@ -15,5 +15,8 @@
 #include <imgui.h>
 #include <imgui-SFML.h>
 
+// JSON
+#include <nlohmann/json.hpp>
+
 // fontawesome icons
 #include "fontawesome/IconFontCppHeaders/IconsFontAwesome6.h"

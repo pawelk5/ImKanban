@@ -8,6 +8,10 @@ public:
     /// Constructs main view
     explicit SettingsView(AppSettings& appSettings);
 
+    /// Destructs settings view
+    /// \note saves settings to file
+    ~SettingsView();
+
     /// Draw board in the main container
     /// \param target SFML render target
     void DrawContent(sf::RenderTarget& target) override;
@@ -40,4 +44,7 @@ private:
     
     /// Reference to apps settings
     AppSettings& m_appSettingsRef;
+
+    /// Settings before making changes
+    const AppSettings m_appSettingsBeforeChanges;
 };

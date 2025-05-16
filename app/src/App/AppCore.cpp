@@ -21,6 +21,7 @@ App::App()
     CreateMainView();
 
     m_settings = AppSettings::LoadFromFile(defs::App::settingsFile);
+    m_settings.Apply();
 }
 
 App::~App() {
