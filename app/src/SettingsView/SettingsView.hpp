@@ -35,9 +35,11 @@ public:
     /// \param event SFML event
     void EventUpdate(const sf::Event& event) override;
 
+    /// Returns current view navigation state
     ViewNavigation GetState() override;
 
 private:
+    /// View navigation state
     ViewNavigation m_viewNavigation;
     
     /// Reference to apps settings

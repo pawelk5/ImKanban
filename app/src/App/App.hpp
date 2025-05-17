@@ -6,7 +6,7 @@
 /// Main app class (IMPLEMENTED AS A SINGLETON)
 class App {
 public:
-    /// Get the singleton instace of a class
+    /// Returns the singleton instance of a class
     static App& Get();
 
     /// Remove copy constructor
@@ -30,12 +30,17 @@ private:
     /// Shuts down ImGui
     ~App();
 
+private:
     /// Creates and sets up a window
     void CreateWindow();
 
     /// Loads up fonts
     void LoadFont();
     
+private:
+    /// Handles the logic for changing views
+    void ChangeViewHandler();
+
     /// Create main view
     void CreateMainView();
 
@@ -49,6 +54,7 @@ private:
     /// Create settings view
     void CreateSettingsView();
 
+private:
     /// Handles all SFML events
     void EventUpdate();
 
@@ -60,9 +66,6 @@ private:
 
     /// Changes between fullscreen and floating window
     void ChangeFullscreenMode();
-    
-    /// Changes views
-    void ChangeViewHandler();
 
 private:
     /// Main (and only) app window

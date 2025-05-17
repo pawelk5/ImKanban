@@ -1,10 +1,9 @@
-#include "Core/ViewNavigation/ViewNavigation.hpp"
 #include "pch.h"
+#include "Core/ViewNavigation/ViewNavigation.hpp"
 #include "Core/Utils/Constants.hpp"
 #include "SettingsView.hpp"
 #include "Core/Utils/Style.hpp"
 #include "App/App.hpp"
-#include <imgui.h>
 
 void SettingsView::DrawSidebar(sf::RenderTarget& target) {
     Style::WithFont(App::Settings().GetFont(+1), 

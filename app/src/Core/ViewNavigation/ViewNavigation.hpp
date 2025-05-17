@@ -1,13 +1,20 @@
 #pragma once
 #include "pch.h"
-#include "Core/AppSettings/AppSettings.hpp"
 #include "Board.hpp"
 
-
+/// Struct for changing view to MainView
 struct OpenMainView {};
+
+/// Struct for changing view to ImGuiDemoView
 struct OpenImGuiDemoView {};
-struct OpenBoardView { std::shared_ptr<Board> pointer; };
+
+/// Struct for changing view to BoardView
+struct OpenBoardView { 
+    std::shared_ptr<Board> pointer;
+};
+
+/// Struct for changing view to SettingsView
 struct OpenSettingsView {};
 
-
-typedef std::optional<std::variant<OpenMainView, OpenImGuiDemoView, OpenBoardView, OpenSettingsView>> ViewNavigation;
+/// Type alias for optional variant of OpenView structs
+using ViewNavigation = std::optional<std::variant<OpenMainView, OpenImGuiDemoView, OpenBoardView, OpenSettingsView>>;

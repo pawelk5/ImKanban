@@ -8,7 +8,7 @@ class ViewBase {
 public:
     virtual ~ViewBase() = default;
 
-    /// Draws basic structure of the view (sidebar, topbar, popups and main content) to a SFML render target
+    /// Draws basic structure of the view (sidebar, popups and main content) to a SFML render target
     /// \param target SFML render target to draw on
     void Draw(sf::RenderTarget& target) {
         const float targetWidth = (float)target.getSize().x;

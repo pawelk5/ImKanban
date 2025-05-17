@@ -43,6 +43,7 @@ public:
     /// \param event SFML event
     void EventUpdate(const sf::Event& event) override;
 
+    /// Returns current view navigation state
     ViewNavigation GetState() override;
 
 private:
@@ -60,9 +61,9 @@ private:
     DeleteItemPrompt m_deleteItemPrompt;
 
     /// Size of list window (updated every frame in the beginning of the Draw function)
-    /// (TODO: make this more dynamic)
     ImVec2 m_listSize;
 
+    /// View navigation state
     ViewNavigation m_viewNavigation;
 
 private:
