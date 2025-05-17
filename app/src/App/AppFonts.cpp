@@ -40,7 +40,7 @@ void App::LoadFont() {
             &notoConfig, notoRanges);
 
 
-        io.Fonts->AddFontFromMemoryTTF((void*)fontawesomeFont, fontawesomeFontSize, size, 
+        io.Fonts->AddFontFromMemoryTTF((void*)fontawesomeFont, fontawesomeFontSize, (0.75f * size), 
             &fontawesomeConfig, fontawesomeRanges);
     }
 
