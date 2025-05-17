@@ -1,1 +1,2 @@
-*.embed binary linguist-generated
+*.embed binary linguist-generated=true
+docs/** linguist-generated=true
