@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include "BoardList.hpp"
 #include "Core/View/ViewBase.hpp"
 #include "Core/AppSettings/AppSettings.hpp"
 
@@ -82,4 +83,8 @@ private:
 
     /// Current app settings
     AppSettings m_settings;
+
+private:
+    /// Board data container
+    std::shared_ptr<BoardList> m_boardList;
 };

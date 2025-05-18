@@ -1,11 +1,12 @@
 #pragma once
 #include "Core/View/ViewBase.hpp"
+#include "MainView/BoardPrompt/BoardPrompt.hpp"
 
 /// View displaying a board's content
 class MainView : public ViewBase {
 public:
     /// Constructs main view
-    explicit MainView();
+    explicit MainView(std::shared_ptr<BoardList> boardList);
 
     /// Draw board in the main container
     /// \param target SFML render target
@@ -36,4 +37,15 @@ public:
 private:
     /// View navigation state
     ViewNavigation m_viewNavigation;
+
+    /// List of boards
+    std::shared_ptr<BoardList> m_boardList;
+
+    /// Prompt for editing or adding boards
+    BoardPrompt m_boardPrompt;
+
+private:
+    /// Draws a single list
+    /// \param iter iterator of a list
+    void DrawBoards(int boardsPerRow, float width);
 };

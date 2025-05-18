@@ -58,4 +58,9 @@ digraph "app/src/Core/View/ViewBase.hpp"
   Node22 -> Node23 [id="edge30_Node000022_Node000023",color="steelblue1",style="solid",tooltip=" "];
   Node23 [id="Node000023",label="string",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
   Node21 -> Node19 [id="edge31_Node000021_Node000019",color="steelblue1",style="solid",tooltip=" "];
+  Node17 -> Node24 [id="edge32_Node000017_Node000024",color="steelblue1",style="solid",tooltip=" "];
+  Node24 [id="Node000024",label="BoardList.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$BoardList_8hpp.html",tooltip=" "];
+  Node24 -> Node20 [id="edge33_Node000024_Node000020",color="steelblue1",style="solid",tooltip=" "];
+  Node24 -> Node18 [id="edge34_Node000024_Node000018",color="steelblue1",style="solid",tooltip=" "];
+  Node24 -> Node19 [id="edge35_Node000024_Node000019",color="steelblue1",style="solid",tooltip=" "];
 }

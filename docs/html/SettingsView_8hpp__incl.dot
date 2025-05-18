@@ -64,4 +64,9 @@ digraph "app/src/SettingsView/SettingsView.hpp"
   Node24 -> Node25 [id="edge34_Node000024_Node000025",color="steelblue1",style="solid",tooltip=" "];
   Node25 [id="Node000025",label="string",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
   Node23 -> Node21 [id="edge35_Node000023_Node000021",color="steelblue1",style="solid",tooltip=" "];
+  Node19 -> Node26 [id="edge36_Node000019_Node000026",color="steelblue1",style="solid",tooltip=" "];
+  Node26 [id="Node000026",label="BoardList.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$BoardList_8hpp.html",tooltip=" "];
+  Node26 -> Node22 [id="edge37_Node000026_Node000022",color="steelblue1",style="solid",tooltip=" "];
+  Node26 -> Node20 [id="edge38_Node000026_Node000020",color="steelblue1",style="solid",tooltip=" "];
+  Node26 -> Node21 [id="edge39_Node000026_Node000021",color="steelblue1",style="solid",tooltip=" "];
 }

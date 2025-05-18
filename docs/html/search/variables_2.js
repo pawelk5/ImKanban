@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['defaultfont_0',['defaultFont',['../namespaceAppDefs.html#a337d51871966a0ed562a6086ed04fc40',1,'AppDefs']]],
-  ['defaulttheme_1',['defaultTheme',['../namespaceAppDefs.html#a872f1af60f7e67001534754a1a1b1825',1,'AppDefs']]],
-  ['deleteitemconfirmpromptmessage_2',['deleteItemConfirmPromptMessage',['../namespaceLabels.html#aae835570362ca33f2fe4816e3199347b',1,'Labels']]],
-  ['deleteitemlabel_3',['deleteItemLabel',['../namespaceLabels.html#a2d278e64aeeec9fceff7678bea596d45',1,'Labels']]]
+  ['cancelbuttonlabel_0',['cancelButtonLabel',['../namespaceLabels.html#a76837d4978e893c630fa1e75e90e0283',1,'Labels']]],
+  ['card_1',['card',['../structBoard_1_1ItemIndex.html#a1afb324f2c0fee22a1aff38631c36bcb',1,'Board::ItemIndex']]],
+  ['childflags_2',['childFlags',['../namespaceUIFlags.html#a1ec8c76d5e0da11a055d296cb39d953b',1,'UIFlags']]],
+  ['confirmpromptlabel_3',['confirmPromptLabel',['../namespaceLabels.html#a222068e1226157f1aaa13c396eb93478',1,'Labels']]],
+  ['contentwindowflags_4',['contentWindowFlags',['../namespaceUIFlags.html#a2961f9e7d56cf3c63844df651b457639',1,'UIFlags']]]
 ];

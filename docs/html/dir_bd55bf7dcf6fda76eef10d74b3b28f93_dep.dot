@@ -10,5 +10,5 @@ digraph "app/src/Core/ViewNavigation"
   dir_bd55bf7dcf6fda76eef10d74b3b28f93 [label="ViewNavigation", fillcolor="#edf0f7", color="grey25", style="filled,bold", URL="dir_bd55bf7dcf6fda76eef10d74b3b28f93.html",tooltip=""];
   }
   dir_97aefd0d527b934f1d99a682da8fe6a9 [label="lib", fillcolor="#edf0f7", color="red", style="filled", URL="dir_97aefd0d527b934f1d99a682da8fe6a9.html",tooltip=""];
-  dir_bd55bf7dcf6fda76eef10d74b3b28f93->dir_97aefd0d527b934f1d99a682da8fe6a9 [headlabel="1", labeldistance=1.5 headhref="dir_000023_000012.html" href="dir_000023_000012.html" color="steelblue1" fontcolor="steelblue1"];
+  dir_bd55bf7dcf6fda76eef10d74b3b28f93->dir_97aefd0d527b934f1d99a682da8fe6a9 [headlabel="2", labeldistance=1.5 headhref="dir_000024_000013.html" href="dir_000024_000013.html" color="steelblue1" fontcolor="steelblue1"];
 }

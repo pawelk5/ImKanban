@@ -60,4 +60,23 @@ digraph "app/src/MainView/MainView.hpp"
   Node23 -> Node24 [id="edge31_Node000023_Node000024",color="steelblue1",style="solid",tooltip=" "];
   Node24 [id="Node000024",label="string",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
   Node22 -> Node20 [id="edge32_Node000022_Node000020",color="steelblue1",style="solid",tooltip=" "];
+  Node18 -> Node25 [id="edge33_Node000018_Node000025",color="steelblue1",style="solid",tooltip=" "];
+  Node25 [id="Node000025",label="BoardList.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$BoardList_8hpp.html",tooltip=" "];
+  Node25 -> Node21 [id="edge34_Node000025_Node000021",color="steelblue1",style="solid",tooltip=" "];
+  Node25 -> Node19 [id="edge35_Node000025_Node000019",color="steelblue1",style="solid",tooltip=" "];
+  Node25 -> Node20 [id="edge36_Node000025_Node000020",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node26 [id="edge37_Node000001_Node000026",color="steelblue1",style="solid",tooltip=" "];
+  Node26 [id="Node000026",label="MainView/BoardPrompt\l/BoardPrompt.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$BoardPrompt_8hpp.html",tooltip=" "];
+  Node26 -> Node19 [id="edge38_Node000026_Node000019",color="steelblue1",style="solid",tooltip=" "];
+  Node26 -> Node3 [id="edge39_Node000026_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node26 -> Node22 [id="edge40_Node000026_Node000022",color="steelblue1",style="solid",tooltip=" "];
+  Node26 -> Node27 [id="edge41_Node000026_Node000027",color="steelblue1",style="solid",tooltip=" "];
+  Node27 [id="Node000027",label="Core/PromptBase/InputPrompt.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$InputPrompt_8hpp.html",tooltip=" "];
+  Node27 -> Node17 [id="edge42_Node000027_Node000017",color="steelblue1",style="solid",tooltip=" "];
+  Node27 -> Node28 [id="edge43_Node000027_Node000028",color="steelblue1",style="solid",tooltip=" "];
+  Node28 [id="Node000028",label="PromptBase.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$PromptBase_8hpp.html",tooltip=" "];
+  Node28 -> Node29 [id="edge44_Node000028_Node000029",color="steelblue1",style="solid",tooltip=" "];
+  Node29 [id="Node000029",label="SFML/Graphics/RenderTarget.hpp",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node28 -> Node30 [id="edge45_Node000028_Node000030",color="steelblue1",style="solid",tooltip=" "];
+  Node30 [id="Node000030",label="SFML/Window/Event.hpp",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "Board.hpp"
+#include "BoardList.hpp"
 
 /// Struct for changing view to MainView
 struct OpenMainView {};

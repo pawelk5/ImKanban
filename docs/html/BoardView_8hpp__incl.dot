@@ -87,8 +87,13 @@ digraph "app/src/Board/BoardView.hpp"
   Node32 [id="Node000032",label="Core/ViewNavigation\l/ViewNavigation.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$ViewNavigation_8hpp.html",tooltip=" "];
   Node32 -> Node3 [id="edge50_Node000032_Node000003",color="steelblue1",style="solid",tooltip=" "];
   Node32 -> Node17 [id="edge51_Node000032_Node000017",color="steelblue1",style="solid",tooltip=" "];
-  Node1 -> Node33 [id="edge52_Node000001_Node000033",color="steelblue1",style="solid",tooltip=" "];
-  Node33 [id="Node000033",label="Core/EventHandler/EventHandler.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$EventHandler_8hpp.html",tooltip=" "];
-  Node33 -> Node3 [id="edge53_Node000033_Node000003",color="steelblue1",style="solid",tooltip=" "];
-  Node1 -> Node17 [id="edge54_Node000001_Node000017",color="steelblue1",style="solid",tooltip=" "];
+  Node32 -> Node33 [id="edge52_Node000032_Node000033",color="steelblue1",style="solid",tooltip=" "];
+  Node33 [id="Node000033",label="BoardList.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$BoardList_8hpp.html",tooltip=" "];
+  Node33 -> Node19 [id="edge53_Node000033_Node000019",color="steelblue1",style="solid",tooltip=" "];
+  Node33 -> Node17 [id="edge54_Node000033_Node000017",color="steelblue1",style="solid",tooltip=" "];
+  Node33 -> Node18 [id="edge55_Node000033_Node000018",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node34 [id="edge56_Node000001_Node000034",color="steelblue1",style="solid",tooltip=" "];
+  Node34 [id="Node000034",label="Core/EventHandler/EventHandler.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$EventHandler_8hpp.html",tooltip=" "];
+  Node34 -> Node3 [id="edge57_Node000034_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node17 [id="edge58_Node000001_Node000017",color="steelblue1",style="solid",tooltip=" "];
 }

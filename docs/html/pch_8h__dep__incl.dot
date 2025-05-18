@@ -95,8 +95,14 @@ digraph "app/src/pch.h"
   Node29 -> Node7 [id="edge60_Node000029_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
   Node29 -> Node8 [id="edge61_Node000029_Node000008",dir="back",color="steelblue1",style="solid",tooltip=" "];
   Node1 -> Node25 [id="edge62_Node000001_Node000025",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node1 -> Node21 [id="edge63_Node000001_Node000021",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node1 -> Node7 [id="edge64_Node000001_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node1 -> Node28 [id="edge65_Node000001_Node000028",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node1 -> Node8 [id="edge66_Node000001_Node000008",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node30 [id="edge63_Node000001_Node000030",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node30 [id="Node000030",label="app/src/MainView/BoardPrompt\l/BoardPrompt.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$BoardPrompt_8cpp.html",tooltip=" "];
+  Node1 -> Node31 [id="edge64_Node000001_Node000031",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node31 [id="Node000031",label="app/src/MainView/BoardPrompt\l/BoardPrompt.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$BoardPrompt_8hpp.html",tooltip=" "];
+  Node31 -> Node30 [id="edge65_Node000031_Node000030",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node31 -> Node26 [id="edge66_Node000031_Node000026",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node21 [id="edge67_Node000001_Node000021",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node7 [id="edge68_Node000001_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node28 [id="edge69_Node000001_Node000028",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node8 [id="edge70_Node000001_Node000008",dir="back",color="steelblue1",style="solid",tooltip=" "];
 }

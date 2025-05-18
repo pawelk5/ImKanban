@@ -6,6 +6,7 @@ add_executable(${PROJECT_NAME}
     "src/Core/AppSettings/AppSettings.cpp"
     "src/Core/AppSettings/LoadSettings.cpp"
     "src/MainView/MainViewCore.cpp"
+    "src/MainView/BoardPrompt/BoardPrompt.cpp"
     "src/MainView/MainViewDraw.cpp"
     "src/Board/BoardViewCore.cpp"
     "src/Board/BoardViewDraw.cpp"

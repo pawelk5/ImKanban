@@ -11,6 +11,9 @@ namespace Labels {
     constexpr const char* newListPopup = ICON_FA_SQUARE_PLUS " New List";
     constexpr const char* editListPopup = ICON_FA_PENCIL " Edit List";
 
+    constexpr const char* newBoardPopup = ICON_FA_SQUARE_PLUS " New Board";
+    constexpr const char* editBoardPopup = ICON_FA_PENCIL " Edit Board";
+
     constexpr const char* addListLabel = ICON_FA_SQUARE_PLUS " Add List";
     constexpr const char* addTaskLabel = ICON_FA_SQUARE_PLUS " Add Task";
 
@@ -21,6 +24,8 @@ namespace Labels {
     constexpr const char* deleteItemConfirmPromptMessage = "Are you sure you want to delete this item?";
 
     constexpr const char* mainViewContainerHeader = "Your boards";
+
+    constexpr const char* newBoardButton = ICON_FA_SQUARE_PLUS " New Board";
 }
 
 namespace UI {
@@ -76,8 +81,8 @@ namespace UI {
 
     static_assert((int)Theme::COUNT == themeCount);
 
-        
-
+    
+    constexpr const int maxBoardNameSize = 32;
     constexpr const int maxListNameSize = 32;
     constexpr const int maxCardNameSize = 48;
 }
@@ -89,6 +94,8 @@ namespace AppDefs {
     constexpr const char* settingsFile = "settings.json";
     constexpr const char* settingsThemeKey = "theme";
     constexpr const char* settingsFontKey = "fontsize";
+
+    constexpr const char* boardsFile = "boards.json";
 }
 
 namespace UIFlags {

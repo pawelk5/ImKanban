@@ -11,6 +11,6 @@ digraph "app/src/SettingsView"
   dir_f7d4be874a03ffe36f67d0add008229d [label="Core", fillcolor="#a2b4d6", color="red", style="filled", URL="dir_f7d4be874a03ffe36f67d0add008229d.html",tooltip=""];
   dir_852900bb1030b93bbf4dc07d26d577e4 [label="SettingsView", fillcolor="#edf0f7", color="grey25", style="filled,bold", URL="dir_852900bb1030b93bbf4dc07d26d577e4.html",tooltip=""];
   }
-  dir_852900bb1030b93bbf4dc07d26d577e4->dir_9f8538b32eef7ac20f30bcc386c92158 [headlabel="1", labeldistance=1.5 headhref="dir_000016_000001.html" href="dir_000016_000001.html" color="steelblue1" fontcolor="steelblue1"];
-  dir_852900bb1030b93bbf4dc07d26d577e4->dir_f7d4be874a03ffe36f67d0add008229d [headlabel="7", labeldistance=1.5 headhref="dir_000016_000006.html" href="dir_000016_000006.html" color="steelblue1" fontcolor="steelblue1"];
+  dir_852900bb1030b93bbf4dc07d26d577e4->dir_9f8538b32eef7ac20f30bcc386c92158 [headlabel="1", labeldistance=1.5 headhref="dir_000017_000001.html" href="dir_000017_000001.html" color="steelblue1" fontcolor="steelblue1"];
+  dir_852900bb1030b93bbf4dc07d26d577e4->dir_f7d4be874a03ffe36f67d0add008229d [headlabel="7", labeldistance=1.5 headhref="dir_000017_000007.html" href="dir_000017_000007.html" color="steelblue1" fontcolor="steelblue1"];
 }

@@ -10,5 +10,5 @@ digraph "app/src/Core/AppSettings"
   dir_a8cdd76f89cb5d1147863588b8fb5cd3 [label="Utils", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_a8cdd76f89cb5d1147863588b8fb5cd3.html",tooltip=""];
   dir_15fec158263e84d83f5a526f608f0050 [label="AppSettings", fillcolor="#edf0f7", color="grey25", style="filled,bold", URL="dir_15fec158263e84d83f5a526f608f0050.html",tooltip=""];
   }
-  dir_15fec158263e84d83f5a526f608f0050->dir_a8cdd76f89cb5d1147863588b8fb5cd3 [headlabel="3", labeldistance=1.5 headhref="dir_000002_000021.html" href="dir_000002_000021.html" color="steelblue1" fontcolor="steelblue1"];
+  dir_15fec158263e84d83f5a526f608f0050->dir_a8cdd76f89cb5d1147863588b8fb5cd3 [headlabel="3", labeldistance=1.5 headhref="dir_000002_000022.html" href="dir_000002_000022.html" color="steelblue1" fontcolor="steelblue1"];
 }

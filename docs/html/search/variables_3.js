@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['editcardpopup_0',['editCardPopup',['../namespaceLabels.html#a7a9465b8ab85da8104d77f771f3d207c',1,'Labels']]],
-  ['edititemlabel_1',['editItemLabel',['../namespaceLabels.html#a3b7df5c555fa3d0b5bfe53e7242435b0',1,'Labels']]],
-  ['editlistpopup_2',['editListPopup',['../namespaceLabels.html#a768108d5f184599300112218a1ff0a33',1,'Labels']]],
-  ['errorimguiinit_3',['errorImGuiInit',['../namespaceError.html#a56861de5390f64add6a2cf8a398e692d',1,'Error']]]
+  ['defaultfont_0',['defaultFont',['../namespaceAppDefs.html#a337d51871966a0ed562a6086ed04fc40',1,'AppDefs']]],
+  ['defaulttheme_1',['defaultTheme',['../namespaceAppDefs.html#a872f1af60f7e67001534754a1a1b1825',1,'AppDefs']]],
+  ['deleteitemconfirmpromptmessage_2',['deleteItemConfirmPromptMessage',['../namespaceLabels.html#aae835570362ca33f2fe4816e3199347b',1,'Labels']]],
+  ['deleteitemlabel_3',['deleteItemLabel',['../namespaceLabels.html#a2d278e64aeeec9fceff7678bea596d45',1,'Labels']]]
 ];

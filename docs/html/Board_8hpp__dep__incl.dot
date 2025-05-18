@@ -65,9 +65,19 @@ digraph "lib/include/Board.hpp"
   Node10 -> Node19 [id="edge36_Node000010_Node000019",dir="back",color="steelblue1",style="solid",tooltip=" "];
   Node10 -> Node15 [id="edge37_Node000010_Node000015",dir="back",color="steelblue1",style="solid",tooltip=" "];
   Node10 -> Node16 [id="edge38_Node000010_Node000016",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node1 -> Node15 [id="edge39_Node000001_Node000015",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node1 -> Node24 [id="edge40_Node000001_Node000024",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node24 [id="Node000024",label="lib/src/Board.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$Board_8cpp.html",tooltip=" "];
-  Node1 -> Node25 [id="edge41_Node000001_Node000025",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node25 [id="Node000025",label="lib/test/unit/BoardTest.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$BoardTest_8cpp.html",tooltip=" "];
+  Node1 -> Node24 [id="edge39_Node000001_Node000024",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node24 [id="Node000024",label="app/src/MainView/BoardPrompt\l/BoardPrompt.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$BoardPrompt_8hpp.html",tooltip=" "];
+  Node24 -> Node25 [id="edge40_Node000024_Node000025",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node25 [id="Node000025",label="app/src/MainView/BoardPrompt\l/BoardPrompt.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$BoardPrompt_8cpp.html",tooltip=" "];
+  Node24 -> Node20 [id="edge41_Node000024_Node000020",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node15 [id="edge42_Node000001_Node000015",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node26 [id="edge43_Node000001_Node000026",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node26 [id="Node000026",label="lib/include/BoardList.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$BoardList_8hpp.html",tooltip=" "];
+  Node26 -> Node12 [id="edge44_Node000026_Node000012",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node26 -> Node3 [id="edge45_Node000026_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node26 -> Node10 [id="edge46_Node000026_Node000010",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node27 [id="edge47_Node000001_Node000027",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node27 [id="Node000027",label="lib/src/Board.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$Board_8cpp.html",tooltip=" "];
+  Node1 -> Node28 [id="edge48_Node000001_Node000028",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node28 [id="Node000028",label="lib/test/unit/BoardTest.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$BoardTest_8cpp.html",tooltip=" "];
 }

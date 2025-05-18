@@ -1,5 +1,6 @@
-#include "Core/ViewNavigation/ViewNavigation.hpp"
 #include "pch.h"
+#include "BoardList.hpp"
+#include "Core/ViewNavigation/ViewNavigation.hpp"
 #include "Core/AppSettings/AppSettings.hpp"
 #include "MainView/MainView.hpp"
 #include "App.hpp"
@@ -7,7 +8,7 @@
 #include "Board/BoardView.hpp"
 #include "ImGuiDemoView/ImGuiDemoView.hpp"
 #include "SettingsView/SettingsView.hpp"
-#include <variant>
+
 
 
 App::App()
@@ -18,10 +19,12 @@ App::App()
         throw std::runtime_error(Error::errorImGuiInit);
     LoadFont();
     
+    m_boardList = std::make_shared<BoardList>(BoardListData {AppDefs::settingsFile} );
     CreateMainView();
 
     m_settings = AppSettings::LoadFromFile(AppDefs::settingsFile);
     m_settings.Apply();
+
 }
 
 App::~App() {
@@ -49,7 +52,7 @@ void App::CreateWindow() {
 }
 
 void App::CreateMainView() {
-    m_currentView = std::make_unique<MainView>();
+    m_currentView = std::make_unique<MainView>( m_boardList );
 }
 
 void App::CreateImGuiDemoView() {
