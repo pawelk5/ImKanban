@@ -3,7 +3,11 @@
 #include "BoardView.hpp"
 
 BoardView::BoardView(const BoardView::BoardPointer &pointer)
-    : m_board(pointer)
+    : m_board(pointer), m_fullCardView(
+                            [this](Board::ItemIndex itemIndex,
+                                   std::optional<SubtaskData> SubtaskData)
+                            { m_openPromptHandler.Trigger(
+                                  OpenPromptData{itemIndex, SubtaskData}); })
 {
     m_listSize = {250.f, 0.f};
 
@@ -23,6 +27,7 @@ void BoardView::EventUpdate(const sf::Event &event)
     m_cardPrompt.EventUpdate(event);
     m_listPrompt.EventUpdate(event);
     m_subtaskPrompt.EventUpdate(event);
+    m_fullCardView.EventUpdate(event);
 }
 
 void BoardView::SetUpEventHandlers()
@@ -57,6 +62,10 @@ void BoardView::SetUpEventHandlers()
                                      cardIndex,
                                      subtaskIndex,
                                  });
+        else if (std::holds_alternative<std::optional<FullCardViewData>>(promptData))
+            m_fullCardView.Open(std::get<std::optional<FullCardViewData>>(promptData),
+                                {listIndex,
+                                 cardIndex});
         else
             throw std::runtime_error("Invalid prompt data");
     };

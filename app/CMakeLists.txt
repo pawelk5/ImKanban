@@ -7,6 +7,7 @@ add_executable(${PROJECT_NAME}
     "src/Board/ListPrompt/ListPrompt.cpp"
     "src/Board/CardPrompt/CardPrompt.cpp"
     "src/Board/SubtaskPrompt/SubtaskPrompt.cpp"
+    "src/Board/Components/FullCardView.cpp"
     "src/ImGuiDemoView/ImGuiDemoView.cpp"
 )
 

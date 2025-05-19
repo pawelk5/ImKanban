@@ -12,6 +12,7 @@ void BoardView::DrawImpl(sf::RenderTarget &target)
     m_listPrompt.Draw();
     m_cardPrompt.Draw();
     m_subtaskPrompt.Draw();
+    m_fullCardView.Draw();
 }
 
 void BoardView::DrawContent(sf::RenderTarget &target)
@@ -116,8 +117,8 @@ void BoardView::DrawCard(Card &card, const Board::ItemIndex &itemIndex)
     if (ImGui::Button("TESTTASK"))
     {
         m_openPromptHandler.Trigger(
-            OpenPromptData{Board::ItemIndex{itemIndex.list, itemIndex.card, -1},
-                           std::optional<SubtaskData>(std::nullopt)});
+            OpenPromptData{Board::ItemIndex{itemIndex.list, itemIndex.card},
+                           std::optional<FullCardViewData>((FullCardViewData){selectedCard : &card})});
     }
 
     if (ImGui::Button(defs::Labels::editItemLabel))

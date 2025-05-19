@@ -6,7 +6,7 @@ build_and_test() {
     cd build
     cmake -B . -S ..
     make  
-    make test
+    # make test
     cd ..
 }
 

@@ -3,6 +3,7 @@
 #include "CardPrompt/CardPrompt.hpp"
 #include "SubtaskPrompt/SubtaskPrompt.hpp"
 #include "Core/View/ViewBase.hpp"
+#include "Components/FullCardView.hpp"
 #include "Core/EventHandler/EventHandler.hpp"
 #include "Board.hpp"
 
@@ -57,6 +58,8 @@ private:
     /// Prompt for editing or adding subtasks
     SubtaskPrompt m_subtaskPrompt;
 
+    FullCardView m_fullCardView;
+
     /// Size of list window (updated every frame in the beginning of the Draw function)
     /// (TODO: make this more dynamic)
     ImVec2 m_listSize;
@@ -96,7 +99,8 @@ private:
         std::variant<
             std::optional<ListData>,
             std::optional<CardData>,
-            std::optional<SubtaskData>>
+            std::optional<SubtaskData>,
+            std::optional<FullCardViewData>>
             promptData;
     };
 
