@@ -10,12 +10,12 @@ const char *SubtaskPrompt::GetPopupID()
 {
 
     if (m_contextData.card < 0)
-        return defs::Labels::newCardPopup;
+        return Labels::newCardPopup;
 
-    return defs::Labels::editCardPopup;
+    return Labels::editCardPopup;
 }
 
-void SubtaskPrompt::DrawImpl()
+void SubtaskPrompt::DrawImpl(sf::RenderTarget &target)
 {
     ImGui::InputText("Title", m_data.title.data(), m_data.title.size());
     ImGui::Checkbox("Completed", &m_data.isCompleted);

@@ -23,7 +23,7 @@ public:
     FullCardView(std::function<void(Board::ItemIndex, std::optional<SubtaskData>)> m_open_subtask_prompt);
 
     /// Draws the side view card
-    void Draw() override
+    void Draw(sf::RenderTarget &target) override
     {
         if (!m_open)
             return;

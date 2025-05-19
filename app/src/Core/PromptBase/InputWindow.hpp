@@ -11,7 +11,7 @@ class InputWindow : public PromptBase<InputData, ContextData>
 public:
     /// Override of Draw function
     /// Draws a left-side window with OK and Close buttons
-    void Draw() override
+    void Draw(sf::RenderTarget &target) override
     {
         if (!this->IsOpen())
             return;
@@ -20,19 +20,19 @@ public:
         ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x - width, 0), ImGuiCond_Always);
         ImGui::SetNextWindowSize(ImVec2(width, ImGui::GetIO().DisplaySize.y), ImGuiCond_Always);
 
-        if (ImGui::Begin(this->GetPopupID(), nullptr, defs::UIFlags::windowFlags))
+        if (ImGui::Begin(this->GetPopupID(), nullptr, UIFlags::windowFlags))
         {
-            this->DrawImpl();
+            this->DrawImpl(target);
             ImGui::Spacing();
 
-            if (ImGui::Button(defs::Labels::okButtonLabel))
+            if (ImGui::Button(Labels::okButtonLabel))
             {
                 this->m_onExit(this->m_data, this->m_contextData);
                 this->ClosePopup();
             }
 
             ImGui::SameLine();
-            if (ImGui::Button(defs::Labels::cancelButtonLabel))
+            if (ImGui::Button(Labels::cancelButtonLabel))
                 this->ClosePopup();
         }
         ImGui::End();
@@ -40,5 +40,5 @@ public:
 
 protected:
     /// Called in Draw function, for displaying widgets
-    virtual void DrawImpl() = 0;
+    virtual void DrawImpl(sf::RenderTarget &target) = 0;
 };
