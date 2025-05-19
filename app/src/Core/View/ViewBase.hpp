@@ -1,8 +1,7 @@
 #pragma once
-#include "Core/Utils/Constants.hpp"
 #include "pch.h"
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <imgui.h>
+#include "Core/Utils/Constants.hpp"
+#include "Core/ViewNavigation/ViewNavigation.hpp"
 
 /// Virtual class for a view (managed by App class)
 class ViewBase
@@ -10,7 +9,7 @@ class ViewBase
 public:
     virtual ~ViewBase() = default;
 
-    /// Draws basic structure of the view (sidebar, topbar, popups and main content) to a SFML render target
+    /// Draws basic structure of the view (sidebar, popups and main content) to a SFML render target
     /// \param target SFML render target to draw on
     void Draw(sf::RenderTarget &target)
     {
@@ -33,14 +32,14 @@ public:
         ImGui::SetNextWindowPos({0.f, 0.f});
 
         if (ImGui::Begin("##side-region", nullptr,
-                         defs::UIFlags::windowFlags | ImGuiWindowFlags_NoTitleBar))
+                         UIFlags::windowFlags | ImGuiWindowFlags_NoTitleBar))
             DrawSidebar(target);
         ImGui::End();
 
         ImGui::SetNextWindowSize(mainRegionSize);
         ImGui::SetNextWindowPos(mainRegionPos);
         if (ImGui::Begin("##main-region", nullptr,
-                         defs::UIFlags::windowFlags | ImGuiWindowFlags_NoTitleBar))
+                         UIFlags::windowFlags | ImGuiWindowFlags_NoTitleBar))
             DrawContent(target);
         ImGui::End();
 
@@ -54,6 +53,9 @@ public:
     /// Handle an SFML event
     /// \param event SFML event to handle
     virtual void EventUpdate(const sf::Event &event) = 0;
+
+    /// Handle view changing
+    virtual ViewNavigation GetState() = 0;
 
 protected:
     /// Draw contents of the sidebar

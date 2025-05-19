@@ -1,4 +1,5 @@
 #pragma once
+#include "DeleteItemPrompt/DeleteItemPrompt.hpp"
 #include "ListPrompt/ListPrompt.hpp"
 #include "CardPrompt/CardPrompt.hpp"
 #include "SubtaskPrompt/SubtaskPrompt.hpp"
@@ -45,6 +46,9 @@ public:
     /// \param event SFML event
     void EventUpdate(const sf::Event &event) override;
 
+    /// Returns current view navigation state
+    ViewNavigation GetState() override;
+
 private:
     /// Pointer to current board
     BoardPointer m_board;
@@ -58,11 +62,18 @@ private:
     /// Prompt for editing or adding subtasks
     SubtaskPrompt m_subtaskPrompt;
 
+    // SideView for displaying card details
     FullCardView m_fullCardView;
 
+    /// Confirm prompt for deleting items
+    /// Uses int to satisfy template requirements
+    DeleteItemPrompt m_deleteItemPrompt;
+
     /// Size of list window (updated every frame in the beginning of the Draw function)
-    /// (TODO: make this more dynamic)
     ImVec2 m_listSize;
+
+    /// View navigation state
+    ViewNavigation m_viewNavigation;
 
 private:
     /// Draws all lists of a board
@@ -152,11 +163,11 @@ private:
     /// \param payloadType type of drag and drop payload (list/card)
     /// \param payload index of the element
     /// \param drawTooltip function for drawing tooltips (NOTE: highly recommended to use lambda function)
-    void HandleDragDropSource(defs::UI::PayloadType payloadType,
+    void HandleDragDropSource(UI::PayloadType payloadType,
                               const DragDropPayload &payload, const std::function<void()> &drawTooltip);
 
     /// Creates ImGui drag and drop target for cards and lists
     /// \param destination destination index where dragged item will be dropped
     /// \param payloadType drag and drop target type (list/card)
-    void CreateDragDropTarget(const DragDropPayload &destination, defs::UI::PayloadType payloadType);
+    void CreateDragDropTarget(const DragDropPayload &destination, UI::PayloadType payloadType);
 };

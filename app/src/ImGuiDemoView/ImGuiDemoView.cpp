@@ -1,10 +1,13 @@
 #include "pch.h"
+#include "Core/ViewNavigation/ViewNavigation.hpp"
 #include "ImGuiDemoView.hpp"
 #include "imgui_demo.cpp"
 
 
-ImGuiDemoView::ImGuiDemoView() {
-    m_goToBoard = false;
+ImGuiDemoView::ImGuiDemoView() 
+    : m_viewNavigation(std::nullopt)
+{
+    ;
 }
 
 /// NOTE: copied from imgui_demo.cpp
@@ -302,9 +305,8 @@ void ImGuiDemoView::DrawContent(sf::RenderTarget& target) {
 }
 
 void ImGuiDemoView::DrawSidebar(sf::RenderTarget& target) { 
-    if (ImGui::Button("Open board")) {
-        m_goToBoard = true;
-    } 
+    if (ImGui::Button(ICON_FA_ARROW_LEFT " Return"))
+        m_viewNavigation = OpenMainView();
 }
 
 void ImGuiDemoView::DrawImpl(sf::RenderTarget& target) { ; }
@@ -312,6 +314,6 @@ void ImGuiDemoView::DrawImpl(sf::RenderTarget& target) { ; }
 void ImGuiDemoView::Update(float deltaTime) { ; }
 void ImGuiDemoView::EventUpdate(const sf::Event& event) { ; }
 
-bool ImGuiDemoView::GoToBoard() {
-    return m_goToBoard;
+ViewNavigation ImGuiDemoView::GetState() {
+    return m_viewNavigation;
 }

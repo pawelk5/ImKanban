@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['savetofile_0',['SaveToFile',['../structAppSettings.html#a9e1ae1705b1985e043012fedeb0947d6',1,'AppSettings']]],
+  ['setonexitcallback_1',['SetOnExitCallback',['../classPromptBase.html#afea0258d126a1aa3e305a5ff9cf0ced7',1,'PromptBase']]],
+  ['settheme_2',['SetTheme',['../structAppSettings.html#acd994c37c3d29620d4eb9cc9a54ab981',1,'AppSettings']]],
+  ['settings_3',['Settings',['../classApp.html#a66aa63bc913ea1d8cc47594fab4353b4',1,'App']]],
+  ['settingsfile_4',['settingsFile',['../namespaceAppDefs.html#a3db44b4382add7359427b0589d739339',1,'AppDefs']]],
+  ['settingsfontkey_5',['settingsFontKey',['../namespaceAppDefs.html#a7cd15170e42171a44096ec09621281f7',1,'AppDefs']]],
+  ['settingsthemekey_6',['settingsThemeKey',['../namespaceAppDefs.html#ac3f5a19680896a4930fe54465ed7affe',1,'AppDefs']]],
+  ['settingsview_7',['settingsview',['../classSettingsView.html#acafd6eb4523cc5cd34e013acb57ed73b',1,'SettingsView::SettingsView()'],['../classSettingsView.html',1,'SettingsView']]],
+  ['settingsview_2ehpp_8',['SettingsView.hpp',['../SettingsView_8hpp.html',1,'']]],
+  ['settingsviewcore_2ecpp_9',['SettingsViewCore.cpp',['../SettingsViewCore_8cpp.html',1,'']]],
+  ['settingsviewdraw_2ecpp_10',['SettingsViewDraw.cpp',['../SettingsViewDraw_8cpp.html',1,'']]],
+  ['setup_11',['setup',['../classBoardTest.html#a33db6ecc3cde86cf0fe4cb8d0b65718a',1,'BoardTest::SetUp()'],['../classCardTest.html#a889e27421ada9239b0eee54ebfb1a834',1,'CardTest::SetUp()'],['../classContainerBaseTest.html#aa6e2e510b334a3f3f1904818f43b5c28',1,'ContainerBaseTest::SetUp()'],['../classListTest.html#a42bd4728dd8d23dcec5220b7f2b51958',1,'ListTest::SetUp()']]],
+  ['small_12',['Small',['../namespaceUI.html#aa5f7caa20231c8104f8c913eb07b1d06a2660064e68655415da2628c2ae2f7592',1,'UI']]],
+  ['style_13',['Style',['../namespaceStyle.html',1,'']]],
+  ['style_2ehpp_14',['Style.hpp',['../Style_8hpp.html',1,'']]],
+  ['stylepair_15',['StylePair',['../namespaceStyle.html#a1dc93ed483c79959d171a3823afdca7f',1,'Style']]],
+  ['stylevalue_16',['StyleValue',['../namespaceStyle.html#a248de74929f3d096e0a62fb51dfe4ee1',1,'Style']]]
+];

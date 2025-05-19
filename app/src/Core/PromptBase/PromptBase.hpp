@@ -3,6 +3,7 @@
 /// Base class for all modal popups
 ///
 /// Defines basic logic for opening and closing a prompt and managing data and callbacks
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Window/Event.hpp>
 template <typename InputData, typename ContextData>
 class PromptBase
@@ -12,6 +13,8 @@ public:
     using Callback = std::function<void(const InputData &, const ContextData &)>;
 
 public:
+    virtual ~PromptBase() = default;
+
     /// Opens a prompt
     /// \param data optional data (eg. to be edited),
     /// \warning if std::nullopt then it will be initialized with default constructor
@@ -29,7 +32,7 @@ public:
     }
 
     /// Draws a prompt
-    virtual void Draw() = 0;
+    virtual void Draw(sf::RenderTarget& target) = 0;
 
     /// Function for handling events (closing with escape)
     void EventUpdate(const sf::Event &event, bool closeOnEscape = true)

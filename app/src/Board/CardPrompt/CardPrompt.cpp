@@ -1,3 +1,4 @@
+#include "Core/Utils/Constants.hpp"
 #include "pch.h"
 #include "CardPrompt.hpp"
 
@@ -9,14 +10,14 @@ CardPrompt::CardPrompt()
 const char *CardPrompt::GetPopupID()
 {
     if (m_contextData.card < 0)
-        return defs::Labels::newCardPopup;
+        return Labels::newCardPopup;
 
-    return defs::Labels::editCardPopup;
+    return Labels::editCardPopup;
 }
 
-void CardPrompt::DrawImpl()
+void CardPrompt::DrawImpl(sf::RenderTarget &target)
 {
-    ImGui::InputText("Name", m_data.title.data(), m_data.title.size());
+    ImGui::InputText("##Name", m_data.title.data(), m_data.title.size());
     ImGui::InputText("Description", m_data.description.data(), m_data.description.size());
     ImGui::Checkbox("Completed", &m_data.isCompleted);
 
@@ -29,6 +30,6 @@ void CardPrompt::DrawImpl()
 
 void CardPrompt::OpenImpl()
 {
-    m_data.title.resize(255);
-    m_data.description.resize(255);
+    m_data.title.resize(UI::maxCardNameSize);
+    m_data.description.resize(UI::maxCardNameSize);
 }

@@ -1,18 +1,22 @@
 #include "pch.h"
+#include "Core/View/ViewBase.hpp"
 #include "Core/EventHandler/EventHandler.hpp"
 #include "BoardView.hpp"
 
 BoardView::BoardView(const BoardView::BoardPointer &pointer)
-    : m_board(pointer), m_fullCardView(
-                            [this](Board::ItemIndex itemIndex,
-                                   std::optional<SubtaskData> SubtaskData)
-                            { m_openPromptHandler.Trigger(
-                                  OpenPromptData{itemIndex, SubtaskData}); })
+    : m_viewNavigation(std::nullopt), m_board(pointer), m_listSize(0.f, 0.f), m_fullCardView(
+                                                                                  [this](Board::ItemIndex itemIndex,
+                                                                                         std::optional<SubtaskData> SubtaskData)
+                                                                                  { m_openPromptHandler.Trigger(
+                                                                                        OpenPromptData{itemIndex, SubtaskData}); })
 {
-    m_listSize = {250.f, 0.f};
-
     SetUpEventHandlers();
     SetUpPromptCallbacks();
+}
+
+ViewNavigation BoardView::GetState()
+{
+    return m_viewNavigation;
 }
 
 void BoardView::Update(float deltaTime)
@@ -26,6 +30,7 @@ void BoardView::EventUpdate(const sf::Event &event)
 {
     m_cardPrompt.EventUpdate(event);
     m_listPrompt.EventUpdate(event);
+    m_deleteItemPrompt.EventUpdate(event);
     m_subtaskPrompt.EventUpdate(event);
     m_fullCardView.EventUpdate(event);
 }
@@ -73,14 +78,7 @@ void BoardView::SetUpEventHandlers()
     /// DELETE CALLBACK
     const auto &deleteItemCallback = [this](DeleteItemData data)
     {
-        const auto &listIndex = data.index.list;
-        const auto &cardIndex = data.index.card;
-        const auto &subtaskIndex = data.index.subtask;
-
-        if (cardIndex == -1)
-            m_board->RemoveElement(listIndex);
-        else
-            m_board->At(listIndex)->RemoveElement(cardIndex);
+        m_deleteItemPrompt.Open(std::nullopt, data.index);
     };
 
     m_dragdropHandler = EventHandler<DragDropData>(dragdropCallback);
@@ -111,6 +109,19 @@ void BoardView::SetUpPromptCallbacks()
             list->At(promptContext.card)->Update(cardData);
     };
 
+    /// DELETE ITEM PROMPT
+    const auto deleteItemPromptCallback =
+        [this](int, const Board::ItemIndex &itemIndex)
+    {
+        const auto &listIndex = itemIndex.list;
+        const auto &cardIndex = itemIndex.card;
+
+        if (cardIndex == -1)
+            m_board->RemoveElement(listIndex);
+        else
+            m_board->At(listIndex)->RemoveElement(cardIndex);
+    };
+
     /// SUBTASK PROMPT CALLBACK
     const auto subtaskPromptSubmitCallback =
         [this](const SubtaskData &subtaskData, const Board::ItemIndex &promptContext)
@@ -131,4 +142,5 @@ void BoardView::SetUpPromptCallbacks()
     m_listPrompt.SetOnExitCallback(listPromptSubmitCallback);
     m_cardPrompt.SetOnExitCallback(cardPromptSubmitCallback);
     m_subtaskPrompt.SetOnExitCallback(subtaskPromptSubmitCallback);
+    m_deleteItemPrompt.SetOnExitCallback(deleteItemPromptCallback);
 }

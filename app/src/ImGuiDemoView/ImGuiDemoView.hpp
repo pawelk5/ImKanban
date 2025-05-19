@@ -14,8 +14,8 @@ public:
     void Update(float deltaTime) override;
     void EventUpdate(const sf::Event& event) override;
 
-    bool GoToBoard();
+    ViewNavigation GetState() override;
 
 private:
-    bool m_goToBoard;
+    ViewNavigation m_viewNavigation;
 };

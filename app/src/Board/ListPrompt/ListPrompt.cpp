@@ -8,15 +8,15 @@ ListPrompt::ListPrompt() {
 
 const char* ListPrompt::GetPopupID() {
     if (m_contextData.listIndex < 0)
-        return defs::Labels::newListPopup;
+        return Labels::newListPopup;
     
-    return defs::Labels::editListPopup;
+    return Labels::editListPopup;
 }
 
-void ListPrompt::DrawImpl() {
-    ImGui::InputText("Name", m_data.name.data(), m_data.name.size());
+void ListPrompt::DrawImpl(sf::RenderTarget& target) {
+    ImGui::InputText("##Name", m_data.name.data(), m_data.name.size());
 }
 
 void ListPrompt::OpenImpl() {
-    m_data.name.resize(255);
+    m_data.name.resize(UI::maxListNameSize);
 }

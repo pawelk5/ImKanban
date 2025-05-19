@@ -1,11 +1,13 @@
 #pragma once
 #include "pch.h"
+#include "BoardList.hpp"
 #include "Core/View/ViewBase.hpp"
+#include "Core/AppSettings/AppSettings.hpp"
 
 /// Main app class (IMPLEMENTED AS A SINGLETON)
 class App {
 public:
-    /// Get the singleton instace of a class
+    /// Returns the singleton instance of a class
     static App& Get();
 
     /// Remove copy constructor
@@ -16,6 +18,12 @@ public:
     /// Main app function, starts the main loop
     void Run();
     
+    /// Returns app settings (static version)
+    static const AppSettings& Settings();
+
+    /// Returns app settings
+    const AppSettings& GetSettings();
+
 private:
     /// Initializes application and ImGui
     App();
@@ -23,18 +31,31 @@ private:
     /// Shuts down ImGui
     ~App();
 
+private:
     /// Creates and sets up a window
     void CreateWindow();
 
     /// Loads up fonts
     void LoadFont();
     
-    /// Create the starting view of the app
-    void CreateStartView();
+private:
+    /// Handles the logic for changing views
+    void ChangeViewHandler();
+
+    /// Create main view
+    void CreateMainView();
+
+    /// Create imgui demo view
+    void CreateImGuiDemoView();
 
     /// Create board view
-    void CreateBoardView();
+    /// \param boardViewData data required to create BoardView
+    void CreateBoardView(const OpenBoardView& boardViewData);
 
+    /// Create settings view
+    void CreateSettingsView();
+
+private:
     /// Handles all SFML events
     void EventUpdate();
 
@@ -46,9 +67,6 @@ private:
 
     /// Changes between fullscreen and floating window
     void ChangeFullscreenMode();
-    
-    /// Changes views
-    void ChangeViewHandler();
 
 private:
     /// Main (and only) app window
@@ -62,4 +80,11 @@ private:
 
     /// Current view
     std::unique_ptr<ViewBase> m_currentView;
+
+    /// Current app settings
+    AppSettings m_settings;
+
+private:
+    /// Board data container
+    std::shared_ptr<BoardList> m_boardList;
 };
