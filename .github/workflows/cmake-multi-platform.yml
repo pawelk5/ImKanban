@@ -27,7 +27,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
+      with:
+        submodules: true
     - name: Set reusable strings
       id: strings
       shell: bash
@@ -67,7 +68,8 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
-
+      with:
+        submodules: true
     - name: Set reusable strings
       id: strings
       shell: bash
