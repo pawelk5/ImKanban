@@ -1,5 +1,6 @@
 #pragma once
 #include "Core/View/ViewBase.hpp"
+#include "Core/EventHandler/EventHandler.hpp"
 #include "MainView/BoardPrompt/BoardPrompt.hpp"
 
 /// View displaying a board's content
@@ -43,7 +44,24 @@ private:
 
     /// Prompt for editing or adding boards
     BoardPrompt m_boardPrompt;
+    
+private:
+    /// Struct containing data for editing and adding new boards
+    struct BoardPromptEventData {
+        std::optional<BoardData> boardData;
+        BoardPromptContext context;
+    };
 
+    /// Board add and edit event handler
+    EventHandler<BoardPromptEventData> m_boardPromptHandler;
+
+    /// Struct containing data for deleting boards
+    struct DeleteBoardData {
+        int index;
+    };
+
+    /// Board delete event handler
+    EventHandler<DeleteBoardData> m_deleteBoardHandler;
 private:
     /// Draws a single list
     /// \param iter iterator of a list

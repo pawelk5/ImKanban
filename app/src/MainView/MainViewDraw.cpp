@@ -5,7 +5,7 @@
 #include "MainView.hpp"
 #include "App/App.hpp"
 #include <imgui.h>
-#include <optional>
+
 
 
 void MainView::DrawSidebar(sf::RenderTarget& target) {
@@ -47,24 +47,30 @@ void MainView::DrawBoards(int boardsPerRow, float width) {
     const ImVec2 childSize = ImVec2{width, 300.f};
 
     for (auto it = dataRef.begin(); it < dataRef.end(); ++it) {
-        const auto listIndex = m_boardList->AsIndex(it);
+        const auto itemIndex = m_boardList->AsIndex(it);
         const auto& item = m_boardList->At(it);
 
-        if (ImGui::BeginChild(std::to_string(listIndex).c_str(), childSize, 
+        if (ImGui::BeginChild(std::to_string(itemIndex).c_str(), childSize, 
             UIFlags::childFlags, UIFlags::windowFlags)){
         
             Style::WithFont(App::Settings().GetFont(+1),
-                [this, item, it]() {
+                [&]() {
                 ImGui::Text("%s", item->name.c_str());
 
                 if (ImGui::Button("Open"))
                     m_viewNavigation = OpenBoardView{ std::make_shared<Board>( *(*it) ) };
+                if (ImGui::Button("Edit"))
+                    m_boardPromptHandler.Trigger(
+                        BoardPromptEventData{ {*(*it)}, { itemIndex }}
+                    );
+                if (ImGui::Button("Delete"))
+                    m_deleteBoardHandler.Trigger({ itemIndex });
             });
             
         }
         ImGui::EndChild();
 
-        if ((listIndex + 1) % boardsPerRow != 0)
+        if ((itemIndex + 1) % boardsPerRow != 0)
             ImGui::SameLine();
     }
 }
@@ -74,7 +80,7 @@ void MainView::DrawHeader() {
         [this]() {
         ImGui::Text("%s", Labels::mainViewContainerHeader);
         if (ImGui::Button(Labels::newBoardButton))
-            m_boardPrompt.Open(std::nullopt, { -1 });
+            m_boardPromptHandler.Trigger({ { std::nullopt }, {-1} });
     });
 
 }
