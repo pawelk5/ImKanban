@@ -164,7 +164,7 @@ void BoardView::DrawCard(Card &card, const Board::ItemIndex &itemIndex)
         if (ImGui::Button("View")) {
             m_openPromptHandler.Trigger(
                 OpenPromptData{Board::ItemIndex{itemIndex.list, itemIndex.card},
-                            std::optional<FullCardViewData>((FullCardViewData){selectedCard : &card})});
+                            std::optional<FullCardViewData>(FullCardViewData{selectedCard : &card})});
         }
         if (ImGui::Button(Labels::editItemLabel))
             m_openPromptHandler.Trigger(
