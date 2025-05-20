@@ -65,5 +65,10 @@ private:
 private:
     /// Draws a single list
     /// \param iter iterator of a list
+    /// \param width width of the element
     void DrawBoards(int boardsPerRow, float width);
+
+    /// Draws content of a board
+    /// \param itemIndex index of the board
+    void DrawBoardContent(int itemIndex);
 };

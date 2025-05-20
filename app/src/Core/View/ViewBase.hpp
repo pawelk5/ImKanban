@@ -20,8 +20,8 @@ public:
         const float windowPadding = currentStyle.WindowPadding.x;
 
         const ImVec2 windowSize = {targetWidth, targetHeight};
-        const ImVec2 leftRegionSize{windowSize.x * 0.15f - 2 * windowPadding, targetHeight};
-
+        const ImVec2 leftRegionSize { std::max(windowSize.x * 0.15f - 2*windowPadding, 250.f), targetHeight };
+        
         const ImVec2 mainRegionSize = {targetWidth - leftRegionSize.x, targetHeight};
         const ImVec2 mainRegionPos = {leftRegionSize.x, 0.f};
 

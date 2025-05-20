@@ -26,6 +26,8 @@ namespace Labels {
     constexpr const char* mainViewContainerHeader = "Your boards";
 
     constexpr const char* newBoardButton = ICON_FA_SQUARE_PLUS " New Board";
+
+    constexpr const char* hamburgerMenu = ICON_FA_BARS;
 }
 
 namespace UI {
