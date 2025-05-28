@@ -22,6 +22,14 @@ public:
 
         if (ImGui::Begin(this->GetPopupID(), nullptr, UIFlags::windowFlags))
         {
+
+            if (!ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows))
+            {
+                this->ClosePopup();
+                ImGui::End();
+                return;
+            }
+
             this->DrawImpl(target);
             ImGui::Spacing();
 
