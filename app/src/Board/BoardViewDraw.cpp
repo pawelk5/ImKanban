@@ -8,19 +8,18 @@
 #include "BoardView.hpp"
 #include "App/App.hpp"
 
-
 void BoardView::DrawSidebar(sf::RenderTarget &target)
 {
     Style::WithFont(App::Settings().GetFont(+2),
-        [this]()
-    {
-        ImGui::Text("Side bar!");
-        ImGui::Separator();
+                    [this]()
+                    {
+                        ImGui::Text("Side bar!");
+                        ImGui::Separator();
 
-        if (ImGui::Button(ICON_FA_ARROW_LEFT " Return",
-            ImVec2{ImGui::GetContentRegionAvail().x, 2 * ImGui::GetTextLineHeightWithSpacing()}))
-            m_viewNavigation = OpenMainView();
-    });
+                        if (ImGui::Button(ICON_FA_ARROW_LEFT " Return",
+                                          ImVec2{ImGui::GetContentRegionAvail().x, 2 * ImGui::GetTextLineHeightWithSpacing()}))
+                            m_viewNavigation = OpenMainView();
+                    });
 }
 
 void BoardView::DrawImpl(sf::RenderTarget &target)
@@ -57,10 +56,10 @@ void BoardView::DrawContent(sf::RenderTarget &target)
 void BoardView::DrawHeader()
 {
     Style::WithFont(App::Settings().GetFont(+2),
-        [this]()
-    {
-        ImGui::Text("Board: %s", m_board->GetDataRef().name.c_str());
-    });
+                    [this]()
+                    {
+                        ImGui::Text("Board: %s", m_board->GetDataRef().name.c_str());
+                    });
 }
 
 void BoardView::DrawAllLists()
@@ -82,30 +81,31 @@ void BoardView::DrawList(Board::ElementArrayIterator iter)
     if (!ImGui::BeginChild(std::to_string(listIndex).c_str(), m_listSize,
                            UIFlags::childFlags, UIFlags::windowFlags))
         return ImGui::EndChild();
-    
+
     ImVec2 currentPos, buttonSize;
     /// drag drop source for list
     CreateDragDropSource(list, Board::MoveData{listIndex, -1});
-    Style::WithFont(App::Settings().GetFont(+1), 
-        [&]() {
-        ImGui::Text("%s", list.GetDataRef().name.c_str());
+    Style::WithFont(App::Settings().GetFont(+1),
+                    [&]()
+                    {
+                        ImGui::Text("%s", list.GetDataRef().name.c_str());
 
-        buttonSize = Widgets::GetHamburgerMenuSize();
-        Widgets::AlignNextItemTopRight(buttonSize);
-        currentPos = ImGui::GetCursorScreenPos();
-        if (Widgets::HamburgerMenu())
-            ImGui::OpenPopup("listHamburgerMenu");
-    });
-    
-    ImGui::SetNextWindowPos({ currentPos.x + buttonSize.x / 2.f, currentPos.y + buttonSize.y / 2.f});
-    if (ImGui::BeginPopupContextWindow("listHamburgerMenu")){
+                        buttonSize = Widgets::GetHamburgerMenuSize();
+                        Widgets::AlignNextItemTopRight(buttonSize);
+                        currentPos = ImGui::GetCursorScreenPos();
+                        if (Widgets::HamburgerMenu())
+                            ImGui::OpenPopup("listHamburgerMenu");
+                    });
+
+    ImGui::SetNextWindowPos({currentPos.x + buttonSize.x / 2.f, currentPos.y + buttonSize.y / 2.f});
+    if (ImGui::BeginPopupContextWindow("listHamburgerMenu"))
+    {
         if (ImGui::Button(Labels::deleteItemLabel))
-            m_deleteItemHandler.Trigger(DeleteItemData{ {listIndex, -1} });
-        
+            m_deleteItemHandler.Trigger(DeleteItemData{{listIndex, -1}});
+
         if (ImGui::Button(Labels::editItemLabel))
             m_openPromptHandler.Trigger(
-            OpenPromptData{ Board::ItemIndex{listIndex, -1}, list.GetData() 
-        });
+                OpenPromptData{Board::ItemIndex{listIndex, -1}, list.GetData()});
 
         ImGui::EndPopup();
     }
@@ -147,10 +147,30 @@ void BoardView::DrawCard(Card &card, const Board::ItemIndex &itemIndex)
 
     /// drag drop source for card
     CreateDragDropSource(card, (Board::MoveData)itemIndex);
+
     ImGui::Text("%s", card.GetDataRef().title.c_str());
+
+    // TODO: create component for clickable text
+    ImGui::TextUnformatted(card.GetDataRef().title.c_str());
+    if (ImGui::IsItemHovered())
+    {
+        ImVec2 min = ImGui::GetItemRectMin();
+        ImVec2 max = ImGui::GetItemRectMax();
+        ImGui::GetWindowDrawList()->AddLine(
+            ImVec2(min.x, max.y), ImVec2(max.x, max.y),
+            ImGui::GetColorU32(ImGuiCol_Text), 1.0f);
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+        {
+            // Handle click event: open full card view
+            m_openPromptHandler.Trigger(
+                OpenPromptData{Board::ItemIndex{itemIndex.list, itemIndex.card},
+                               std::optional<FullCardViewData>(FullCardViewData{selectedCard : &card})});
+        }
+    }
     ImGui::Text("Completed: %s", card.GetDataRef().isCompleted ? "yes" : "no");                   // TODO check icon here
     ImGui::Text("Subtasks: %d/%d", card.CountCompletedSubtasks(), card.GetElementArray().size()); // TODO check icon here
-    
+
     ImVec2 currentPos, buttonSize;
 
     buttonSize = Widgets::GetHamburgerMenuSize();
@@ -159,17 +179,18 @@ void BoardView::DrawCard(Card &card, const Board::ItemIndex &itemIndex)
     if (Widgets::HamburgerMenu())
         ImGui::OpenPopup("cardHamburgerMenu");
 
-    ImGui::SetNextWindowPos({ currentPos.x + buttonSize.x / 2.f, currentPos.y + buttonSize.y / 2.f});
-    if (ImGui::BeginPopupContextWindow("cardHamburgerMenu")){
-        if (ImGui::Button("View")) {
+    ImGui::SetNextWindowPos({currentPos.x + buttonSize.x / 2.f, currentPos.y + buttonSize.y / 2.f});
+    if (ImGui::BeginPopupContextWindow("cardHamburgerMenu"))
+    {
+        if (ImGui::Button("View"))
+        {
             m_openPromptHandler.Trigger(
                 OpenPromptData{Board::ItemIndex{itemIndex.list, itemIndex.card},
-                            std::optional<FullCardViewData>(FullCardViewData{selectedCard : &card})});
+                               std::optional<FullCardViewData>(FullCardViewData{selectedCard : &card})});
         }
         if (ImGui::Button(Labels::editItemLabel))
             m_openPromptHandler.Trigger(
-            OpenPromptData{ itemIndex, card.GetData() 
-        });
+                OpenPromptData{itemIndex, card.GetData()});
 
         if (ImGui::Button(Labels::deleteItemLabel))
             m_deleteItemHandler.Trigger((DeleteItemData)itemIndex);
