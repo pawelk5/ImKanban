@@ -127,4 +127,5 @@ namespace Error
 {
     constexpr const char *errorImGuiInit = "Couldn't init imgui!";
     constexpr const char *updateFontTexture = "Couldn't update font texture!";
+    constexpr const char *couldntLoadBoardsFile = "Couldn't load boards.json";
 }

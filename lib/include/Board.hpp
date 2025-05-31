@@ -8,6 +8,7 @@
 struct EXPORT_API BoardData
 {
     std::string name;
+    std::string filename;
 };
 
 /// Board class representing a single board

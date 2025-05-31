@@ -8,6 +8,7 @@
 #include "Board/BoardView.hpp"
 #include "ImGuiDemoView/ImGuiDemoView.hpp"
 #include "SettingsView/SettingsView.hpp"
+#include <exception>
 
 
 
@@ -19,7 +20,14 @@ App::App()
         throw std::runtime_error(Error::errorImGuiInit);
     LoadFont();
     
-    m_boardList = std::make_shared<BoardList>(BoardListData {AppDefs::settingsFile} );
+    m_boardList = std::make_shared<BoardList>(BoardListData {AppDefs::boardsFile }, false );
+
+    try {
+        m_boardList->LoadFromFile();
+    } catch (std::exception e) {
+        std::cerr << Error::couldntLoadBoardsFile << std::endl;
+    }
+    
     CreateMainView();
 
     m_settings = AppSettings::LoadFromFile(AppDefs::settingsFile);
