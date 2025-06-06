@@ -71,7 +71,7 @@ void MainView::DrawBoards(int boardsPerRow, float width)
 
 void MainView::DrawBoardContent(int itemIndex)
 {
-    auto &item = m_boardList->At(itemIndex);
+    auto &item = m_boardList->At(itemIndex); //->fromJSON();
     bool popupOpened = false;
 
     Style::WithFont(App::Settings().GetFont(+1),
@@ -98,12 +98,12 @@ void MainView::DrawBoardContent(int itemIndex)
         } });
 
     /// Clicking empty space between buttons opens the board
-    /// Creates a copy of board data
+    /// Uses filename-based constructor for automatic JSON handling
     if (ImGui::IsWindowHovered() &&
         ImGui::IsMouseClicked(ImGuiMouseButton_Left) &&
         !ImGui::IsAnyItemHovered() &&
         !popupOpened)
-        m_viewNavigation = OpenBoardView{std::make_shared<Board>(*item)};
+        m_viewNavigation = OpenBoardView{std::make_shared<Board>(item->filename)};
 }
 
 void MainView::DrawHeader()

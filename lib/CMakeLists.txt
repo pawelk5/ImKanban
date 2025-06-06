@@ -9,20 +9,21 @@ set(LIBRARY_INCLUDE_PATH "${LIBRARY_INCLUDE_PATH}" PARENT_SCOPE)
 
 add_library(${DYNAMIC_LIBRARY} SHARED
     "src/BoardList.cpp"    
-    "src/Board.cpp"
+    "src/Board.cpp"    
+    "src/Subtask.cpp"
     "src/Card.cpp"
     "src/List.cpp"
+    "src/JsonManager.cpp"
 )
 
 target_compile_features(${DYNAMIC_LIBRARY} PRIVATE cxx_std_20)
 target_compile_definitions(${DYNAMIC_LIBRARY} PRIVATE _BUILD)
-target_include_directories(${DYNAMIC_LIBRARY} PRIVATE 
+target_include_directories(${DYNAMIC_LIBRARY} PUBLIC 
     ${LIBRARY_INCLUDE_PATH}
 )
 
-target_link_libraries(${DYNAMIC_LIBRARY} PRIVATE 
+target_link_libraries(${DYNAMIC_LIBRARY} PUBLIC 
     nlohmann_json::nlohmann_json
 )
-
 # set up tests
 add_subdirectory("test")

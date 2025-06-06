@@ -1,10 +1,17 @@
 #pragma once
 #include <string>
+#include <nlohmann/json.hpp>
 
 struct SubtaskData
 {
     std::string title;
     bool isCompleted = false;
+
+    /// Exports SubtaskData to JSON
+    nlohmann::json exportBoard() const;
+
+    /// Imports SubtaskData from JSON
+    static SubtaskData importBoard(const nlohmann::json &j);
 };
 
 /// Represents a subtask with a title and completion status
@@ -59,6 +66,12 @@ public:
     {
         return {m_title, m_isCompleted};
     }
+
+    /// Exports Subtask to JSON
+    nlohmann::json exportBoard() const;
+
+    /// Imports Subtask from JSON
+    static Subtask importBoard(const nlohmann::json &j);
 
 public:
     /// Title of the subtask

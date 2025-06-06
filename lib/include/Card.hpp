@@ -3,6 +3,7 @@
 #include "ContainerBase.hpp"
 #include "Subtask.hpp"
 #include <string>
+#include <nlohmann/json.hpp>
 
 /// Data held by a card
 struct CardData
@@ -10,6 +11,12 @@ struct CardData
     std::string title;       ///< Title of the card
     std::string description; ///< Description of the card
     bool isCompleted;        ///< Completion status of the card
+
+    /// Exports CardData to JSON
+    nlohmann::json exportBoard() const;
+
+    /// Imports CardData from JSON
+    static CardData importBoard(const nlohmann::json &j);
 };
 
 /// Represents a card containing a list of subtasks
@@ -77,6 +84,12 @@ public:
         }
         m_data.isCompleted = allCompleted;
     }
+
+    /// Exports Card to JSON
+    nlohmann::json exportBoard() const;
+
+    /// Imports Card from JSON
+    static Card importBoard(const nlohmann::json &j);
 
     /// Sets the completion status of the card
     /// \param isCompleted New completion status

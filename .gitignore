@@ -9,3 +9,6 @@ imgui.ini
 .idea
 
 run.sh
+
+
+data/*

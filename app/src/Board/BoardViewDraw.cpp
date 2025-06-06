@@ -17,9 +17,10 @@ void BoardView::DrawSidebar(sf::RenderTarget &target)
                         ImGui::Separator();
 
                         if (ImGui::Button(ICON_FA_ARROW_LEFT " Return",
-                                          ImVec2{ImGui::GetContentRegionAvail().x, 2 * ImGui::GetTextLineHeightWithSpacing()}))
+                                          ImVec2{ImGui::GetContentRegionAvail().x, 2 * ImGui::GetTextLineHeightWithSpacing()})){
+                                            m_board->saveToFile();
                             m_viewNavigation = OpenMainView();
-                    });
+                    } });
 }
 
 void BoardView::DrawImpl(sf::RenderTarget &target)
